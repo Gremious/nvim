@@ -156,6 +156,19 @@ let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 " Setup Completion
 " See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 lua <<EOF
+require('cmp_tabnine.config'):setup({
+	max_lines = 1000;
+	max_num_results = 20;
+	sort = true;
+	run_on_every_keystroke = true;
+	snippet_placeholder = '..';
+	ignored_file_types = { -- default is not to ignore
+		-- uncomment to ignore in lua:
+		-- lua = true
+	};
+	show_prediction_strength = false;
+})
+
 local cmp = require'cmp'
 cmp.setup({
 	snippet = {
@@ -185,6 +198,7 @@ cmp.setup({
 		{ name = 'vsnip' },
 		{ name = 'path' },
 		{ name = 'buffer' },
+		{ name = 'cmp_tabnine' },
 	},
 })
 EOF

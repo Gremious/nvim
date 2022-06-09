@@ -41,7 +41,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	
 	" ===== LSP =====
 	" https://github.com/sharksforarms/neovim-rust/
-
+	
 	" Plug 'neoclide/coc.nvim', {'branch': 'release'}
 	Plug 'neovim/nvim-lspconfig'
 	Plug 'williamboman/nvim-lsp-installer'
@@ -55,7 +55,9 @@ call plug#begin(stdpath('data') . '/plugged')
 	" cmp Path completion
 	Plug 'hrsh7th/cmp-path'
 	Plug 'hrsh7th/cmp-buffer'
-
+	
+	" AI-Completion
+	Plug 'tzachar/cmp-tabnine', { 'do': 'powershell ./install.ps1' }
 	" Adds extra functionality over rust analyzer
 	Plug 'simrat39/rust-tools.nvim'
 
@@ -111,7 +113,6 @@ lua <<EOF
 EOF
 
 
-" let g:fzf_preview_window = ['down:65%', 'ctrl-/']
 
 " Airline
 let g:airline_enabled = 1
@@ -149,13 +150,11 @@ endif
 " FZF
 " Don't show file preview for File search (Rg still does)
 let g:fzf_preview_window = []
+
 " Fzf search for files command
 let $FZF_DEFAULT_COMMAND='rg --files'
-" Fzf search for text in files command (only change from default is --no-ignore-vcs)
-" \ call fzf#vim#grep("rg --column --line-number --no-heading --no-ignore-vcs --color=always --smart-case -- ".shellescape(<q-args>), 1,
 command! -bang -nargs=* Rg
-	\ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, 
-	\ fzf#vim#with_preview(), <bang>0)
+	\ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'), <bang>0)
 
 " Show currently hovered texts' highlight group for colorscheme fixups
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'

@@ -26,6 +26,7 @@ nnoremap <silent> <Leader>sa zg
 
 " Clear search highlighting
 noremap <silent> <Esc><Esc> :noh<CR>
+vnoremap <a-/> <Esc>/\%V
 
 " insert mode undo
 inoremap <C-z> <C-o>u
