@@ -120,42 +120,27 @@ server = {
 				command = "clippy",
 				allTargets = false
 			},
-			server = {
-				extraEnv = {
-					CARGO_TARGET_DIR = "target/rust-analyzer-check"
-				}
-			}
+		--	server = {
+		--		extraEnv = {
+		--			CARGO_TARGET_DIR = "target/rust-analyzer-check"
+		--		}
+		--	}
 		}
 	}
 }
 
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+
 for _, lsp_server in ipairs(nvim_lsp_installer.get_installed_servers())
 do
-	if lsp_server.name == "rust_analyzer" then require("rust-tools").setup({ tools = tools, server = server })
+	if lsp_server.name == "rust_analyzer" then require("rust-tools").setup({ tools = tools, server = server, capabilities = capabilities })
 	-- if lsp_server.name == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
-	else require('lspconfig')[lsp_server.name].setup({ on_attach = on_attach })
+	else require('lspconfig')[lsp_server.name].setup({ on_attach = on_attach, capabilities = capabilities})
 	end
 end
 
-EOF
-
-" Statusline
-function! LspStatus() abort
-	if luaeval('#vim.lsp.buf_get_clients() > 0')
-		return luaeval("require('lsp-status').status()")
-	endif
-
-	return ''
-endfunction
-
-call airline#parts#define_function('lsp_status', 'LspStatus')
-call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
-let g:airline#extensions#nvimlsp#enabled = 0
-let g:airline_section_warning = airline#section#create_right(['lsp_status'])
-
-" Setup Completion
-" See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-lua <<EOF
+-- Setup Completion
+-- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
 require('cmp_tabnine.config'):setup({
 	max_lines = 1000;
 	max_num_results = 20;
@@ -173,7 +158,7 @@ local cmp = require'cmp'
 cmp.setup({
 	snippet = {
 		expand = function(args)
-		vim.fn["vsnip#anonymous"](args.body)
+			require('luasnip').lsp_expand(args.body)
 		end,
 	},
 	mapping = {
@@ -191,17 +176,30 @@ cmp.setup({
 			select = true,
 		})
 	},
-
 	-- Installed sources
 	sources = {
 		{ name = 'nvim_lsp' },
-		{ name = 'vsnip' },
+		{ name = 'luasnip' },
 		{ name = 'path' },
 		{ name = 'buffer' },
-		{ name = 'cmp_tabnine' },
+		{ name = 'cmp_tabnine' }
 	},
 })
 EOF
+
+" Statusline
+function! LspStatus() abort
+	if luaeval('#vim.lsp.buf_get_clients() > 0')
+		return luaeval("require('lsp-status').status()")
+	endif
+
+	return ''
+endfunction
+
+call airline#parts#define_function('lsp_status', 'LspStatus')
+call airline#parts#define_condition('lsp_status', 'luaeval("#vim.lsp.buf_get_clients() > 0")')
+let g:airline#extensions#nvimlsp#enabled = 0
+let g:airline_section_warning = airline#section#create_right(['lsp_status'])
 
 " have a fixed column for the diagnostics to appear in
 " this removes the jitter when warnings/errors flow in

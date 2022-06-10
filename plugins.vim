@@ -35,6 +35,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'airblade/vim-gitgutter' " git in gutter
 	Plug 'airblade/vim-rooter' " changes working dir to project root whenever you open files 
 	Plug 'RRethy/vim-illuminate' " Highlight hovered vairables (lsp compatible)
+	Plug 'tpope/vim-surround' " suround things with any text
 	" Plug 'RishabhRD/popfix' " Floating pop-ups library
 	" Plug 'RishabhRD/nvim-lsputils' " Floating pop up for lsp stuff
 	" Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
@@ -48,10 +49,13 @@ call plug#begin(stdpath('data') . '/plugged')
 
 	" Autocompletion framework
 	Plug 'hrsh7th/nvim-cmp'
+
+	" cmp Snippet completion
+	" Plug 'hrsh7th/cmp-vsnip'
+	Plug 'saadparwaiz1/cmp_luasnip'
+
 	" cmp LSP completion
 	Plug 'hrsh7th/cmp-nvim-lsp'
-	" cmp Snippet completion
-	Plug 'hrsh7th/cmp-vsnip'
 	" cmp Path completion
 	Plug 'hrsh7th/cmp-path'
 	Plug 'hrsh7th/cmp-buffer'
@@ -62,7 +66,8 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'simrat39/rust-tools.nvim'
 
 	" Snippet engine
-	Plug 'hrsh7th/vim-vsnip'
+	" Plug 'hrsh7th/vim-vsnip'
+	Plug 'L3MON4D3/LuaSnip'
 
 	" Optional
 	Plug 'nvim-lua/popup.nvim'

@@ -1,5 +1,10 @@
 let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
 
+" rust-analyzer.server.extraEnv
+" neovim doesn't have custom client-side code to honor this setting, it doesn't actually work
+" https://github.com/neovim/nvim-lspconfig/issues/1735
+let $CARGO_TARGET_DIR = "target/rust-analyzer-check"
+
 syntax on
 " set autochdir "auto-set current dir so that you can do `:e newfile` to make newfiles in ./ by default
 filetype plugin indent on " see help filetype
@@ -22,7 +27,7 @@ set lazyredraw " don't redraw in macros
 set synmaxcol=500 " don't syntax past 500 char in a single-line (think minified code)
 set ttimeoutlen=50 "small timeout for airline
 set scrolloff=15
-			
+
 set number "display line numbers
 set relativenumber "line numbers are relative to the current line
 set cursorline "highlight current line
@@ -30,7 +35,8 @@ set laststatus=2 "always show status
 set showmatch "matching brackets while typing
 set showcmd "show incomplete commands
 set listchars=space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴ "characters to use for whitespace
-set linebreak " Wrapped lines will wrap at breaks not mid-letter
+" set linebreak " Wrapped lines will wrap at breaks not mid-letter
+set nowrap
 set wildmenu "autocomplete for commands is visible
 set splitbelow "new vertical split will be below
 set splitright "new horizontal split will be to the right
