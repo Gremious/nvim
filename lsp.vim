@@ -48,6 +48,54 @@ lsp_status.config({
 	status_symbol = "",
 })
 
+-- Setup Completion
+-- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+require('cmp_tabnine.config'):setup({
+	max_lines = 1000;
+	max_num_results = 20;
+	sort = true;
+	run_on_every_keystroke = true;
+	snippet_placeholder = '..';
+	ignored_file_types = { -- default is not to ignore
+		-- uncomment to ignore in lua:
+		-- lua = true
+	};
+	show_prediction_strength = false;
+})
+
+local cmp = require'cmp'
+cmp.setup({
+	snippet = {
+		expand = function(args)
+			require('luasnip').lsp_expand(args.body)
+		end,
+	},
+	mapping = {
+		['<C-p>'] = cmp.mapping.select_prev_item(),
+		['<C-n>'] = cmp.mapping.select_next_item(),
+		-- Add tab support
+		['<S-Tab>'] = cmp.mapping.select_prev_item(),
+		['<Tab>'] = cmp.mapping.select_next_item(),
+		['<C-d>'] = cmp.mapping.scroll_docs(-4),
+		['<C-f>'] = cmp.mapping.scroll_docs(4),
+		['<C-Space>'] = cmp.mapping.complete(),
+		['<C-e>'] = cmp.mapping.close(),
+		['<CR>'] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Insert,
+			select = true,
+		})
+	},
+	-- Installed sources
+	sources = {
+		{ name = 'nvim_lsp' },
+		{ name = 'luasnip' },
+		{ name = 'path' },
+		{ name = 'buffer' },
+		{ name = 'cmp_tabnine' }
+	},
+})
+
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
 local keymap_opts = { noremap=true, silent=true }
 -- vim.keymap.set('n', '<leader>m', vim.diagnostic.open_float, keymap_opts)
 vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, keymap_opts)
@@ -129,8 +177,6 @@ server = {
 	}
 }
 
-local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
-
 for _, lsp_server in ipairs(nvim_lsp_installer.get_installed_servers())
 do
 	if lsp_server.name == "rust_analyzer" then require("rust-tools").setup({ tools = tools, server = server, capabilities = capabilities })
@@ -138,53 +184,6 @@ do
 	else require('lspconfig')[lsp_server.name].setup({ on_attach = on_attach, capabilities = capabilities})
 	end
 end
-
--- Setup Completion
--- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-require('cmp_tabnine.config'):setup({
-	max_lines = 1000;
-	max_num_results = 20;
-	sort = true;
-	run_on_every_keystroke = true;
-	snippet_placeholder = '..';
-	ignored_file_types = { -- default is not to ignore
-		-- uncomment to ignore in lua:
-		-- lua = true
-	};
-	show_prediction_strength = false;
-})
-
-local cmp = require'cmp'
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			require('luasnip').lsp_expand(args.body)
-		end,
-	},
-	mapping = {
-		['<C-p>'] = cmp.mapping.select_prev_item(),
-		['<C-n>'] = cmp.mapping.select_next_item(),
-		-- Add tab support
-		['<S-Tab>'] = cmp.mapping.select_prev_item(),
-		['<Tab>'] = cmp.mapping.select_next_item(),
-		['<C-d>'] = cmp.mapping.scroll_docs(-4),
-		['<C-f>'] = cmp.mapping.scroll_docs(4),
-		['<C-Space>'] = cmp.mapping.complete(),
-		['<C-e>'] = cmp.mapping.close(),
-		['<CR>'] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Insert,
-			select = true,
-		})
-	},
-	-- Installed sources
-	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-		{ name = 'path' },
-		{ name = 'buffer' },
-		{ name = 'cmp_tabnine' }
-	},
-})
 EOF
 
 " Statusline
