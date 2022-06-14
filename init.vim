@@ -1,4 +1,8 @@
-let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+if has('win32')
+	let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+else
+	let $CONFIG = '~/.config/nvim'
+endif
 
 syntax on
 " set autochdir "auto-set current dir so that you can do `:e newfile` to make newfiles in ./ by default
