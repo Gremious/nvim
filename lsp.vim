@@ -16,6 +16,7 @@ set shortmess+=c
 lua << EOF
 local nvim_lsp_installer = require("nvim-lsp-installer")
 local lsp_status = require('lsp-status')
+local lspkind = require('lspkind')
 
 nvim_lsp_installer.setup {
 	ui = {
@@ -65,6 +66,18 @@ require('cmp_tabnine.config'):setup({
 
 local cmp = require'cmp'
 cmp.setup({
+	formatting = {
+		format = lspkind.cmp_format({
+			mode = 'symbol_text',
+			menu = ({
+				buffer = "[Buffer]",
+				nvim_lsp = "[LSP]",
+				luasnip = "[LuaSnip]",
+				path = "[Path]",
+				cmp_tabnine = "[T9]",
+			})
+		}),
+	},
 	snippet = {
 		expand = function(args)
 			require('luasnip').lsp_expand(args.body)

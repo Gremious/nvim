@@ -50,6 +50,10 @@ call plug#begin(stdpath('data') . '/plugged')
 	" Autocompletion framework
 	Plug 'hrsh7th/nvim-cmp'
 
+	" Snippet engine
+	" Plug 'hrsh7th/vim-vsnip'
+	Plug 'L3MON4D3/LuaSnip'
+
 	" cmp Snippet completion
 	" Plug 'hrsh7th/cmp-vsnip'
 	Plug 'saadparwaiz1/cmp_luasnip'
@@ -57,16 +61,16 @@ call plug#begin(stdpath('data') . '/plugged')
 	" cmp LSP completion
 	Plug 'hrsh7th/cmp-nvim-lsp'
 
-	" Snippet engine
-	" Plug 'hrsh7th/vim-vsnip'
-	Plug 'L3MON4D3/LuaSnip'
-
 	" cmp Path completion
 	Plug 'hrsh7th/cmp-path'
 	Plug 'hrsh7th/cmp-buffer'
 	
 	" AI-Completion
 	Plug 'tzachar/cmp-tabnine', { 'do': 'powershell ./install.ps1' }
+	
+	" Icons for cmp
+	Plug 'onsails/lspkind.nvim' 
+
 	" Adds extra functionality over rust analyzer
 	Plug 'simrat39/rust-tools.nvim'
 
