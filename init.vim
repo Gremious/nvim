@@ -1,4 +1,8 @@
-let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+if has('win32')
+	let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+else
+	let $CONFIG = '~/.config/nvim'
+endif
 
 " rust-analyzer.server.extraEnv
 " neovim doesn't have custom client-side code to honor this setting, it doesn't actually work
