@@ -45,7 +45,12 @@ nnoremap <leader>p :BufferPin<cr>
 " nnoremap <c-W> :BufferDelete<cr>
 " nnoremap <C-s> :BufferCloseAllButPinned<cr>
 
-nnoremap <leader>t :NvimTreeToggle<cr>
+nnoremap <leader>t :NvimTreeFindFileToggle<cr>
+
+nnoremap <leader>gp :GitGutterPreviewHunk<cr>
+nnoremap <leader>gu :GitGutterUndoHunk<cr>
+nnoremap <leader>g] :GitGutterNextHunk<cr>
+nnoremap <leader>g[ :GitGutterPrevHunk<cr>
 
 " Move line up/down
 nnoremap <A-j> :m .+1<CR>==

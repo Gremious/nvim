@@ -15,7 +15,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'tpope/vim-obsession' " Per-directory session management (remember layout, etc.)
 	" Plug 'luochen1990/rainbow' " Rainbow brackets
 	Plug 'p00f/nvim-ts-rainbow' " rainbow parens for treesitter
-	" Plug 'machakann/vim-highlightedyank' " on yank, highlights yanked text for a second
+	Plug 'machakann/vim-highlightedyank' " on yank, highlights yanked text for a second
 	
 	Plug 'folke/todo-comments.nvim'
 	Plug 'tpope/vim-repeat' " remaps . in a way that plugins can tap into it
