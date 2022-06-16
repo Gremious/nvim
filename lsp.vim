@@ -141,7 +141,8 @@ local on_attach = function(client)
 	vim.keymap.set('n', '<leader>D', vim.lsp.buf.type_definition, bufopts)
 	vim.keymap.set('n', '<leader>rn', vim.lsp.buf.rename, bufopts)
 	vim.keymap.set('n', '<a-CR>', vim.lsp.buf.code_action, bufopts)
-	vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, bufopts)
+	-- vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, bufopts)
+	vim.keymap.set('n', '<leader>gr', ":Telescope lsp_references<cr>", bufopts)
 	vim.keymap.set('n', '<leader>mt', vim.lsp.buf.formatting, bufopts)
 end
 

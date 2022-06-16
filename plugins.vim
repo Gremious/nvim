@@ -112,6 +112,12 @@ lua <<EOF
 		use_treesitter = true,
         show_current_context = true,
 	}
+	require('telescope').setup({
+		defaults = {
+			layout_strategy = 'vertical',
+			layout_config = { height = 0.95 },
+		}
+	})
 --  nvim-lsputils (fly-out pop-ups and stuff)
 -- 	vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 -- 	vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler

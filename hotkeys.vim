@@ -40,12 +40,12 @@ nnoremap <left> :BufferPrevious<cr>
 nnoremap <right> :BufferNext<cr>
 nnoremap <C-Left> :BufferMovePrevious<cr>
 nnoremap <C-Right> :BufferMoveNext<cr>
-nnoremap <leader>b :BufferPick<cr>
+nnoremap <leader>tp :BufferPick<cr>
 nnoremap <leader>p :BufferPin<cr>
 " nnoremap <c-W> :BufferDelete<cr>
-" nnoremap <C-s> :BufferCloseAllButPinned<cr>
+nnoremap <leader><c-w> :BufferCloseAllButPinnedAndCurrent<cr>
 
-nnoremap <silent> <leader>t :NvimTreeFindFileToggle<cr>
+nnoremap <silent> <leader><tab> :NvimTreeFindFileToggle<cr>
 
 nnoremap <leader>gp :GitGutterPreviewHunk<cr>
 nnoremap <leader>gu :GitGutterUndoHunk<cr>
