@@ -36,6 +36,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'airblade/vim-rooter' " changes working dir to project root whenever you open files 
 	Plug 'RRethy/vim-illuminate' " Highlight hovered vairables (lsp compatible)
 	Plug 'tpope/vim-surround' " suround things with any text
+	Plug 'wellle/targets.vim'
 	" Plug 'RishabhRD/popfix' " Floating pop-ups library
 	" Plug 'RishabhRD/nvim-lsputils' " Floating pop up for lsp stuff
 	" Plug 'beauwilliams/focus.nvim' " resize splits when focusing them

@@ -45,7 +45,7 @@ nnoremap <leader>p :BufferPin<cr>
 " nnoremap <c-W> :BufferDelete<cr>
 " nnoremap <C-s> :BufferCloseAllButPinned<cr>
 
-nnoremap <leader>t :NvimTreeFindFileToggle<cr>
+nnoremap <silent> <leader>t :NvimTreeFindFileToggle<cr>
 
 nnoremap <leader>gp :GitGutterPreviewHunk<cr>
 nnoremap <leader>gu :GitGutterUndoHunk<cr>
