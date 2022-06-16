@@ -43,7 +43,7 @@ nnoremap <C-Right> :BufferMoveNext<cr>
 nnoremap <leader>tp :BufferPick<cr>
 nnoremap <leader>p :BufferPin<cr>
 " nnoremap <c-W> :BufferDelete<cr>
-nnoremap <leader><c-w> :BufferCloseAllButPinnedAndCurrent<cr>
+nnoremap <leader><c-w> :BufferCloseAllButCurrentOrPinned<cr>
 
 nnoremap <silent> <leader><tab> :NvimTreeFindFileToggle<cr>
 
