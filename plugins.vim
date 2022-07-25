@@ -40,7 +40,8 @@ call plug#begin(stdpath('data') . '/plugged')
 	" Plug 'RishabhRD/popfix' " Floating pop-ups library
 	" Plug 'RishabhRD/nvim-lsputils' " Floating pop up for lsp stuff
 	" Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
-	
+	Plug 'phaazon/hop.nvim' " EasyMotion but better, jump around places
+
 	" ===== LSP =====
 	" https://github.com/sharksforarms/neovim-rust/
 	
@@ -92,6 +93,7 @@ call plug#end()
 lua <<EOF
 	require'marks'.setup {}
 	require'nvim-tree'.setup()
+	require'hop'.setup()
 	require("todo-comments").setup({
 		keywords = {
 			TODO = { icon = " ", color = "warning" }

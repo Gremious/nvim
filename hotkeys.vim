@@ -52,6 +52,14 @@ nnoremap <leader>gu :GitGutterUndoHunk<cr>
 nnoremap <leader>g] :GitGutterNextHunk<cr>
 nnoremap <leader>g[ :GitGutterPrevHunk<cr>
 
+nnoremap <leader>hh :HopAnywhere<cr>
+nnoremap <leader>hw :HopWord<cr>
+nnoremap <leader>hW :HopWordAC<cr>
+nnoremap <leader>hc :HopChar1<cr>
+nnoremap <leader>hC :HopChar1AC<cr>
+nnoremap <leader>hl :HopLineStart<cr>
+nnoremap <leader>hL :HopLineStartAC<cr>
+
 " Move line up/down
 nnoremap <A-j> :m .+1<CR>==
 nnoremap <A-k> :m .-2<CR>==
@@ -59,3 +67,17 @@ inoremap <A-j> <Esc>:m .+1<CR>==gi
 inoremap <A-k> <Esc>:m .-2<CR>==gi
 vnoremap <A-j> :m '>+1<CR>gv=gv
 vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" x deletes to the void, use d to cut 
+nnoremap x "_x
+xnoremap x "_x
+nnoremap dx "_dd
+nnoremap X "_D
+xnoremap X "_D
+
+" F11 to fullscreen
+nnoremap <silent> <F11> :let g:neovide_fullscreen = (g:neovide_fullscreen == v:true) ? v:false : v:true<cr>
+
+" Semicolon at EOL
+nnoremap <leader>; <C-v>$A;<Esc>
+

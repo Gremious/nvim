@@ -1,5 +1,5 @@
 if has('win32')
-	let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+	let $CONFIG = $LOCALAPPDATA . '\nvim'
 else
 	let $CONFIG = '~/.config/nvim'
 endif
@@ -65,8 +65,9 @@ set smartcase "only care about case in search if there are upper-case letters, n
 set whichwrap=<>
 set pyx=3 " set python version
 
-set guifont=JetBrainsMono_Nerd_Font:h12
+" set guifont=JetBrainsMono_Nerd_Font:h12
 " set guifont=FiraCode_Nerd_Font_Mono:h12
+set guifont=FiraCode_NF:h14
 let neovide_remember_window_size = v:true
 let g:neovide_refresh_rate=140
 let g:rainbow_active = 1
