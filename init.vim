@@ -1,5 +1,5 @@
 if has('win32')
-	let $CONFIG = 'C:\Users\GRD-User\AppData\Local\nvim'
+	let $CONFIG = 'C:\Users\gremi\AppData\Local\nvim'
 else
 	let $CONFIG = '~/.config/nvim'
 endif
@@ -16,7 +16,8 @@ set fileformats=unix
 set encoding=utf-8 "required for powerline symbols
 set fileencoding=utf-8
 set spelllang=en,cjk
-set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab "use tabs instead of spaces
+set autoindent noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
+" set tabstop=4 softtabstop=4 shiftwidth=4 noexpandtab "use tabs instead of spaces
 
 set backupdir=/var/lib/nvim/backup
 set directory=/var/lib/nvim/swap
@@ -65,8 +66,9 @@ set smartcase "only care about case in search if there are upper-case letters, n
 set whichwrap=<>
 set pyx=3 " set python version
 
-set guifont=JetBrainsMono_Nerd_Font:h12
+" set guifont=JetBrainsMono_Nerd_Font:h12
 " set guifont=FiraCode_Nerd_Font_Mono:h12
+set guifont=FiraCode_NF:h12
 let neovide_remember_window_size = v:true
 let g:neovide_refresh_rate=140
 let g:rainbow_active = 1

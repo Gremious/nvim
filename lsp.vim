@@ -14,11 +14,16 @@ set shortmess+=c
 " lua vim.lsp.set_log_level("debug")
 
 lua << EOF
-local nvim_lsp_installer = require("nvim-lsp-installer")
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
 local lsp_status = require('lsp-status')
 local lspkind = require('lspkind')
 
-nvim_lsp_installer.setup {
+mason_lspconfig.setup({
+    ensure_installed = { "sumneko_lua", "rust_analyzer" }
+})
+
+mason.setup({
 	ui = {
 		icons = {
 			server_installed = "✓",
@@ -26,7 +31,7 @@ nvim_lsp_installer.setup {
 			server_uninstalled = "✗"
 		}
 	}
-}
+})
 
 lsp_status.register_progress()
 
@@ -120,7 +125,10 @@ local on_attach = function(client)
 
 	if client.name == "rust_analyzer"
 	then
+		vim.keymap.set('n', '<leader>h', ":RustHoverActions<>", bufopts)
 		vim.keymap.set('n', '<leader>gp', ':RustParentModule<cr>')
+	else
+		vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)
 	end
 
 	-- These will exist only in an lsp buffer
@@ -130,7 +138,6 @@ local on_attach = function(client)
 	vim.keymap.set('n', '<leader>dl', vim.diagnostic.setloclist, bufopts)
 	vim.keymap.set('n', '<leader>gD', vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, bufopts)
-	vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)
 	vim.keymap.set('n', '<leader>gi', vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set('n', '<leader><C-k>', vim.lsp.buf.signature_help, bufopts)
 	vim.keymap.set('n', '<leader>wa', vim.lsp.buf.add_workspace_folder, bufopts)
@@ -148,7 +155,6 @@ end
 
 tools = {
 	autoSetHints = true,
-	hover_with_actions = true,
 	inlay_hints = {
 		show_parameter_hints = true,
 		parameter_hints_prefix = "<-",
@@ -191,11 +197,11 @@ server = {
 	}
 }
 
-for _, lsp_server in ipairs(nvim_lsp_installer.get_installed_servers())
+for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers())
 do
-	if lsp_server.name == "rust_analyzer" then require("rust-tools").setup({ tools = tools, server = server, capabilities = capabilities })
-	-- if lsp_server.name == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
-	else require('lspconfig')[lsp_server.name].setup({ on_attach = on_attach, capabilities = capabilities})
+	if lsp_server == "rust_analyzer" then require("rust-tools").setup({ tools = tools, server = server, capabilities = capabilities })
+	-- if lsp_server == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
+	else require('lspconfig')[lsp_server].setup({ on_attach = on_attach, capabilities = capabilities})
 	end
 end
 EOF
