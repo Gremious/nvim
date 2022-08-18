@@ -4,6 +4,10 @@ else
 	let $CONFIG = '~/.config/nvim'
 endif
 
+" Need to run 
+" python -m pip install --user --upgrade pynvim
+" for Gundo/Python support
+
 " rust-analyzer.server.extraEnv
 " neovim doesn't have custom client-side code to honor this setting, it doesn't actually work
 " https://github.com/neovim/nvim-lspconfig/issues/1735
