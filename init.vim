@@ -1,5 +1,5 @@
 if has('win32')
-	let $CONFIG = 'C:\Users\gremi\AppData\Local\nvim'
+	let $CONFIG = $LOCALAPPDATA . '\nvim'
 else
 	let $CONFIG = '~/.config/nvim'
 endif
