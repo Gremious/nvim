@@ -125,7 +125,7 @@ local on_attach = function(client)
 
 	if client.name == "rust_analyzer"
 	then
-		vim.keymap.set('n', '<leader>h', ":RustHoverActions<>", bufopts)
+		vim.keymap.set('n', '<leader>h', ":RustHoverActions<cr>", bufopts)
 		vim.keymap.set('n', '<leader>gp', ':RustParentModule<cr>')
 	else
 		vim.keymap.set('n', '<leader>h', vim.lsp.buf.hover, bufopts)

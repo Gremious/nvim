@@ -77,16 +77,18 @@ let neovide_remember_window_size = v:true
 let g:neovide_refresh_rate=140
 let g:rainbow_active = 1
 
-let g:material_theme_style = 'ocean'
-let g:material_terminal_italics = 1
-colorscheme material
-" colorscheme wal " doesn't seem to work with neovide very sad :c
-
 source $CONFIG/plugins.vim
 source $CONFIG/lsp.vim
 " source $CONFIG/lsp-coc.vim
 source $CONFIG/hotkeys.vim
 source $CONFIG/autocmd.vim
+
+" let g:catppuccin_flavour = "mocha"
+" colorscheme catppuccin
+let g:material_theme_style = 'ocean'
+let g:material_terminal_italics = 1
+colorscheme material
+" colorscheme wal " doesn't seem to work with neovide very sad :c
 
 " Type config -> get config
 command Config :e $CONFIG/init.vim

@@ -2,6 +2,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'nvim-lua/plenary.nvim' " lib other plugins use
 
 	Plug 'kaicataldo/material.vim', { 'branch': 'main' }
+	" Plug 'catppuccin/nvim', {'as': 'catppuccin'}
 	" Plug 'chriskempson/base16-vim'
 	" Plug 'vim-airline/vim-airline-themes'
 	Plug 'kyazdani42/nvim-web-devicons'
@@ -39,7 +40,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'wellle/targets.vim'
 	" Plug 'RishabhRD/popfix' " Floating pop-ups library
 	" Plug 'RishabhRD/nvim-lsputils' " Floating pop up for lsp stuff
-	" Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
+	Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
 	Plug 'phaazon/hop.nvim' " EasyMotion but better, jump around places
 
 	" ===== LSP =====
@@ -91,6 +92,7 @@ call plug#end()
 
 " lua plugin setups
 lua <<EOF
+	-- require("catppuccin").setup()
 	require'marks'.setup {}
 	require'nvim-tree'.setup()
 	require'hop'.setup()
@@ -165,13 +167,21 @@ if has('python3')
 endif
 
 " FZF
-" Don't show file preview for File search (Rg still does)
-let g:fzf_preview_window = []
+let g:fzf_preview_window = ['right:50%'] 
+" let g:fzf_preview_window = []
+
+" to ignore file names:
+" fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'), <bang>0)
 
 " Fzf search for files command
 let $FZF_DEFAULT_COMMAND='rg --files'
 command! -bang -nargs=* Rg
-	\ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -- ".shellescape(<q-args>), 1, fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'), <bang>0)
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>),
+  \   1,
+  \   fzf#vim#with_preview(),
+  \   <bang>0
+  \ )
 
 " Show currently hovered texts' highlight group for colorscheme fixups
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
