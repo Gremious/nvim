@@ -173,8 +173,6 @@ let g:fzf_preview_window = ['right:50%']
 " to ignore file names:
 " fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'), <bang>0)
 
-" Fzf search for files command
-let $FZF_DEFAULT_COMMAND='rg --files'
 command! -bang -nargs=* Rg
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>),
@@ -182,6 +180,17 @@ command! -bang -nargs=* Rg
   \   fzf#vim#with_preview(),
   \   <bang>0
   \ )
+
+" RG commant that uses RipGrep to search instead
+function! RipgrepFzf(query, fullscreen)
+  let command_fmt = 'rg --column --line-number --no-heading --color=always --smart-case -- %s || true'
+  let initial_command = printf(command_fmt, shellescape(a:query))
+  let reload_command = printf(command_fmt, '{q}')
+  let spec = {'options': ['--phony', '--query', a:query, '--bind', 'change:reload:'.reload_command]}
+  call fzf#vim#grep(initial_command, 1, fzf#vim#with_preview(spec), a:fullscreen)
+endfunction
+
+command! -nargs=* -bang RG call RipgrepFzf(<q-args>, <bang>0)
 
 " Show currently hovered texts' highlight group for colorscheme fixups
 map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
