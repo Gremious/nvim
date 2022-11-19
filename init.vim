@@ -1,3 +1,7 @@
+" TODO:
+" Can i have it not delete on tab complete? 
+"
+
 if has('win32')
 	let $CONFIG = $LOCALAPPDATA . '\nvim'
 else
