@@ -44,7 +44,7 @@ set laststatus=2 "always show status
 set showmatch "matching brackets while typing
 set showcmd "show incomplete commands
 set listchars=space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴ "characters to use for whitespace
-" set linebreak " Wrapped lines will wrap at breaks not mid-letter
+set linebreak " Wrapped lines will wrap at breaks not mid-letter
 set nowrap
 set wildmenu "autocomplete for commands is visible
 set splitbelow "new vertical split will be below
