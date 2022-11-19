@@ -90,12 +90,16 @@ call plug#begin(stdpath('data') . '/plugged')
 	" Plug 'https://github.com/Iron-E/nvim-libmodal'
 call plug#end()
 
+" Consider:
+" https://github.com/eugen0329/vim-esearch
+
 " lua plugin setups
 lua <<EOF
 	-- require("catppuccin").setup()
 	require'marks'.setup {}
 	require'nvim-tree'.setup()
 	require'hop'.setup()
+	require("focus").setup()
 	require("todo-comments").setup({
 		keywords = {
 			TODO = { icon = " ", color = "warning" }
