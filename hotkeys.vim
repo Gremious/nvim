@@ -21,6 +21,7 @@ nnoremap <silent> <Leader>sl ]s
 nnoremap <silent> <Leader>sh [s
 nnoremap <silent> <Leader>sL ]S
 nnoremap <silent> <Leader>sH [S
+" Spell-add
 nnoremap <silent> <Leader>sa zg
 " ==/ spellcheck mode /==
 
@@ -40,14 +41,14 @@ nnoremap <left> :BufferPrevious<cr>
 nnoremap <right> :BufferNext<cr>
 nnoremap <C-Left> :BufferMovePrevious<cr>
 nnoremap <C-Right> :BufferMoveNext<cr>
-nnoremap <leader>tp :BufferPick<cr>
+nnoremap <leader>hp :BufferPick<cr>
 nnoremap <leader>p :BufferPin<cr>
-" nnoremap <c-W> :BufferDelete<cr>
-nnoremap <leader><c-w> :BufferCloseAllButCurrentOrPinned<cr>
+nnoremap <leader><c-w> :BufferDelete<cr>
+nnoremap <leader><c-a-W> :BufferCloseAllButCurrentOrPinned<cr>
 
 nnoremap <silent> <leader><tab> :NvimTreeFindFileToggle<cr>
 
-nnoremap <leader>gp :GitGutterPreviewHunk<cr>
+nnoremap <leader>gh :GitGutterPreviewHunk<cr>
 nnoremap <leader>gu :GitGutterUndoHunk<cr>
 nnoremap <leader>g] :GitGutterNextHunk<cr>
 nnoremap <leader>g[ :GitGutterPrevHunk<cr>
@@ -74,3 +75,10 @@ nnoremap <silent> <F11> :let g:neovide_fullscreen = (g:neovide_fullscreen == v:t
 " Semicolon at EOL
 nnoremap <leader>; <C-v>$A;<Esc>
 
+" replace currently selected text with default register
+" without yanking it
+vnoremap <leader>p "_dP
+
+nnoremap <leader>: :Telescope commands<cr>
+
+cnoremap <C-v> <C-r>+
