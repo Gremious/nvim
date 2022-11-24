@@ -37,14 +37,30 @@ inoremap <C-r> <C-o><C-r>
 nnoremap <Leader>f :Rg<Cr>
 nnoremap <Leader>F :Files<Cr>
 
-nnoremap <left> :BufferPrevious<cr>
-nnoremap <right> :BufferNext<cr>
-nnoremap <C-Left> :BufferMovePrevious<cr>
-nnoremap <C-Right> :BufferMoveNext<cr>
-nnoremap <leader>hp :BufferPick<cr>
-nnoremap <leader>p :BufferPin<cr>
-nnoremap <leader><c-w> :BufferDelete<cr>
-nnoremap <leader><c-a-W> :BufferCloseAllButCurrentOrPinned<cr>
+" nnoremap <left> :BufferPrevious<cr>
+" nnoremap <right> :BufferNext<cr>
+" nnoremap <C-Left> :BufferMovePrevious<cr>
+" nnoremap <C-Right> :BufferMoveNext<cr>
+" nnoremap <leader>hp :BufferPick<cr>
+" nnoremap <leader>p :BufferPin<cr>
+" nnoremap <leader><c-w> :BufferDelete<cr>
+" nnoremap <leader><c-a-W> :BufferCloseAllButCurrentOrPinned<cr>
+
+    " These commands will navigate through buffers in order
+    " regardless of which mode you are using  e.g. if you change
+    " the order of buffers :bnext and :bprevious will not respect the custom ordering
+    nnoremap <silent><right> :BufferLineCycleNext<CR>
+    nnoremap <silent><left> :BufferLineCyclePrev<CR>
+
+    " These commands will move the current buffer backwards or forwards in the bufferline
+    nnoremap <silent><C-Right> :BufferLineMoveNext<CR>
+    nnoremap <silent><C-Left> :BufferLineMovePrev<CR>
+
+	nnoremap <silent><A-Right> :tabnext<CR>
+	nnoremap <silent><A-Left> :tabprev<CR>
+
+	nnoremap <leader>p :BufferLineTogglePin<CR>
+	nnoremap <leader>hp :BufferLinePick<CR>
 
 nnoremap <silent> <leader><tab> :NvimTreeFindFileToggle<cr>
 

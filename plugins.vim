@@ -23,7 +23,9 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'svermeulen/vim-extended-ft' " f and t searches go through lines, ignore case, can be repeated with ; and ,
 	Plug 'vim-airline/vim-airline'
 	Plug 'chentoast/marks.nvim' " show marks in sign column
-	Plug 'romgrk/barbar.nvim'
+	Plug 'akinsho/bufferline.nvim' " Buffer Tabs
+	Plug 'tiagovla/scope.nvim' " Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	" Plug 'romgrk/barbar.nvim' " Buffer Tabs
 	Plug 'scrooloose/nerdcommenter' " Toggle comments
 	Plug 'sjl/gundo.vim' " undo tree
 	Plug 'yegappan/mru'	" most recently used files so i can undo a close
@@ -96,10 +98,11 @@ call plug#end()
 " lua plugin setups
 lua <<EOF
 	-- require("catppuccin").setup()
-	require'marks'.setup {}
+	require'marks'.setup()
 	require'nvim-tree'.setup()
 	require'hop'.setup()
 	require("focus").setup()
+	require("scope").setup()
 	require("todo-comments").setup({
 		keywords = {
 			TODO = { icon = " ", color = "warning" }
@@ -115,6 +118,9 @@ lua <<EOF
 			extended_mode = true,
 			max_file_lines = 4000,
 		},
+		indent = {             
+			enable = false,
+		},
 	}
 	require("indent_blankline").setup {
 		use_treesitter = true,
@@ -126,6 +132,25 @@ lua <<EOF
 			layout_config = { height = 0.95 },
 		}
 	})
+    require('bufferline').setup({
+        options = {
+			-- mode = "tabs",
+            diagnostics = "nvim_lsp",
+            diagnostics_update_in_insert = true,
+			diagnostics_indicator = function(count, level, diagnostics_dict, context)
+				local s = " "
+				for e, n in pairs(diagnostics_dict) do
+					local sym = e == "error" and " "
+						or (e == "warning" and " " or "" )
+					s = s .. n .. sym
+				end
+				return s
+			end
+            -- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+            -- enforce_regular_tabs = false | true,
+            -- always_show_bufferline = true,
+        }
+    })
 --  nvim-lsputils (fly-out pop-ups and stuff)
 -- 	vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
 -- 	vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
@@ -201,10 +226,30 @@ map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans
 \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
 
-" Barbar
-let bufferline = get(g:, 'bufferline', {})
-let bufferline.closable = v:false
-" let bufferline.clickable = v:false
-let bufferline.icons = v:true
-let bufferline.animation = v:false
-
+" " Barbar
+" let bufferline = get(g:, 'bufferline', {})
+" let bufferline.closable = v:false
+" " let bufferline.clickable = v:false
+" let bufferline.icons = v:true
+" let bufferline.animation = v:false
+"
+" lua <<EOF
+	" local nvim_tree_events = require('nvim-tree.events')
+	" local bufferline_api = require('bufferline.api')
+"
+	" local function get_tree_size()
+	  " return require'nvim-tree.view'.View.width
+	" end
+"
+	" nvim_tree_events.subscribe('TreeOpen', function()
+	  " bufferline_api.set_offset(get_tree_size())
+	" end)
+"
+	" nvim_tree_events.subscribe('Resize', function()
+	  " bufferline_api.set_offset(get_tree_size())
+	" end)
+"
+	" nvim_tree_events.subscribe('TreeClose', function()
+	  " bufferline_api.set_offset(0)
+	" end)
+" EOF
