@@ -63,7 +63,8 @@ set textwidth=0 wrapmargin=0
 noh " don't auto-highlight last search on new session
 set noshowmode " We have airline so don't need to see 'VISUAL'
 
-" set mouse=a
+" Disable mouse, enabled by default in vim 0.8.
+set mouse=
 " set backspace=indent,eol,start " Backspace anthing in edit mode
 set clipboard+=unnamed,unnamedplus "default register is clipboard
 set nrformats-=octal " do not inc/dec octal numbers as it can lead to errors

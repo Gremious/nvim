@@ -28,7 +28,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'tiagovla/scope.nvim' " Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
 	Plug 'qpkorr/vim-bufkill' " Don't close the whole tab/window on :bd - use :BD instead
 	" Plug 'romgrk/barbar.nvim' " Buffer Tabs
-	"
+
 	Plug 'scrooloose/nerdcommenter' " Toggle comments
 	Plug 'sjl/gundo.vim' " undo tree
 	Plug 'yegappan/mru'	" most recently used files so i can undo a close
