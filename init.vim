@@ -2,9 +2,10 @@
 " Can i have it not delete on tab complete? 
 " Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 "
-
 if has('win32')
 	let $CONFIG = $LOCALAPPDATA . '\nvim'
+	" Fixes fzf preview
+	let $PATH = "C:\\Program Files\\Git\\usr\\bin;" . $PATH
 else
 	let $CONFIG = '~/.config/nvim'
 endif
