@@ -150,7 +150,15 @@ local on_attach = function(client)
 	vim.keymap.set('n', '<a-CR>', vim.lsp.buf.code_action, bufopts)
 	-- vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, bufopts)
 	vim.keymap.set('n', '<leader>gr', ":Telescope lsp_references<cr>", bufopts)
-	vim.keymap.set('n', '<leader>mt', vim.lsp.buf.formatting, bufopts)
+	-- vim.keymap.set('n', '<leader>mt', function() vim.lsp.buf.format { async = true } end, bufopts)
+
+	vim.api.nvim_create_user_command(
+		'Fmt',
+		function()
+			vim.lsp.buf.format { async = true }
+		end,
+		{ nargs = 0 }
+	)
 end
 
 tools = {
