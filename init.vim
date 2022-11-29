@@ -1,5 +1,6 @@
 " TODO:
 " Can i have it not delete on tab complete? 
+" Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 "
 
 if has('win32')
@@ -76,7 +77,7 @@ set pyx=3 " set python version
 
 " set guifont=JetBrainsMono_Nerd_Font:h12
 " set guifont=FiraCode_Nerd_Font_Mono:h12
-set guifont=FiraCode_NF:h12
+set guifont=FiraCode_NF,Segoe_UI_Emoji:h12
 let neovide_remember_window_size = v:true
 let g:neovide_refresh_rate=140
 let g:rainbow_active = 1

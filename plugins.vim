@@ -23,9 +23,12 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'svermeulen/vim-extended-ft' " f and t searches go through lines, ignore case, can be repeated with ; and ,
 	Plug 'vim-airline/vim-airline'
 	Plug 'chentoast/marks.nvim' " show marks in sign column
+
 	Plug 'akinsho/bufferline.nvim' " Buffer Tabs
 	Plug 'tiagovla/scope.nvim' " Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	Plug 'qpkorr/vim-bufkill' " Don't close the whole tab/window on :bd - use :BD instead
 	" Plug 'romgrk/barbar.nvim' " Buffer Tabs
+	"
 	Plug 'scrooloose/nerdcommenter' " Toggle comments
 	Plug 'sjl/gundo.vim' " undo tree
 	Plug 'yegappan/mru'	" most recently used files so i can undo a close
@@ -134,7 +137,11 @@ lua <<EOF
 	})
     require('bufferline').setup({
         options = {
-			-- mode = "tabs",
+            buffer_close_icon = '',
+            close_icon = '',
+            modified_icon = '✏',
+
+			-- separator_style = "slant",
             diagnostics = "nvim_lsp",
             diagnostics_update_in_insert = true,
 			diagnostics_indicator = function(count, level, diagnostics_dict, context)
