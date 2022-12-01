@@ -1,7 +1,17 @@
 " TODO:
-" Can i have it not delete on tab complete? 
 " Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 "
+" a lil rust thing to auto insert #[derive(|)]? Also maybe Snippets to
+"
+" surround in Option<>/Result<> (for types not values)
+"
+" Some command to quicklist-do search repalce + update?
+"
+" A "close split/buffer" button that checks if buffer currently exists twice
+" in window (e.g. how when :BD sends out warning) and if it does it calls :q
+" else it calls :BD
+"
+
 if has('win32')
 	let $CONFIG = $LOCALAPPDATA . '\nvim'
 	" Fixes fzf preview
@@ -80,7 +90,7 @@ set pyx=3 " set python version
 " set guifont=JetBrainsMono_Nerd_Font:h12
 " set guifont=FiraCode_Nerd_Font_Mono:h12
 set guifont=FiraCode_NF,Segoe_UI_Emoji:h12
-let neovide_remember_window_size = v:true
+let neovide_remember_window_size = v:false
 let g:neovide_refresh_rate=140
 let g:rainbow_active = 1
 
