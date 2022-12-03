@@ -48,6 +48,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
 	Plug 'phaazon/hop.nvim' " EasyMotion but better, jump around places
 
+	Plug 'bootleq/vim-cycle' " C-a/x cycle throgh bools/etc.
 	" ===== LSP =====
 	" https://github.com/sharksforarms/neovim-rust/
 	
@@ -86,6 +87,9 @@ call plug#begin(stdpath('data') . '/plugged')
 	Plug 'nvim-lua/popup.nvim'
 	Plug 'nvim-telescope/telescope.nvim'
 	Plug 'nvim-lua/lsp-status.nvim'
+
+	" Silly
+	Plug 'Eandrju/cellular-automaton.nvim'
 
 	" ===== Obsolete =====
 	" " pywal theme support (broken in neovide? :c)
@@ -179,6 +183,35 @@ lua <<EOF
 -- 	vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
 -- 	vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 EOF
+
+" Cycle
+let g:cycle_no_mappings = 1
+let g:cycle_phased_search = 1
+call cycle#add_groups([
+	\    [['true', 'false']],
+	\    [['yes', 'no']],
+	\    [['on', 'off']],
+	\    [['+', '-']],
+	\    [['>', '<']],
+	\    [['"', "'"]],
+	\    [['==', '!=']],
+	\    [['0', '1']],
+	\    [['and', 'or']],
+	\    [["in", "out"]],
+	\    [["up", "down"]],
+	\    [["left", "right"]],
+	\    [["min", "max"]],
+	\    [["get", "set"]],
+	\    [["add", "remove"]],
+	\    [["to", "from"]],
+	\    [["read", "write"]],
+	\    [["only", "except"]],
+	\    [['without', 'with']],
+	\    [["exclude", "include"]],
+	\    [["asc", "desc"]],
+	\    [['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+	\      'Friday', 'Saturday'], 'hard_case', {'name': 'Days'}],
+	\ ])
 
 " Airline
 let g:airline_enabled = 1

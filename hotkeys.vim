@@ -96,5 +96,17 @@ nnoremap <leader>; <C-v>$A;<Esc>
 vnoremap <leader>p "_dP
 
 nnoremap <leader>: :Telescope commands<cr>
-
 cnoremap <C-v> <C-r>+
+
+function! ChangeScaleFactor(delta)
+	let g:neovide_scale_factor = g:neovide_scale_factor * a:delta
+endfunction
+nnoremap <expr><C-Up> ChangeScaleFactor(1.25)
+nnoremap <expr><C-Down> ChangeScaleFactor(1/1.25)
+
+nmap <silent> <c-a> <Plug>CycleNext
+vmap <silent> <c-a> <Plug>CycleNext
+nmap <silent> <c-x> <Plug>CyclePrev
+vmap <silent> <c-x> <Plug>CyclePrev
+noremap <silent> <Plug>CycleFallbackNext <C-a>
+noremap <silent> <Plug>CycleFallbackPrev <C-x>
