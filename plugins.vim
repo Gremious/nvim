@@ -47,6 +47,7 @@ call plug#begin(stdpath('data') . '/plugged')
 	" Plug 'RishabhRD/nvim-lsputils' " Floating pop up for lsp stuff
 	Plug 'beauwilliams/focus.nvim' " resize splits when focusing them
 	Plug 'phaazon/hop.nvim' " EasyMotion but better, jump around places
+	Plug 'lfilho/cosco.vim' " Smart comma/semicolon insert
 
 	Plug 'bootleq/vim-cycle' " C-a/x cycle throgh bools/etc.
 	" ===== LSP =====

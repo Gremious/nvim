@@ -88,9 +88,6 @@ vnoremap <A-k> :m '<-2<CR>gv=gv
 " F11 to fullscreen
 nnoremap <silent> <F11> :let g:neovide_fullscreen = (g:neovide_fullscreen == v:true) ? v:false : v:true<cr>
 
-" Semicolon at EOL
-nnoremap <leader>; <C-v>$A;<Esc>
-
 " replace currently selected text with default register
 " without yanking it
 vnoremap <leader>p "_dP
@@ -110,3 +107,7 @@ nmap <silent> <c-x> <Plug>CyclePrev
 vmap <silent> <c-x> <Plug>CyclePrev
 noremap <silent> <Plug>CycleFallbackNext <C-a>
 noremap <silent> <Plug>CycleFallbackPrev <C-x>
+
+" Semicolon at EOL
+" nnoremap <leader>; <C-v>$A;<Esc>
+nnoremap <silent> <Leader>; <Plug>(cosco-commaOrSemiColon)
