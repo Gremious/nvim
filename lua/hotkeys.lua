@@ -4,7 +4,7 @@ local keymap = vim.keymap
 g.mapleader = " "
 -- vim.g.maplocalleader = " "
 
--- You can always call :Telescope keymap to see all keymaps 
+-- You can always call :Telescope keymap to see all keymaps
 -- Ctrl+S to save
 keymap.set('n', '<C-S>', ':update<CR>', { silent = true })
 

@@ -44,9 +44,9 @@ return require('packer').startup(
 		use 'godlygeek/tabular' -- Tab/Spaces aligner
 		use 'ciaranm/detectindent' -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
 		use 'lukas-reineke/indent-blankline.nvim' -- Visible indents
-		use 'tpope/vim-fugitive' -- git 
+		use 'tpope/vim-fugitive' -- git
 		use 'airblade/vim-gitgutter' -- git in gutter
-		use 'airblade/vim-rooter' -- changes working dir to project root whenever you open files 
+		use 'airblade/vim-rooter' -- changes working dir to project root whenever you open files
 		use 'RRethy/vim-illuminate' -- Highlight hovered vairables (lsp compatible)
 		use 'tpope/vim-surround' -- suround things with any text
 		use 'wellle/targets.vim'
@@ -94,12 +94,7 @@ return require('packer').startup(
 		-- Optional
 		-- Visualize lsp progress
 		-- use 'nvim-lua/lsp-status.nvim' in status line
-		use({
-			"j-hui/fidget.nvim",
-			config = function()
-				require("fidget").setup()
-			end
-		})
+		use("j-hui/fidget.nvim")
 
 		use 'nvim-lua/popup.nvim'
 		use 'nvim-telescope/telescope.nvim'

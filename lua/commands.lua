@@ -1,12 +1,12 @@
 local api, cmd = vim.api, vim.cmd
 local env = vim.env
 
-function create_command(name, fn)
+local function create_command(name, fn)
 	api.nvim_create_user_command(name, fn, {})
 end
 
-function open_config_file(file)
-	api.nvim_command(cmd.edit(vim.env.CONFIG .. "/" .. file))
+local function open_config_file(file)
+	api.nvim_command(cmd.edit(env.CONFIG .. "/" .. file))
 end
 
 -- Type config -> get config
