@@ -73,44 +73,44 @@ require('bufferline').setup({
 	}
 })
 --  nvim-lsputils (fly-out pop-ups and stuff)
--- 	vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
--- 	vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
--- 	vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
--- 	vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
--- 	vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
--- 	vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
--- 	vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
--- 	vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
+--	vim.lsp.handlers['textDocument/codeAction'] = require'lsputil.codeAction'.code_action_handler
+--	vim.lsp.handlers['textDocument/references'] = require'lsputil.locations'.references_handler
+--	vim.lsp.handlers['textDocument/definition'] = require'lsputil.locations'.definition_handler
+--	vim.lsp.handlers['textDocument/declaration'] = require'lsputil.locations'.declaration_handler
+--	vim.lsp.handlers['textDocument/typeDefinition'] = require'lsputil.locations'.typeDefinition_handler
+--	vim.lsp.handlers['textDocument/implementation'] = require'lsputil.locations'.implementation_handler
+--	vim.lsp.handlers['textDocument/documentSymbol'] = require'lsputil.symbols'.document_handler
+--	vim.lsp.handlers['workspace/symbol'] = require'lsputil.symbols'.workspace_handler
 
 -- Cycle
 vim.g.cycle_no_mappings = true
 vim.g.cycle_phased_search = true
 
 -- call cycle#add_groups([
--- 	\    [['true', 'false']],
--- 	\    [['yes', 'no']],
--- 	\    [['on', 'off']],
--- 	\    [['+', '-']],
--- 	\    [['>', '<']],
--- 	\    [['"', "'"]],
--- 	\    [['==', '!=']],
--- 	\    [['0', '1']],
--- 	\    [['and', 'or']],
--- 	\    [["in", "out"]],
--- 	\    [["up", "down"]],
--- 	\    [["left", "right"]],
--- 	\    [["min", "max"]],
--- 	\    [["get", "set"]],
--- 	\    [["add", "remove"]],
--- 	\    [["to", "from"]],
--- 	\    [["read", "write"]],
--- 	\    [["only", "except"]],
--- 	\    [['without', 'with']],
--- 	\    [["exclude", "include"]],
--- 	\    [["asc", "desc"]],
--- 	\    [['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
--- 	\      'Friday', 'Saturday'], 'hard_case', {'name': 'Days'}],
--- 	\ ])
+--	\    [['true', 'false']],
+--	\    [['yes', 'no']],
+--	\    [['on', 'off']],
+--	\    [['+', '-']],
+--	\    [['>', '<']],
+--	\    [['"', "'"]],
+--	\    [['==', '!=']],
+--	\    [['0', '1']],
+--	\    [['and', 'or']],
+--	\    [["in", "out"]],
+--	\    [["up", "down"]],
+--	\    [["left", "right"]],
+--	\    [["min", "max"]],
+--	\    [["get", "set"]],
+--	\    [["add", "remove"]],
+--	\    [["to", "from"]],
+--	\    [["read", "write"]],
+--	\    [["only", "except"]],
+--	\    [['without', 'with']],
+--	\    [["exclude", "include"]],
+--	\    [["asc", "desc"]],
+--	\    [['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday',
+--	\      'Friday', 'Saturday'], 'hard_case', {'name': 'Days'}],
+--	\ ])
 
 -- Airline
 vim.g.airline_enabled = true

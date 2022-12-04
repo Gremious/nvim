@@ -74,6 +74,10 @@ return require('packer').startup(
 			-- cmp Path completion
 			"hrsh7th/cmp-path",
 			"hrsh7th/cmp-buffer",
+
+			-- AI-Completion
+			use { 'tzachar/cmp-tabnine', run = "powershell ./install.ps1" },
+
 			after = { "hrsh7th/nvim-cmp" },
 			requires = { "hrsh7th/nvim-cmp" },
 		})
@@ -81,11 +85,8 @@ return require('packer').startup(
 		-- Snippet engine
 		use 'L3MON4D3/LuaSnip'
 
-		-- AI-Completion
-		use { 'tzachar/cmp-tabnine', run = "powershell ./install.ps1" }
-
 		-- Icons for cmp
-		use 'onsails/lspkind.nvim' 
+		use 'onsails/lspkind.nvim'
 
 		-- Adds extra functionality over rust analyzer
 		use 'simrat39/rust-tools.nvim'

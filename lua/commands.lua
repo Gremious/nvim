@@ -27,7 +27,7 @@ create_command("ConfigAutocmd",  function() open_config_file("lua/autocmd.lua") 
 -- command Cc     :let @+ = expand("%:p")
 -- Copy filepath to clipboard
 -- create_command("Cc",
--- 	function(opts)
--- 		vim.api.nvim_command(vim.cmd.source(vim.env.MYVIMRC))
--- 	end
+--	function(opts)
+--		vim.api.nvim_command(vim.cmd.source(vim.env.MYVIMRC))
+--	end
 -- )
