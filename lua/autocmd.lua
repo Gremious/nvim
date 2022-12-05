@@ -5,13 +5,46 @@
    [ -- Unless you really want to compartmentalize for some reason.
 --]]
 
-local nvim_create_augroup = vim.api.nvim_create_augroup
-local nvim_create_autocmd = vim.api.nvim_create_autocmd
-local isdirectory = vim.fn.isdirectory
-local filereadable = vim.fn.filereadable
+local empty = vim.fn.empty
 local fnamemodify = vim.fn.fnamemodify
+local getbufvar = vim.fn.getbufvar
+local mkdir = vim.fn.mkdir
+local nvim_create_augroup = vim.api.nvim_create_augroup
+-- local nvim_create_autocmd = vim.api.nvim_create_autocmd
+local nvim_exec = vim.api.nvim_exec
 
 local default_augroup = nvim_create_augroup("default_augroup ", {})
+
+--- Like the regular one, but you can ommit group,
+--- and it complains if you don't have a description.
+local function nvim_create_autocmd(event, opts)
+	local opts_constructor = {
+		pattern = opts.pattern,
+		desc = opts.desc,
+		callback = opts.callback,
+	}
+
+	if opts.group ~= nil then
+		opts_constructor.group = opts.group
+	else
+		opts_constructor.group = default_augroup
+	end
+
+	assert(opts.desc ~= nil and opts.desc ~= "", "Please provide an autocommand description!")
+
+	vim.api.nvim_create_autocmd(event, opts_constructor)
+end
+
+-- "Beware that, unlike some other scripting languages,
+-- Lua considers both zero and the empty string as true in conditional tests"...
+-- (and I like my functions returning a boolean)
+local function isdirectory(path)
+	return vim.fn.isdirectory(path) == 1;
+end
+
+local function filereadable(path)
+	return vim.fn.filereadable(path) == 1;
+end
 
 -- Haven't had problems with md files yet?
 -- nvim_create_autocmd({ "BufRead, BufNewFile" },
@@ -24,83 +57,73 @@ local default_augroup = nvim_create_augroup("default_augroup ", {})
 --     }
 -- )
 
-nvim_create_autocmd({ "BufRead", "BufNewFile" },
-	{
-		pattern = "*.tpl",
-		group = default_augroup,
-		desc = "Highlight tpl files as c++",
-		callback = function()
-			vim.opt.filetype = "cpp"
-		end
-	}
-)
+nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = "*.tpl",
+	desc = "Highlight tpl files as c++",
 
-nvim_create_autocmd({ "BufRead", "BufNewFile" },
-	{
-		pattern = "*.rs",
-		group = default_augroup,
-		desc = "Override rust lsp whitespace formatting",
-		callback = function()
-			vim.opt.tabstop = 4
-			vim.opt.softtabstop = 4
-			vim.opt.shiftwidth = 4
-			-- vim.opt.noexpandtab = true
-		end
-	}
-)
+	callback = function()
+		vim.opt.filetype = "cpp"
+	end
+})
 
-local function make_non_existant_directory(file, buf)
---     if empty(getbufvar(a:buf, '&buftype')) && a:file!~#'\v^\w+\:\/'
---         let dir=fnamemodify(a:file, ':h')
---         if !isdirectory(dir)
---             call mkdir(dir, 'p')
---         endif
---     endif
-end
+nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
+	pattern = "*.rs",
+	desc = "Override rust lsp whitespace formatting",
 
-nvim_create_autocmd({ "BufWritePre" },
-	{
-		pattern = "*",
-		group = default_augroup,
-		desc = "When trying to write to a file in a non-existant directory - make dirs as necessary.",
-		callback = function(args)
-			make_non_existant_directory(args.file, args.buf)
-		end
-	}
-)
+	callback = function()
+		vim.opt.tabstop = 4
+		vim.opt.softtabstop = 4
+		vim.opt.shiftwidth = 4
+		vim.opt.noexpandtab = true
+	end
+})
 
--- idk what this is about
-local function maybe_enter_directory(file)
-	if (file ~= '' and isdirectory(file))
-	then
-		local dir = file
-		vim.api.nvim_exec(string.format('exe \"cd %s\"', dir))
-		if filereadable("_project.vim") then
-			vim.cmd('source _project.vim')
-			print("Loaded project file")
+nvim_create_autocmd({ "BufWritePre" }, {
+	pattern = "*",
+	desc = "When trying to write to a file in a non-existant directory - make dirs as necessary.",
+
+	callback = function(args)
+		local file = args.file
+		local buf = args.buf
+
+		-- buftype check that it's a normal file and not e.g. help/quickfix/etc.
+		-- regex idk - inherited
+		if empty(getbufvar(buf, '&buftype')) and not string.match(file, "\v^\\w+\\:\\/") then
+			-- strp the file from the path, leaving only it's dir
+			local dir = fnamemodify(file, ":h")
+
+			if isdirectory(dir) then
+				-- "p" is an option for mkdir to make intermediate directories
+				mkdir(dir, "p");
+			end
 		end
 	end
-end
+})
 
-nvim_create_autocmd({ "BufEnter", "VimEnter" },
-	{
-		pattern = "*",
-		group = default_augroup,
-		desc = "",
-		callback = function(args)
-			maybe_enter_directory(args.match)
+nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
+	pattern = "*",
+	desc = "Allow for a _project.vim file, which will override vim setting per project.",
+
+	callback = function(args)
+		local file = args.match;
+
+		if file ~= '' and isdirectory(file) then
+			local dir = file
+			nvim_exec(string.format('exe \"cd %s\"', dir), {})
+
+			if filereadable("_project.vim") then
+				vim.cmd('source _project.vim')
+			end
 		end
-	}
-)
+	end
+})
 
 -- " exclude quickfix buffers from :bnext and :bprev
 -- augroup qf
---     autocmd!
 --     autocmd FileType qf set nobuflisted
 -- augroup END
 --
 -- " exclude terminal from :bnext and :bprev
 -- " augroup term
--- "     autocmd!
 -- "     autocmd TermOpen * setlocal nobuflisted
 -- " augroup END

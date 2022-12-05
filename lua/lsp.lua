@@ -131,6 +131,8 @@ for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
 	if lsp_server == "rust_analyzer" then require("rust-tools").setup({ tools = rust_tools, server = server, capabilities = capabilities })
 	-- if lsp_server == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
 	elseif lsp_server == "sumneko_lua" then require("lspconfig").sumneko_lua.setup({
+		on_attach = on_attach,
+		capabilities = capabilities,
 		settings = {
 			Lua = {
 				diagnostics = {

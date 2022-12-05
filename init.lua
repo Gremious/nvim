@@ -133,5 +133,4 @@ require("lsp")
 
 require("commands")
 require("hotkeys")
-
--- require("autocmd")
+require("autocmd")
