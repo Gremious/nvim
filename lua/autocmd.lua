@@ -1,8 +1,8 @@
 --[[
-   [ -- Lua augroups now auto-clear by default if group is already defined.
-   [ -- Don't need `autocmd!` anymore
-   [ -- Also, just the 1 group is enough I recon.
-   [ -- Unless you really want to compartmentalize for some reason.
+	[ -- Lua augroups now auto-clear by default if group is already defined.
+	[ -- Don't need `autocmd!` anymore
+	[ -- Also, just the 1 group is enough I recon.
+	[ -- Unless you really want to compartmentalize for some reason.
 --]]
 
 local empty = vim.fn.empty
@@ -48,13 +48,13 @@ end
 
 -- Haven't had problems with md files yet?
 -- nvim_create_autocmd({ "BufRead, BufNewFile" },
---     {
---         group = group_filetypes,
---         pattern = "*.md",
---         callback = function()
---             vim.opt.filetype = "markdown"
---         end
---     }
+--		{
+--			group = group_filetypes,
+--			pattern = "*.md",
+--			callback = function()
+--				vim.opt.filetype = "markdown"
+--			end
+--		}
 -- )
 
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -120,10 +120,10 @@ nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
 
 -- " exclude quickfix buffers from :bnext and :bprev
 -- augroup qf
---     autocmd FileType qf set nobuflisted
+--	   autocmd FileType qf set nobuflisted
 -- augroup END
 --
 -- " exclude terminal from :bnext and :bprev
 -- " augroup term
--- "     autocmd TermOpen * setlocal nobuflisted
+-- "	 autocmd TermOpen * setlocal nobuflisted
 -- " augroup END
