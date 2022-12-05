@@ -117,6 +117,7 @@ vim.g.NERDCreateDefaultMappings = true
 vim.g.NERDSpaceDelims = true
 vim.g.NERDCommentEmptyLines = true
 vim.g.NERDTrimTrailingWhitespace = true
+vim.g.NERDDefaultAlign = "left"
 
 -- Rooter will change to file location for non-project files
 vim.g.rooter_change_directory_for_non_project_files  = "current"

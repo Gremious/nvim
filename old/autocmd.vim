@@ -45,7 +45,7 @@ augroup qf
 	autocmd FileType qf set nobuflisted
 augroup END
 
-" exclude temrinal from :bnext and :bprev
+" exclude terminal from :bnext and :bprev
 " augroup term
 "     autocmd!
 "     autocmd TermOpen * setlocal nobuflisted

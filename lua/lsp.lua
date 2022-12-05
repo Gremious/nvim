@@ -66,8 +66,8 @@ local function on_attach(client, buffer)
 	})
 
 	-- Goto previous/next diagnostic warning/error
-	keymap.set("n", "g[", vim.diagnostic.goto_prev, keymap_opts)
-	keymap.set("n", "g]", vim.diagnostic.goto_next, keymap_opts)
+	keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
+	keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
 end
 
 -- Configure LSP through rust-tools.nvim plugin.

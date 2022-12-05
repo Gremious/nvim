@@ -14,7 +14,7 @@ keymap.set('n', '<Leader>u', ':GundoToggle<CR>')
 keymap.set('n', '<Leader>w', ':set list!<CR>')
 
 -- == spellcheck-mode ==
-keymap.set('n', '<Leader>ss', ':set spell!<cr>', { silent = true })
+keymap.set('n', '<Leader>ss', ':set spell!<CR>', { silent = true })
 --toggle suggestions
 keymap.set('n', '<Leader>s', 'z=', { silent = true })
 keymap.set('n', '<Leader><C-s>', 'z=', { silent = true })
