@@ -39,11 +39,11 @@ end
 -- Lua considers both zero and the empty string as true in conditional tests"...
 -- (and I like my functions returning a boolean)
 local function isdirectory(path)
-	return vim.fn.isdirectory(path) == 1;
+	return vim.fn.isdirectory(path) == 1
 end
 
 local function filereadable(path)
-	return vim.fn.filereadable(path) == 1;
+	return vim.fn.filereadable(path) == 1
 end
 
 -- Haven't had problems with md files yet?
@@ -63,7 +63,7 @@ nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 	callback = function()
 		vim.opt.filetype = "cpp"
-	end
+	end,
 })
 
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -74,8 +74,8 @@ nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 		vim.opt.tabstop = 4
 		vim.opt.softtabstop = 4
 		vim.opt.shiftwidth = 4
-		vim.opt.noexpandtab = true
-	end
+		-- vim.opt.noexpandtab = true
+	end,
 })
 
 nvim_create_autocmd({ "BufWritePre" }, {
@@ -88,16 +88,16 @@ nvim_create_autocmd({ "BufWritePre" }, {
 
 		-- buftype check that it's a normal file and not e.g. help/quickfix/etc.
 		-- regex idk - inherited
-		if empty(getbufvar(buf, '&buftype')) and not string.match(file, "\v^\\w+\\:\\/") then
+		if empty(getbufvar(buf, "&buftype")) and not string.match(file, "\v^\\w+\\:\\/") then
 			-- strp the file from the path, leaving only it's dir
 			local dir = fnamemodify(file, ":h")
 
 			if isdirectory(dir) then
 				-- "p" is an option for mkdir to make intermediate directories
-				mkdir(dir, "p");
+				mkdir(dir, "p")
 			end
 		end
-	end
+	end,
 })
 
 nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
@@ -105,17 +105,17 @@ nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
 	desc = "Allow for a _project.vim file, which will override vim setting per project.",
 
 	callback = function(args)
-		local file = args.match;
+		local file = args.match
 
-		if file ~= '' and isdirectory(file) then
+		if file ~= "" and isdirectory(file) then
 			local dir = file
-			nvim_exec(string.format('exe \"cd %s\"', dir), {})
+			nvim_exec(string.format('exe "cd %s"', dir), {})
 
 			if filereadable("_project.vim") then
-				vim.cmd('source _project.vim')
+				vim.cmd("source _project.vim")
 			end
 		end
-	end
+	end,
 })
 
 -- " exclude quickfix buffers from :bnext and :bprev

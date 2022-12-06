@@ -96,7 +96,7 @@ opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h13"
 
 -- g.neovide_remember_window_size  = false
 g.neovide_refresh_rate = 140
-g.rainbow_active  = 1
+g.rainbow_active = 1
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
@@ -111,15 +111,13 @@ opt.smartcase = true -- only care about case in search if there are upper-case l
 
 g.miramare_enable_italic = false
 g.miramare_disable_italic_comment = true
-vim.cmd('colorscheme miramare')
+vim.cmd("colorscheme miramare")
 
-
--- g.material_theme_style = "ocean"
--- g.material_terminal_italics  = true
+g.material_theme_style = "ocean"
+g.material_terminal_italics  = true
 -- vim.cmd('colorscheme material')
 
 -- colorscheme wal -- doesn"t seem to work with neovide very sad :c
-
 
 -- Quick option debug
 function optinfo(o)

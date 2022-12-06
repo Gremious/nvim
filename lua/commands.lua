@@ -10,7 +10,7 @@ local function open_config_file(file)
 end
 
 -- Type config -> get config
--- Todo: Telescope!?!?!
+-- Or: Use leader-C!
 create_command("Config",         function() open_config_file("init.lua") end)
 create_command("ConfigPacker",   function() open_config_file("lua/plugin_install.lua") end)
 create_command("ConfigPlugins",  function() open_config_file("lua/plugin_settings.lua") end)

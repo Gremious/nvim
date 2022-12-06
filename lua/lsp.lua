@@ -10,11 +10,12 @@ vim.opt.shortmess:append({ c = true })
 
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
+local lspkind = require("lspkind")
+
 -- local lsp_status = require('lsp-status')
-local lspkind = require('lspkind')
 
 mason_lspconfig.setup({
-	ensure_installed = { "sumneko_lua", "rust_analyzer" }
+	ensure_installed = { "sumneko_lua", "rust_analyzer" },
 })
 
 mason.setup({
@@ -22,39 +23,34 @@ mason.setup({
 		icons = {
 			server_installed = "✓",
 			server_pending = "➜",
-			server_uninstalled = "✗"
-		}
-	}
+			server_uninstalled = "✗",
+		},
+	},
 })
 
 local function on_attach(client, buffer)
 	local keymap = vim.keymap
 	local keymap_opts = { buffer = buffer, silent = true }
 
-	-- Highlight all occurances of currently hoevered word
-	require('illuminate').on_attach(client)
-
-	if client.name == "rust_analyzer"
-	then
-		keymap.set('n', '<leader>h',  ":RustHoverActions<cr>", keymap_opts)
-		keymap.set('n', '<leader>gp', ':RustParentModule<cr>', keymap_opts)
+	if client.name == "rust_analyzer" then
+		keymap.set("n", "<leader>h", ":RustHoverActions<cr>", keymap_opts)
+		keymap.set("n", "<leader>gp", ":RustParentModule<cr>", keymap_opts)
 	else
-		keymap.set('n', '<leader>h', vim.lsp.buf.hover, keymap_opts)
+		keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
 	end
 
 	-- Code navigation and shortcuts
-	keymap.set('n', '<leader>m',  vim.diagnostic.open_float,       keymap_opts)
-	keymap.set("n", "gd",         vim.lsp.buf.definition,          keymap_opts)
-	keymap.set("n", "gD",         vim.lsp.buf.implementation,      keymap_opts)
-	keymap.set("n", "<leader>D",  vim.lsp.buf.type_definition,     keymap_opts)
-	keymap.set('n', '<leader>gr', ":Telescope lsp_references<cr>", keymap_opts)
-	keymap.set("n", "g0",         vim.lsp.buf.document_symbol,     keymap_opts)
-	keymap.set("n", "gW",         vim.lsp.buf.workspace_symbol,    keymap_opts)
-	keymap.set('n', '<a-CR>',     vim.lsp.buf.code_action,         keymap_opts)
-	keymap.set("n", "<c-k>",      vim.lsp.buf.signature_help,      keymap_opts)
-	keymap.set('n', '<leader>D',  vim.lsp.buf.type_definition,     keymap_opts)
-	keymap.set('n', '<leader>rn', vim.lsp.buf.rename,              keymap_opts)
-
+	keymap.set("n", "<leader>m", vim.diagnostic.open_float, keymap_opts)
+	keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
+	keymap.set("n", "gD", vim.lsp.buf.implementation, keymap_opts)
+	keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
+	keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", keymap_opts)
+	keymap.set("n", "g0", vim.lsp.buf.document_symbol, keymap_opts)
+	keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, keymap_opts)
+	keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
+	keymap.set("n", "<c-k>", vim.lsp.buf.signature_help, keymap_opts)
+	keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
+	keymap.set("n", "<leader>rn", vim.lsp.buf.rename, keymap_opts)
 
 	-- Show diagnostic popup on cursor hover
 	local diag_float_grp = vim.api.nvim_create_augroup("DiagnosticFloat", { clear = true })
@@ -103,18 +99,18 @@ local server = {
 					"unresolved-proc-macro",
 					"missing-ok-or-some-in-tail-expr",
 					"missing-unsafe",
-					"mismatched-arg-count"
-				}
+					"mismatched-arg-count",
+				},
 			},
 			cargo = {
-				loadOutDirsFromCheck = true
+				loadOutDirsFromCheck = true,
 			},
 			procMacro = {
-				enable = false
+				enable = false,
 			},
 			checkOnSave = {
 				command = "clippy",
-				allTargets = false
+				allTargets = false,
 			},
 			--	server = {
 			--		extraEnv = {
@@ -125,24 +121,27 @@ local server = {
 	},
 }
 
-local capabilities = require('cmp_nvim_lsp').default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
-	if lsp_server == "rust_analyzer" then require("rust-tools").setup({ tools = rust_tools, server = server, capabilities = capabilities })
+	if lsp_server == "rust_analyzer" then
+		require("rust-tools").setup({ tools = rust_tools, server = server, capabilities = capabilities })
 	-- if lsp_server == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
-	elseif lsp_server == "sumneko_lua" then require("lspconfig").sumneko_lua.setup({
-		on_attach = on_attach,
-		capabilities = capabilities,
-		settings = {
-			Lua = {
-				diagnostics = {
-					-- Get the language server to recognize the `vim` global
-					globals = {'vim'},
+	elseif lsp_server == "sumneko_lua" then
+		require("lspconfig").sumneko_lua.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+			settings = {
+				Lua = {
+					diagnostics = {
+						-- Get the language server to recognize the `vim` global
+						globals = { "vim" },
+					},
 				},
 			},
-		},
-	})
-	else require('lspconfig')[lsp_server].setup({ on_attach = on_attach, capabilities = capabilities})
+		})
+	else
+		require("lspconfig")[lsp_server].setup({ on_attach = on_attach, capabilities = capabilities })
 	end
 end
 
@@ -152,19 +151,19 @@ local cmp = require("cmp")
 cmp.setup({
 	formatting = {
 		format = lspkind.cmp_format({
-			mode = 'symbol_text',
-			menu = ({
+			mode = "symbol_text",
+			menu = {
 				buffer = "[Buffer]",
 				nvim_lsp = "[LSP]",
 				luasnip = "[LuaSnip]",
 				path = "[Path]",
 				cmp_tabnine = "[T9]",
-			})
+			},
 		}),
 	},
 	snippet = {
 		expand = function(args)
-			require('luasnip').lsp_expand(args.body)
+			require("luasnip").lsp_expand(args.body)
 		end,
 	},
 	mapping = {
@@ -185,11 +184,11 @@ cmp.setup({
 
 	-- Installed sources
 	sources = {
-		{ name = 'nvim_lsp' },
-		{ name = 'luasnip' },
-		{ name = 'path' },
-		{ name = 'buffer' },
-		{ name = 'cmp_tabnine' },
+		{ name = "nvim_lsp" },
+		{ name = "luasnip" },
+		{ name = "path" },
+		{ name = "buffer" },
+		{ name = "cmp_tabnine" },
 	},
 })
 
