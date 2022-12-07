@@ -114,10 +114,16 @@ vim.fn["cycle#add_groups"]({
 	{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 })
 
-require("telescope").setup({
+local telescope = require("telescope")
+telescope.setup({
 	defaults = {
 		layout_strategy = "vertical",
 		layout_config = { height = 0.95 },
+        mappings = {
+            i = {
+                ["<esc>"] = require("telescope.actions").close,
+            },
+        },
 	},
 	pickers = {
 		colorscheme = {
@@ -172,6 +178,7 @@ require("telescope").setup({
 })
 
 require("telescope").load_extension("command_palette")
+telescope.load_extension('fzf')
 
 -- FZF
 -- let g:fzf_action = {

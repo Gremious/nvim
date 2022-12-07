@@ -34,8 +34,9 @@ keymap.set("i", "<C-z>", "<C-o>u")
 -- insert mode redo
 keymap.set("i", "<C-r>", "<C-o><C-r>")
 
-keymap.set("n", "<Leader>f", ":Telescope live_grep<Cr>")
-keymap.set("n", "<Leader>F", ":Telescope find_files<Cr>")
+vim.keymap.set('n', '<Leader>rg', function() require("telescope.builtin").grep_string() end)
+vim.keymap.set('n', '<Leader>f', function() require("telescope.builtin").grep_string() end)
+vim.keymap.set('n', '<Leader>F', function() require("telescope.builtin").find_files() end)
 
 -- BufferLine
 -- " These commands will navigate through buffers in order
