@@ -6,6 +6,7 @@ return require("packer").startup(function(use)
 	use({ "kaicataldo/material.vim", branch = "main" }) -- theme
 	use({ "catppuccin/nvim", as = "catppuccin" })
 	use("chriskempson/base16-vim")
+	use 'folke/tokyonight.nvim'
 	-- use("vim-airline/vim-airline-themes")
 	use({ "embark-theme/vim", as = "embark" })
 	use({ "franbach/miramare" })
@@ -52,6 +53,7 @@ return require("packer").startup(function(use)
 	use("RRethy/vim-illuminate") -- Highlight hovered vairables (lsp compatible)
 	use("tpope/vim-surround") -- suround things with any text
 	use("wellle/targets.vim")
+	use("gelguy/wilder.nvim")
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	use("beauwilliams/focus.nvim") -- resize splits when focusing them
@@ -60,7 +62,6 @@ return require("packer").startup(function(use)
 
 	use("bootleq/vim-cycle") -- C-a/x cycle throgh bools/etc.
 
-	use("LinArcX/telescope-command-palette.nvim") -- Define custom things for the pretty search menu
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.0',
 		requires = { {'nvim-lua/plenary.nvim'} }
@@ -68,11 +69,8 @@ return require("packer").startup(function(use)
 	-- A `C` port of FZF that hooks direcntly into telescope.
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch.
-	-- You need CMake and the Visual Studio build tools.
-	use({
-		'nvim-telescope/telescope-fzf-native.nvim',
-		run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build'
-	})
+	-- You'll need make and clang or gcc (on windows, winget install GnuWin32.Make)
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'make' }
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 
@@ -120,6 +118,13 @@ return require("packer").startup(function(use)
 	-- ==/ Off /==
 	-- -- pywal theme support (broken in neovide? :c)
 	-- use 'dylanaraps/wal.vim'
+
+	-- if anything ever uses vim.ui.input - it will be pretty.
+	-- can also customize it to use telescope or something.
+	-- use("stevearc/dressing.nvim")
+
+	-- Cool but I just use :telescope commands?
+	-- use("LinArcX/telescope-command-palette.nvim") -- Define custom things for the pretty search menu
 
 	-- -- Allows for the creations of 'submodes'
 	-- use 'https://github.com/Iron-E/nvim-libmodal'

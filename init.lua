@@ -111,11 +111,13 @@ opt.smartcase = true -- only care about case in search if there are upper-case l
 
 g.miramare_enable_italic = false
 g.miramare_disable_italic_comment = true
-vim.cmd("colorscheme miramare")
+-- vim.cmd("colorscheme miramare")
 
 g.material_theme_style = "ocean"
 g.material_terminal_italics  = true
 -- vim.cmd('colorscheme material')
+
+vim.cmd('colorscheme tokyonight-night')
 
 -- colorscheme wal -- doesn"t seem to work with neovide very sad :c
 
@@ -132,3 +134,4 @@ require("lsp")
 require("commands")
 require("hotkeys")
 require("autocmd")
+

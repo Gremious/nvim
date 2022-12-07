@@ -24,6 +24,24 @@ require("focus").setup()
 require("scope").setup()
 require('illuminate').configure()
 
+local wilder = require('wilder')
+wilder.setup({ modes = {':', '/', '?'} })
+wilder.set_option('renderer', wilder.popupmenu_renderer(
+	wilder.popupmenu_border_theme({
+		highlighter = wilder.basic_highlighter(),
+		highlights = {
+			border = 'Normal',
+			-- The color of the search match
+			accent = wilder.make_hl('WilderAccent', 'Pmenu', {{a = 1}, {a = 1}, {foreground = '#f4468f'}}),
+		},
+		left = {' ', wilder.popupmenu_devicons()},
+		right = {' ', wilder.popupmenu_scrollbar()},
+		border = 'rounded',
+		-- min_height = 8,
+		max_height = 8,
+	})
+))
+
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "rust", "markdown", "lua", "help" },
 	highlight = {
@@ -130,54 +148,7 @@ telescope.setup({
 			enable_preview = true
 		}
 	},
-	extensions = {
-		command_palette = {
-			{
-				"Config",
-				{ "Init", ":Config" },
-				{ "Packer", ":ConfigPacker" },
-				{ "Plugins", ":ConfigPlugins" },
-				{ "Lsp", ":ConfigLsp" },
-				{ "Commands", ":ConfigCommands" },
-				{ "Hotkeys", ":ConfigHotkeys" },
-				{ "ConfigAutocmd", ":ConfigAutocmd" },
-			},
-			{
-				"File",
-				{ "entire selection (C-a)", ':call feedkeys("GVgg")' },
-				{ "save current file (C-s)", ":w" },
-				{ "save all files (C-A-s)", ":wa" },
-				{ "quit (C-q)", ":qa" },
-				{ "file browser (C-i)", ":lua require'telescope'.extensions.file_browser.file_browser()", 1 },
-				{ "search word (A-w)", ":lua require('telescope.builtin').live_grep()", 1 },
-				{ "git files (A-f)", ":lua require('telescope.builtin').git_files()", 1 },
-				{ "files (C-f)", ":lua require('telescope.builtin').find_files()", 1 },
-			},
-			{
-				"Vim",
-				{ "reload vimrc", ":source $MYVIMRC" },
-				{ "check health", ":checkhealth" },
-				{ "jumps (Alt-j)", ":lua require('telescope.builtin').jumplist()" },
-				{ "commands", ":lua require('telescope.builtin').commands()" },
-				{ "command history", ":lua require('telescope.builtin').command_history()" },
-				{ "registers (A-e)", ":lua require('telescope.builtin').registers()" },
-				{ "colorshceme", ":lua require('telescope.builtin').colorscheme()", 1 },
-				{ "vim options", ":lua require('telescope.builtin').vim_options()" },
-				{ "keymaps", ":lua require('telescope.builtin').keymaps()" },
-				{ "buffers", ":Telescope buffers" },
-				{ "search history (C-h)", ":lua require('telescope.builtin').search_history()" },
-				{ "paste mode", ":set paste!" },
-				{ "cursor line", ":set cursorline!" },
-				{ "cursor column", ":set cursorcolumn!" },
-				{ "spell checker", ":set spell!" },
-				{ "relative number", ":set relativenumber!" },
-				{ "search highlighting (F12)", ":set hlsearch!" },
-			},
-		},
-	},
 })
-
-require("telescope").load_extension("command_palette")
 telescope.load_extension('fzf')
 
 -- FZF
