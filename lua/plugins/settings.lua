@@ -23,11 +23,16 @@ require("marks").setup()
 require("hop").setup()
 require("focus").setup()
 require("scope").setup()
-require('illuminate').configure()
+require("illuminate").configure()
 require("retrail").setup()
+require("treesj").setup({
+	use_default_keymaps = false,
+	check_syntax_error = false,
+	max_join_length = 160,
+})
 
-require('lualine').setup({
-	extensions = { "nvim-tree", "fugitive" }
+require("lualine").setup({
+	extensions = { "nvim-tree", "fugitive" },
 })
 
 require("projections").setup({
@@ -36,23 +41,24 @@ require("projections").setup({
 	},
 })
 
-local wilder = require('wilder')
-wilder.setup({ modes = {':', '/', '?'} })
-wilder.set_option('renderer', wilder.popupmenu_renderer(
-	wilder.popupmenu_border_theme({
+local wilder = require("wilder")
+wilder.setup({ modes = { ":", "/", "?" } })
+wilder.set_option(
+	"renderer",
+	wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
 		highlighter = wilder.basic_highlighter(),
 		highlights = {
-			border = 'Normal',
+			border = "Normal",
 			-- The color of the search match
-			accent = wilder.make_hl('WilderAccent', 'Pmenu', {{a = 1}, {a = 1}, {foreground = '#f4468f'}}),
+			accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
 		},
-		left = {' ', wilder.popupmenu_devicons()},
-		right = {' ', wilder.popupmenu_scrollbar()},
-		border = 'rounded',
+		left = { " ", wilder.popupmenu_devicons() },
+		right = { " ", wilder.popupmenu_scrollbar() },
+		border = "rounded",
 		-- min_height = 8,
 		max_height = 8,
-	})
-))
+	}))
+)
 
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "rust", "markdown", "lua", "help" },
@@ -149,20 +155,20 @@ telescope.setup({
 	defaults = {
 		layout_strategy = "vertical",
 		layout_config = { height = 0.95 },
-        mappings = {
-            i = {
-                ["<esc>"] = require("telescope.actions").close,
-            },
-        },
+		mappings = {
+			i = {
+				["<esc>"] = require("telescope.actions").close,
+			},
+		},
 	},
 	pickers = {
 		colorscheme = {
-			enable_preview = true
-		}
+			enable_preview = true,
+		},
 	},
 })
-telescope.load_extension('fzf')
-telescope.load_extension('projections')
+telescope.load_extension("fzf")
+telescope.load_extension("projections")
 
 -- FZF
 -- let g:fzf_action = {

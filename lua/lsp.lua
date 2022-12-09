@@ -70,14 +70,21 @@ end
 -- rust-tools will configure and enable certain LSP features for us.
 -- See https://github.com/simrat39/rust-tools.nvim#configuration
 local rust_tools = {
-	runnables = {
-		use_telescope = true,
-	},
 	inlay_hints = {
 		auto = true,
-		show_parameter_hints = true,
 		parameter_hints_prefix = "<-",
 		other_hints_prefix = "->",
+	},
+
+	-- Debugging
+	--currenly broken?
+	-- https://github.com/simrat39/rust-tools.nvim/issues/179
+	dap = {
+		adapter = {
+			type = "executable",
+			command = "lldb-vscode",
+			name = "rt_lldb",
+		},
 	},
 }
 

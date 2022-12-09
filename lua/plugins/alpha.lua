@@ -1,9 +1,9 @@
 -- ==// Startup screen //==
 
 -- local fn = vim.fn
-local fortune = require('alpha.fortune')
-local theta_theme = require'alpha.themes.theta'
-local dashboard_theme = require'alpha.themes.dashboard'
+local fortune = require("alpha.fortune")
+local theta_theme = require("alpha.themes.theta")
+local dashboard_theme = require("alpha.themes.dashboard")
 
 -- Button ref:
 -- local bottom_buttons =  {
@@ -29,6 +29,7 @@ local dashboard_theme = require'alpha.themes.dashboard'
 --     }
 -- }
 
+-- https://github.com/MaximilianLloyd/ascii.nvim
 local headers_art = {
 	{
 		[[ ⣐⢕⢕⢕⢕⢕⢕⢕⢕⠅⢗⢕⢕⢕⢕⢕⢕⢕⠕⠕⢕⢕⢕⢕⢕⢕⢕⢕⢕]],
@@ -45,7 +46,6 @@ local headers_art = {
 		[[⢑⢕⠃⡈⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⢃⢕⢕⢕]],
 		[[⣆⢕⠄⢱⣄⠛⢿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⢁⢕⢕⠕⢁]],
 		[[⣿⣦⡀⣿⣿⣷⣶⣬⣍⣛⣛⣛⡛⠿⠿⠿⠛⠛⢛⣛⣉⣭⣤⣂⢜⠕⢑⣡⣴⣿]],
-
 	},
 	{
 		[[⣇⣿⠘⣿⣿⣿⡿⡿⣟⣟⢟⢟⢝⠵⡝⣿⡿⢂⣼⣿⣷⣌⠩⡫⡻⣝⠹⢿⣿⣷]],
@@ -81,7 +81,7 @@ local headers_art = {
 		[[   ⠀⠀⠻⣿⣿⡇⠀⠈⠓⢦⣤⣤⣤⡤⠞⠉⠀⠀⠀⠀⠈⠛⠒⠚⢩⡅⣠⡴⠋⠀⠀⠀⠀  ]],
 		[[   ⠀⠀⠀⠈⠻⢧⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⣻⠿⠋⠀⠀⠀⠀⠀⠀  ]],
 		[[   ⠀⠀⠀⠀⠀⠀⠉⠓⠶⣤⣄⣀⡀⠀⠀⠀⠀⠀⢀⣀⣠⡴⠖⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀  ]],
-	}
+	},
 	-- {
 	--     [[ /\_/\ ]],
 	--     [[( o.o )]],
@@ -101,7 +101,7 @@ local headers_art = {
 math.randomseed(os.time())
 
 local highlight = "Type"
-local header_selection = math.random(1, #headers_art);
+local header_selection = math.random(1, #headers_art)
 if header_selection == #headers_art then
 	header_selection = math.random(1, #headers_art)
 	if header_selection == #headers_art then
@@ -110,21 +110,21 @@ if header_selection == #headers_art then
 end
 
 local header = {
-    type = "text",
-    val = headers_art[header_selection],
-    opts = {
-        position = "center",
-        hl = highlight,
-    },
+	type = "text",
+	val = headers_art[header_selection],
+	opts = {
+		position = "center",
+		hl = highlight,
+	},
 }
 
 local top_buttons = {
-	type = 'group',
+	type = "group",
 	val = {
-		dashboard_theme.button( "e", "📄 New file" , ":ene <BAR> startinsert <CR>"),
-		dashboard_theme.button( "<Leader>P", "📂 Sessions" , ":Telescope projections <CR>"),
+		dashboard_theme.button("e", "📄 New file", ":ene <BAR> startinsert <CR>"),
+		dashboard_theme.button("<Leader>P", "📂 Sessions", ":Telescope projections <CR>"),
 		{
-			type = 'group',
+			type = "group",
 			val = {
 				{
 					type = "button",
@@ -141,11 +141,11 @@ local top_buttons = {
 						hl_shortcut = "Keyword",
 						cursor = 7,
 						width = 50,
-					}
-				}
-			}
+					},
+				},
+			},
 		},
-	}
+	},
 }
 
 local buny = {
@@ -163,22 +163,19 @@ local new_fortune = fortune()
 if string.match(new_fortune[#new_fortune], "%s%-%s?%w") ~= nil then
 	local author_name = table.remove(new_fortune)
 
-	for i,text in ipairs(new_fortune) do
-		if text ~= "" then
-			table.insert(buny, 2 + i, text)
-		end
+	for i, text in ipairs(new_fortune) do
+		table.insert(buny, 2 + i, text)
 	end
 
 	-- Make the bunny the author
 	local bottom_bunny = table.remove(buny)
 	local trimmed_author = author_name:gsub("^%s*(.-)%s*$", "%1")
-	table.insert(buny, bottom_bunny .. trimmed_author);
+	table.insert(buny, bottom_bunny .. trimmed_author)
 else
-	for i,v in ipairs(new_fortune) do
+	for i, v in ipairs(new_fortune) do
 		table.insert(buny, 2 + i, v)
 	end
 end
-
 
 -- TODO: Auto-calcualte based on header and center
 -- local marginTopPercent = 0.3
@@ -187,13 +184,13 @@ end
 local config = {
 	layout = {
 		-- { type = 'padding', val = headerPadding },
-		{ type = 'padding', val = 2 },
+		{ type = "padding", val = 2 },
 		header,
-		{ type = 'padding', val = 4 },
+		{ type = "padding", val = 4 },
 		top_buttons,
 		-- separator,
 		-- bottom_buttons,
-		{ type = 'padding', val = 4 },
+		{ type = "padding", val = 4 },
 		{
 			type = "group",
 			val = {
@@ -216,15 +213,15 @@ local config = {
 				},
 			},
 		},
-		{ type = 'padding', val = 4 },
+		{ type = "padding", val = 4 },
 		{
-			type = 'text',
+			type = "text",
 			val = buny,
 			opts = {
-				position = 'center',
-				hl = 'SplashComment',
+				position = "center",
+				hl = "SplashComment",
 			},
-		}
+		},
 	},
 	opts = {
 		margin = 100,

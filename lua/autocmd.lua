@@ -49,8 +49,10 @@ local function filereadable(path)
 end
 
 -- Autostore session on VimExit
-vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
-	callback = function() session.store(vim.loop.cwd()) end,
+vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+	callback = function()
+		session.store(vim.loop.cwd())
+	end,
 })
 
 --[[
@@ -74,10 +76,12 @@ vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
    ]]
 
 nvim_create_autocmd({ "VimEnter" }, {
-    desc = "Switch to project if vim was started in a project dir.",
+	desc = "Switch to project if vim was started in a project dir.",
 
 	callback = function()
-		if vim.fn.argc() == 0 then switcher.switch(vim.loop.cwd()) end
+		if vim.fn.argc() == 0 then
+			switcher.switch(vim.loop.cwd())
+		end
 	end,
 })
 

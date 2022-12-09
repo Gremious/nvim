@@ -63,8 +63,7 @@ opt.synmaxcol = 500 -- don"t syntax past 500 char in a single-line (think minifi
 opt.scrolloff = 15 -- don"t syntax past 500 char in a single-line (think minified code
 
 opt.number = true -- Show line numbers
--- it looks cool, but honestly i never use it...
--- opt.relativenumber = true -- Line numbers are relative to cursor
+opt.relativenumber = true -- Line numbers are relative to cursor
 
 opt.cursorline = true -- highlight current line
 opt.showmatch = true -- matching brackets while typing
@@ -114,7 +113,7 @@ g.miramare_disable_italic_comment = true
 -- vim.cmd("colorscheme miramare")
 
 g.material_theme_style = "ocean"
-g.material_terminal_italics  = true
+g.material_terminal_italics = true
 -- vim.cmd('colorscheme material')
 
 -- vim.cmd('colorscheme tokyonight-night')
@@ -139,4 +138,3 @@ require("lsp")
 require("commands")
 require("hotkeys")
 require("autocmd")
-

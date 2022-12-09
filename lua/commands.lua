@@ -12,24 +12,36 @@ end
 
 -- Type config -> get config
 -- Or: Use leader-C!
-create_command("Config",         function() open_config_file("init.lua") end)
-create_command("ConfigPacker",   function() open_config_file("lua/plugins/packer_install.lua") end)
-create_command("ConfigPlugins",  function() open_config_file("lua/plugins/settings.lua") end)
-create_command("ConfigLsp",      function() open_config_file("lua/lsp.lua") end)
-create_command("ConfigCommands", function() open_config_file("lua/commands.lua") end)
-create_command("ConfigHotkeys",  function() open_config_file("lua/hotkeys.lua") end)
-create_command("ConfigAutocmd",  function() open_config_file("lua/autocmd.lua") end)
+create_command("Config", function()
+	open_config_file("init.lua")
+end)
+create_command("ConfigPacker", function()
+	open_config_file("lua/plugins/packer_install.lua")
+end)
+create_command("ConfigPlugins", function()
+	open_config_file("lua/plugins/settings.lua")
+end)
+create_command("ConfigLsp", function()
+	open_config_file("lua/lsp.lua")
+end)
+create_command("ConfigCommands", function()
+	open_config_file("lua/commands.lua")
+end)
+create_command("ConfigHotkeys", function()
+	open_config_file("lua/hotkeys.lua")
+end)
+create_command("ConfigAutocmd", function()
+	open_config_file("lua/autocmd.lua")
+end)
 
 -- Replicate :Rg command with telescope
-vim.api.nvim_create_user_command(
-	"Rg",
-	function(args)
-		telescope.grep_string({ search = args.fargs[1] })
-	end,
-	{ nargs = "?" }
-)
+vim.api.nvim_create_user_command("Rg", function(args)
+	telescope.grep_string({ search = args.fargs[1] })
+end, { nargs = "?" })
 
-create_command("RG", function() telescope.live_grep() end)
+create_command("RG", function()
+	telescope.live_grep()
+end)
 
 -- kinda cool if you install dressing.nvim?
 -- Asks for the regex in the lil pop-up pompt

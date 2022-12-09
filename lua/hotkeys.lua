@@ -34,9 +34,15 @@ keymap.set("i", "<C-z>", "<C-o>u")
 -- insert mode redo
 keymap.set("i", "<C-r>", "<C-o><C-r>")
 
-vim.keymap.set('n', '<Leader>rg', function() require("telescope.builtin").grep_string() end)
-vim.keymap.set('n', '<Leader>f', function() require("telescope.builtin").grep_string({ search = "" }) end)
-vim.keymap.set('n', '<Leader>F', function() require("telescope.builtin").find_files() end)
+vim.keymap.set("n", "<Leader>rg", function()
+	require("telescope.builtin").grep_string()
+end)
+vim.keymap.set("n", "<Leader>f", function()
+	require("telescope.builtin").grep_string({ search = "" })
+end)
+vim.keymap.set("n", "<Leader>F", function()
+	require("telescope.builtin").find_files()
+end)
 
 -- BufferLine
 -- " These commands will navigate through buffers in order
@@ -115,7 +121,12 @@ keymap.set("n", "<Plug>CycleFallbackPrev", "<C-x>", { silent = true })
 -- nnoremap <leader>; <C-v>$A;<Esc>
 keymap.set("n", "<Leader>;", "<Plug>(cosco-commaOrSemiColon)", { silent = true })
 
-vim.keymap.set("n", "<leader>P", function() vim.cmd("Telescope projections") end)
+keymap.set("n", "<leader>P", function()
+	vim.cmd("Telescope projections")
+end)
+
+keymap.set("n", "<leader>{", ":TSJSplit<cr>")
+keymap.set("n", "<leader>}", ":TSJJoin<cr>")
 
 -- Show currently hovered texts' highlight group for colorscheme fixups
 -- vim.api.nvim_exec(
