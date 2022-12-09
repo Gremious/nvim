@@ -1,3 +1,5 @@
+local fn = vim.fn
+
 -- Consider:
 -- https://github.com/eugen0329/vim-esearch
 
@@ -16,13 +18,23 @@ if vim.fn.has("python3") then
 	vim.g.gundo_prefer_python3 = 1
 end
 
-require('lualine').setup()
 require("fidget").setup()
 require("marks").setup()
 require("hop").setup()
 require("focus").setup()
 require("scope").setup()
 require('illuminate').configure()
+require("retrail").setup()
+
+require('lualine').setup({
+	extensions = { "nvim-tree", "fugitive" }
+})
+
+require("projections").setup({
+	workspaces = {
+		{ "C:/Users/Gremious/Projects/Programming/Gremy/dev", {} },
+	},
+})
 
 local wilder = require('wilder')
 wilder.setup({ modes = {':', '/', '?'} })
@@ -115,7 +127,7 @@ vim.fn["cycle#add_groups"]({
 	{ ">", "<" },
 	{ '"', "'" },
 	{ "==", "!=" },
-	{ "0", "1" },
+	-- { "0", "1" },
 	{ "and", "or" },
 	{ "in", "out" },
 	{ "up", "down" },
@@ -150,6 +162,7 @@ telescope.setup({
 	},
 })
 telescope.load_extension('fzf')
+telescope.load_extension('projections')
 
 -- FZF
 -- let g:fzf_action = {

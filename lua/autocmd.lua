@@ -10,13 +10,15 @@ local fnamemodify = vim.fn.fnamemodify
 local getbufvar = vim.fn.getbufvar
 local mkdir = vim.fn.mkdir
 local nvim_create_augroup = vim.api.nvim_create_augroup
--- local nvim_create_autocmd = vim.api.nvim_create_autocmd
 local nvim_exec = vim.api.nvim_exec
+
+local session = require("projections.session")
+local switcher = require("projections.switcher")
 
 local default_augroup = nvim_create_augroup("default_augroup ", {})
 
---- Like the regular one, but you can ommit group,
---- and it complains if you don't have a description.
+--- Like the regular one, but defaults the group.
+--- Also complains if you don't have a description.
 local function nvim_create_autocmd(event, opts)
 	local opts_constructor = {
 		pattern = opts.pattern,
@@ -46,6 +48,39 @@ local function filereadable(path)
 	return vim.fn.filereadable(path) == 1
 end
 
+-- Autostore session on VimExit
+vim.api.nvim_create_autocmd({ 'VimLeavePre' }, {
+	callback = function() session.store(vim.loop.cwd()) end,
+})
+
+--[[
+   [ -- If vim was started with arguments, do nothing
+   [ -- If in some project's root, attempt to restore that project's session
+   [ -- If not, restore last session
+   [ -- If no sessions, do nothing
+   [ nvim_create_autocmd({ "VimEnter" }, {
+   [     desc = "Restore last session automatically.",
+   [
+   [     callback = function()
+   [         if vim.fn.argc() ~= 0 then return end
+   [
+   [         if session.info(vim.loop.cwd()) == nil then
+   [             session.restore_latest()
+   [         else
+   [             session.restore(vim.loop.cwd())
+   [         end
+   [     end
+   [ })
+   ]]
+
+nvim_create_autocmd({ "VimEnter" }, {
+    desc = "Switch to project if vim was started in a project dir.",
+
+	callback = function()
+		if vim.fn.argc() == 0 then switcher.switch(vim.loop.cwd()) end
+	end,
+})
+
 -- Haven't had problems with md files yet?
 -- nvim_create_autocmd({ "BufRead, BufNewFile" },
 --		{
@@ -59,7 +94,7 @@ end
 
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*.tpl",
-	desc = "Highlight tpl files as c++",
+	desc = "Highlight tpl files as c++.",
 
 	callback = function()
 		vim.opt.filetype = "cpp"
@@ -68,7 +103,7 @@ nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*.rs",
-	desc = "Override rust lsp whitespace formatting",
+	desc = "Override rust lsp whitespace formatting.",
 
 	callback = function()
 		vim.opt.tabstop = 4

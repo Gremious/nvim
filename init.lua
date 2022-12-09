@@ -117,7 +117,13 @@ g.material_theme_style = "ocean"
 g.material_terminal_italics  = true
 -- vim.cmd('colorscheme material')
 
-vim.cmd('colorscheme tokyonight-night')
+-- vim.cmd('colorscheme tokyonight-night')
+
+-- vim.cmd('colorscheme oh-lucy-evening')
+-- vim.cmd('colorscheme oh-lucy')
+
+-- vim.cmd[[colorscheme minimal-base16]]
+vim.cmd("colorscheme minimal")
 
 -- colorscheme wal -- doesn"t seem to work with neovide very sad :c
 
@@ -126,11 +132,10 @@ function optinfo(o)
 	print(vim.inspect(vim.api.nvim_get_option_info(o)))
 end
 
-require("plugin_install")
-require("plugin_settings")
-
+require("functions")
+require("plugins")
+require("plugins.packer_install")
 require("lsp")
-
 require("commands")
 require("hotkeys")
 require("autocmd")

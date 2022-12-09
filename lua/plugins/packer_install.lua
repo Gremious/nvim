@@ -1,3 +1,5 @@
+-- TODO: Lazy load LSP stuff, maybe some other stuff too
+
 return require("packer").startup(function(use)
 	use("wbthomason/packer.nvim")
 	use("nvim-lua/plenary.nvim") -- lib other plugins use
@@ -7,11 +9,19 @@ return require("packer").startup(function(use)
 	use({ "catppuccin/nvim", as = "catppuccin" })
 	use("chriskempson/base16-vim")
 	use 'folke/tokyonight.nvim'
+	use 'Yazeed1s/oh-lucy.nvim'
 	-- use("vim-airline/vim-airline-themes")
 	use({ "embark-theme/vim", as = "embark" })
 	use({ "franbach/miramare" })
-
 	use("kyazdani42/nvim-web-devicons")
+	use 'Yazeed1s/minimal.nvim'
+
+	-- startup screen
+	use {
+		'goolord/alpha-nvim',
+		requires = { 'nvim-tree/nvim-web-devicons' },
+	}
+
 	use("kyazdani42/nvim-tree.lua")
 
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- syntax highlighter
@@ -19,7 +29,9 @@ return require("packer").startup(function(use)
 	use({ "fladson/vim-kitty", branch = "main" }) -- kitty config highlighting
 	use("vmchale/dhall-vim")
 
-	use("tpope/vim-obsession") -- Per-directory session management (remember layout, etc.)
+	-- use("tpope/vim-obsession") -- Per-directory session management (remember layout, etc.)
+	use('gnikdroy/projections.nvim')
+
 	-- use 'luochen1990/rainbow' -- Rainbow brackets
 	use("p00f/nvim-ts-rainbow") -- rainbow parens for treesitter
 	use("machakann/vim-highlightedyank") -- on yank, highlights yanked text for a second
@@ -61,6 +73,8 @@ return require("packer").startup(function(use)
 	use("lfilho/cosco.vim") -- Smart comma/semicolon insert
 
 	use("bootleq/vim-cycle") -- C-a/x cycle throgh bools/etc.
+
+	use "zakharykaplan/nvim-retrail" -- Auto-trim trailing whitespace on :write
 
 	use {
 		'nvim-telescope/telescope.nvim', tag = '0.1.0',

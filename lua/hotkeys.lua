@@ -35,7 +35,7 @@ keymap.set("i", "<C-z>", "<C-o>u")
 keymap.set("i", "<C-r>", "<C-o><C-r>")
 
 vim.keymap.set('n', '<Leader>rg', function() require("telescope.builtin").grep_string() end)
-vim.keymap.set('n', '<Leader>f', function() require("telescope.builtin").grep_string() end)
+vim.keymap.set('n', '<Leader>f', function() require("telescope.builtin").grep_string({ search = "" }) end)
 vim.keymap.set('n', '<Leader>F', function() require("telescope.builtin").find_files() end)
 
 -- BufferLine
@@ -53,7 +53,8 @@ keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
 keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
 keymap.set("n", "<leader>hp", ":BufferLinePick<CR>")
 
-keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle<cr>", { silent = true })
+-- Dot important
+keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle .<cr>", { silent = true })
 
 keymap.set("n", "<leader>gh", ":GitGutterPreviewHunk<cr>")
 keymap.set("n", "<leader>gu", ":GitGutterUndoHunk<cr>")
@@ -114,9 +115,13 @@ keymap.set("n", "<Plug>CycleFallbackPrev", "<C-x>", { silent = true })
 -- nnoremap <leader>; <C-v>$A;<Esc>
 keymap.set("n", "<Leader>;", "<Plug>(cosco-commaOrSemiColon)", { silent = true })
 
-keymap.set("n", "<Leader>C", ":Telescope command_palette<CR>")
+vim.keymap.set("n", "<leader>P", function() vim.cmd("Telescope projections") end)
 
 -- Show currently hovered texts' highlight group for colorscheme fixups
+-- vim.api.nvim_exec(
+-- [[
 -- map <F10> :echo "hi<" . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
 -- \ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
 -- \ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>
+-- ]],
+-- true)
