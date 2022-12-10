@@ -1,4 +1,7 @@
--- TODO: Lazy load LSP stuff, maybe some other stuff too
+-- TODO:
+-- 1. Lazy load LSP stuff, maybe some other stuff too
+-- 2. Dependency management? Don't just load plenary, make other things "require" it maybe
+-- (that way if you auto-remove deps if you remove plugins)
 
 return require("packer").startup(function(use)
 	-- !! Important
@@ -15,7 +18,7 @@ return require("packer").startup(function(use)
 	use("Yazeed1s/oh-lucy.nvim")
 	-- use("vim-airline/vim-airline-themes")
 	use({ "embark-theme/vim", as = "embark" })
-	use({ "franbach/miramare" })
+	use("franbach/miramare")
 	use("kyazdani42/nvim-web-devicons")
 	use("Yazeed1s/minimal.nvim")
 
@@ -48,6 +51,15 @@ return require("packer").startup(function(use)
 	use("svermeulen/vim-extended-ft") -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	use("chentoast/marks.nvim") -- show marks in sign column
 	-- use("vim-airline/vim-airline")
+	use {
+		'Weissle/easy-action',
+		requires = {
+			{
+				"kevinhwang91/promise-async",
+				module = { "async" },
+			}
+		}
+	}
 	use({
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
@@ -93,9 +105,8 @@ return require("packer").startup(function(use)
 	})
 	-- A `C` port of FZF that hooks direcntly into telescope.
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
-	-- So, you have to build this from scratch.
-	-- You'll need make and clang or gcc (on windows, winget install GnuWin32.Make)
-	use({ "nvim-telescope/telescope-fzf-native.nvim", run = "make" })
+	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
+	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 
@@ -115,7 +126,8 @@ return require("packer").startup(function(use)
 		"hrsh7th/cmp-buffer",
 
 		-- AI-Completion
-		use({ "tzachar/cmp-tabnine", run = "powershell ./install.ps1" }),
+		-- Powershell doesn't work for me in vim so I just use pwsh 7
+		use({ "tzachar/cmp-tabnine", run = "pwsh ./install.ps1" }),
 
 		after = { "hrsh7th/nvim-cmp" },
 		requires = { "hrsh7th/nvim-cmp" },
@@ -146,7 +158,7 @@ return require("packer").startup(function(use)
 		"tamton-aquib/duck.nvim",
 		config = function()
 			-- vim.keymap.set('n', '<leader>dc', function() require("duck").hatch("🐈", 0.75) end, {}) -- Quite a mellow cat
-			vim.keymap.set("n", "<leader>dd", function()
+			vim.keymap.set("n", "<leader>dn", function()
 				require("duck").hatch()
 			end, {})
 			vim.keymap.set("n", "<leader>dk", function()

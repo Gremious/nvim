@@ -11,7 +11,6 @@ local function open_config_file(file)
 end
 
 -- Type config -> get config
--- Or: Use leader-C!
 create_command("Config", function()
 	open_config_file("init.lua")
 end)

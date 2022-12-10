@@ -128,6 +128,15 @@ end)
 keymap.set("n", "<leader>{", ":TSJSplit<cr>")
 keymap.set("n", "<leader>}", ":TSJJoin<cr>")
 
+local easy_opts = { silent=true, remap=false }
+-- trigger easy-action.
+keymap.set("n","<leader>e", "<cmd>BasicEasyAction<cr>", easy_opts)
+
+-- To insert something and jump back after you leave the insert mode
+keymap.set("n","<leader>ei", function()
+  require("easy-action").base_easy_action("i", nil, "InsertLeave")
+end, easy_opts)
+
 -- Show currently hovered texts' highlight group for colorscheme fixups
 -- vim.api.nvim_exec(
 -- [[

@@ -25,6 +25,7 @@ require("focus").setup()
 require("scope").setup()
 require("illuminate").configure()
 require("retrail").setup()
+require("easy-action").setup()
 require("treesj").setup({
 	use_default_keymaps = false,
 	check_syntax_error = false,
