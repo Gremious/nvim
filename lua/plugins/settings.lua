@@ -33,6 +33,7 @@ require("treesj").setup({
 	max_join_length = 160,
 })
 
+-- TODO: Remove diagnostics from lsp-status cause lualine already shows them.
 require('lualine').setup({
 	extensions = { "nvim-tree", "fugitive" },
       sections = {

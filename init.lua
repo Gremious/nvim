@@ -123,7 +123,7 @@ vim.cmd('colorscheme material')
 -- vim.cmd('colorscheme oh-lucy')
 
 -- vim.cmd[[colorscheme minimal-base16]]
-vim.cmd("colorscheme minimal")
+-- vim.cmd("colorscheme minimal")
 
 -- colorscheme wal -- doesn"t seem to work with neovide very sad :c
 
