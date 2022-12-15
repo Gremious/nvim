@@ -10,6 +10,7 @@ vim.g.NERDCommentEmptyLines = true
 vim.g.NERDTrimTrailingWhitespace = true
 vim.g.NERDDefaultAlign = "left"
 
+vim.g.sqlite_clib_path = vim.env.CONFIG .. "\\sqlite3\\sqlite3.dll"
 -- Rooter will change to file location for non-project files
 vim.g.rooter_change_directory_for_non_project_files = "current"
 
@@ -18,7 +19,7 @@ if vim.fn.has("python3") then
 	vim.g.gundo_prefer_python3 = 1
 end
 
-require("fidget").setup()
+-- require("fidget").setup()
 require("marks").setup()
 require("hop").setup()
 require("focus").setup()
@@ -32,13 +33,20 @@ require("treesj").setup({
 	max_join_length = 160,
 })
 
-require("lualine").setup({
+require('lualine').setup({
 	extensions = { "nvim-tree", "fugitive" },
+      sections = {
+        lualine_x = {
+			function() return require('lsp-status').status() end,
+			'encoding', 'fileformat', 'filetype',
+		},
+	}
 })
 
 require("projections").setup({
 	workspaces = {
-		{ "C:/Users/Gremious/Projects/Programming/Gremy/dev", {} },
+		{ "C:/Users/Gremious/Projects/Programming/Gremy/dev" },
+		{ "C:/Users/Gremious/Projects/dev" },
 	},
 })
 
@@ -167,6 +175,14 @@ telescope.setup({
 			enable_preview = true,
 		},
 	},
+	extensions = {
+		fzf = {
+			fuzzy = true,                    -- false will only do exact matching
+			override_generic_sorter = true,  -- override the generic sorter
+			override_file_sorter = true,     -- override the file sorter
+			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
+		}
+	}
 })
 telescope.load_extension("fzf")
 telescope.load_extension("projections")

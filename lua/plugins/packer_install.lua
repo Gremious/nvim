@@ -147,8 +147,8 @@ return require("packer").startup(function(use)
 
 	-- Optional
 	-- Visualize lsp progress
-	-- use 'nvim-lua/lsp-status.nvim' in status line
-	use("j-hui/fidget.nvim")
+	use 'nvim-lua/lsp-status.nvim' -- Lsp progress in statusline
+	-- use("j-hui/fidget.nvim")
 
 	-- use("nvim-lua/popup.nvim")
 

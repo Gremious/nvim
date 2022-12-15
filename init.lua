@@ -23,6 +23,7 @@ local g = vim.g
 
 -- Environment specific options
 if vim.fn.has("win32") then
+-- TODO: use vim.fn.stdpath("config")?
 	vim.env.CONFIG = vim.env.LOCALAPPDATA .. "\\nvim"
 	-- " Fixes fzf preview
 	vim.env.PATH = "C:\\Program Files\\Git\\usr\\bin;" .. vim.env.path
@@ -46,11 +47,11 @@ vim.env.CARGO_TARGET_DIR = "target/rust-analyzer-check"
 
 opt.fileencoding = "utf-8"
 
--- set autoindent noexpandtab tabstop=4 shiftwidth=4 softtabstop=4
 -- opt.autoindent = true
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
+opt.expandtab = false;
 
 opt.writebackup = true
 opt.history = 1000 -- longer command history
@@ -114,7 +115,7 @@ g.miramare_disable_italic_comment = true
 
 g.material_theme_style = "ocean"
 g.material_terminal_italics = true
--- vim.cmd('colorscheme material')
+vim.cmd('colorscheme material')
 
 -- vim.cmd('colorscheme tokyonight-night')
 

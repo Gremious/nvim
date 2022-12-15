@@ -28,6 +28,9 @@ mason.setup({
 	},
 })
 
+local lsp_status = require('lsp-status')
+lsp_status.register_progress()
+
 local function on_attach(client, buffer)
 	local keymap = vim.keymap
 	local keymap_opts = { buffer = buffer, silent = true }
@@ -64,6 +67,8 @@ local function on_attach(client, buffer)
 	-- Goto previous/next diagnostic warning/error
 	keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 	keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
+
+	lsp_status.on_attach(client)
 end
 
 -- Configure LSP through rust-tools.nvim plugin.
@@ -87,6 +92,15 @@ local rust_tools = {
 		},
 	},
 }
+
+local function rust_check_on_save()
+	local buffer = vim.fn.expand('%:p')
+	if string.find(buffer, "analytics%-platform") ~= nil then
+		return "cranky"
+	else
+		return "clippy"
+	end
+end
 
 -- all the opts to send to nvim-lspconfig
 -- these override the defaults set by rust-tools.nvim
@@ -116,7 +130,7 @@ local server = {
 				enable = false,
 			},
 			checkOnSave = {
-				command = "clippy",
+				command = rust_check_on_save(),
 				allTargets = false,
 			},
 			--	server = {
@@ -129,6 +143,7 @@ local server = {
 }
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
 
 for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
 	if lsp_server == "rust_analyzer" then
