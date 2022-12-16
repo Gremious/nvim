@@ -40,10 +40,13 @@ else
 	opt.undodir = "/var/lib/nvim/undo"
 end
 
+opt.sessionoptions:append("localoptions") -- Save localoptions to session file
+
 -- rust-analyzer.server.extraEnv
 -- neovim doesn"t have custom client-side code to honor this setting, it doesn"t actually work
 -- https://github.com/neovim/nvim-lspconfig/issues/1735
 vim.env.CARGO_TARGET_DIR = "target/rust-analyzer-check"
+g.rust_recommended_style = false
 
 opt.fileencoding = "utf-8"
 

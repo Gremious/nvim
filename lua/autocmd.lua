@@ -48,8 +48,9 @@ local function filereadable(path)
 	return vim.fn.filereadable(path) == 1
 end
 
--- Autostore session on VimExit
 vim.api.nvim_create_autocmd({ "VimLeavePre" }, {
+	desc = "Autostore session on VimExit",
+
 	callback = function()
 		session.store(vim.loop.cwd())
 	end,
@@ -102,18 +103,6 @@ nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 
 	callback = function()
 		vim.opt.filetype = "cpp"
-	end,
-})
-
-nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-	pattern = "*.rs",
-	desc = "Override rust lsp whitespace formatting.",
-
-	callback = function()
-		vim.opt.tabstop = 4
-		vim.opt.softtabstop = 4
-		vim.opt.shiftwidth = 4
-		vim.opt.expandtab = false
 	end,
 })
 
