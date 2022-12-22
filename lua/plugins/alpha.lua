@@ -233,4 +233,4 @@ local config = {
 	end,
 }
 
-require("alpha").setup(config)
+-- require("alpha").setup(config)

@@ -5,6 +5,7 @@
 	[ -- Unless you really want to compartmentalize for some reason.
 --]]
 
+-- TODO: Disable git-gutter on long files.
 local empty = vim.fn.empty
 local fnamemodify = vim.fn.fnamemodify
 local getbufvar = vim.fn.getbufvar

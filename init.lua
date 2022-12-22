@@ -65,6 +65,7 @@ opt.termguicolors = true -- 24-bit colors
 opt.lazyredraw = true -- don"t redraw in macros
 opt.synmaxcol = 500 -- don"t syntax past 500 char in a single-line (think minified code
 opt.scrolloff = 15 -- don"t syntax past 500 char in a single-line (think minified code
+opt.updatetime = 100 -- Default is 4000. How long to wait after typing stopts to run e.g. plugin updates.
 
 opt.number = true -- Show line numbers
 opt.relativenumber = true -- Line numbers are relative to cursor

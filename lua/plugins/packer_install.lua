@@ -87,7 +87,7 @@ return require("packer").startup(function(use)
 	use("RRethy/vim-illuminate") -- Highlight hovered vairables (lsp compatible)
 	use("tpope/vim-surround") -- suround things with any text
 	use("wellle/targets.vim")
-	use("gelguy/wilder.nvim")
+	-- use("gelguy/wilder.nvim")
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	use("beauwilliams/focus.nvim") -- resize splits when focusing them
