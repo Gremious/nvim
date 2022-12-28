@@ -21,8 +21,13 @@ return require("packer").startup(function(use)
 	use("franbach/miramare")
 	use("kyazdani42/nvim-web-devicons")
 	use("Yazeed1s/minimal.nvim")
+	-- Markdown live preview
+	use({
+		"iamcco/markdown-preview.nvim",
+		run = function() vim.fn["mkdp#util#install"]() end,
+	})
 
-	use("stevearc/dressing.nvim") -- Pretty windows for things that use vim.ui like rust-tools
+	-- use("stevearc/dressing.nvim") -- Pretty windows for things that use vim.ui like rust-tools
 
 	-- Startup screen
 	use({
@@ -36,10 +41,10 @@ return require("packer").startup(function(use)
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }) -- syntax highlighter
 	use("nvim-treesitter/playground") -- treesitter debug
 	use({ "fladson/vim-kitty", branch = "main" }) -- kitty config highlighting
-	use("vmchale/dhall-vim")
-
-	-- use("tpope/vim-obsession") -- Per-directory session management (remember layout, etc.)
-	use("gnikdroy/projections.nvim")
+	use("imsnif/kdl.vim") -- kdl highlighting
+	use("vmchale/dhall-vim") -- dhall highlighting
+	use('ron-rs/ron.vim') -- ron highlighting
+	use('GutenYe/json5.vim') -- json5 highlighting
 
 	-- use 'luochen1990/rainbow' -- Rainbow brackets
 	use("p00f/nvim-ts-rainbow") -- rainbow parens for treesitter
@@ -107,6 +112,14 @@ return require("packer").startup(function(use)
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
 	use {'nvim-telescope/telescope-fzf-native.nvim', run = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' }
+
+	use("gnikdroy/projections.nvim")
+	-- use {'rmagatti/auto-session'}
+	-- use {
+	--     'rmagatti/session-lens',
+	--     requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+	-- }
+
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 

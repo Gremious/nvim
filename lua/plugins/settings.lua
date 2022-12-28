@@ -44,11 +44,20 @@ require('lualine').setup({
 	}
 })
 
+-- local autosession = require("auto-session")
+-- autosession.setup({
+--     log_level = "error",
+--     auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
+-- })
+--
+-- require('session-lens').setup({})
+
 require("projections").setup({
 	workspaces = {
 		"C:/Users/Gremious/Projects/Programming/Gremy/dev",
 		"C:/Users/Gremious/Projects/dev",
 	},
+	sessions_directory = "C:\\Users\\Gremious\\ProjectionsSesssions"
 })
 
 -- local wilder = require("wilder")
@@ -187,6 +196,7 @@ telescope.setup({
 })
 telescope.load_extension("fzf")
 telescope.load_extension("projections")
+-- require("telescope").load_extension("session-lens")
 
 -- FZF
 -- let g:fzf_action = {

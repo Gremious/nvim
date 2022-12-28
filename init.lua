@@ -41,6 +41,7 @@ else
 end
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
+opt.sessionoptions:append("winpos") -- Save winpos to session file
 
 -- rust-analyzer.server.extraEnv
 -- neovim doesn"t have custom client-side code to honor this setting, it doesn"t actually work
@@ -104,11 +105,6 @@ g.rainbow_active = 1
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
--- source $CONFIG/plugins.vim
--- source $CONFIG/lsp.vim
--- -- source $CONFIG/lsp-coc.vim
--- source $CONFIG/hotkeys.vim
--- source $CONFIG/autocmd.vim
 
 -- g.catppuccin_flavour  = "mocha"
 -- vim.cmd('colorscheme catppuccin')
