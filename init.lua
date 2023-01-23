@@ -9,6 +9,7 @@ local g = vim.g
 	a lil rust thing to auto insert #[derive(|)]? Also maybe Snippets to
 
 	surround in Option<>/Result<> (for types not values)
+	surround with .with(|&element|)?
 
 	Some command to quicklist-do search repalce + update?
 

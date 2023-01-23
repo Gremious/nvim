@@ -35,7 +35,7 @@ end)
 
 -- Replicate :Rg command with telescope
 vim.api.nvim_create_user_command("Rg", function(args)
-	telescope.grep_string({ search = args.fargs[1] })
+	telescope.grep_string({ search = args.fargs[1], use_regex = true })
 end, { nargs = "?" })
 
 create_command("RG", function()

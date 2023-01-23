@@ -27,7 +27,7 @@ return require("packer").startup(function(use)
 		run = function() vim.fn["mkdp#util#install"]() end,
 	})
 
-	-- use("stevearc/dressing.nvim") -- Pretty windows for things that use vim.ui like rust-tools
+	use("stevearc/dressing.nvim") -- Pretty windows for things that use vim.ui like rust-tools
 
 	-- Startup screen
 	use({
