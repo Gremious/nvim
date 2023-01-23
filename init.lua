@@ -1,5 +1,6 @@
 local opt = vim.opt
 local g = vim.g
+require("lazy-bootstrap")
 
 --[[
 	TODO:
@@ -135,7 +136,7 @@ end
 
 require("functions")
 require("plugins")
-require("plugins.packer_install")
+require("plugins.install")
 require("lsp")
 require("commands")
 require("hotkeys")
