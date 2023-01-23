@@ -4,6 +4,10 @@ local keymap = vim.keymap
 g.mapleader = " "
 -- vim.g.maplocalleader = " "
 
+-- Navigage by visual line instead of text line
+keymap.set({"n", "v"}, "j", "gj")
+keymap.set({"n", "v"}, "k", "gk")
+
 -- You can always call :Telescope keymap to see all keymaps
 -- Ctrl+S to save
 keymap.set("n", "<C-S>", ":update<CR>", { silent = true })
