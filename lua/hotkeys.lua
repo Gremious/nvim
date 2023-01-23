@@ -67,13 +67,11 @@ keymap.set("n", "<leader>gu", ":GitGutterUndoHunk<cr>")
 keymap.set("n", "<leader>g]", ":GitGutterNextHunk<cr>")
 keymap.set("n", "<leader>g[", ":GitGutterPrevHunk<cr>")
 
-keymap.set("n", "<leader>hh", ":HopAnywhere<cr>")
-keymap.set("n", "<leader>hw", ":HopWord<cr>")
-keymap.set("n", "<leader>hW", ":HopWordAC<cr>")
-keymap.set("n", "<leader>hc", ":HopChar1<cr>")
-keymap.set("n", "<leader>hC", ":HopChar1AC<cr>")
-keymap.set("n", "<leader>hl", ":HopLineStart<cr>")
-keymap.set("n", "<leader>hL", ":HopLineStartAC<cr>")
+keymap.set({"n", "v"}, "<Leader>hh", require("hop").hint_anywhere)
+keymap.set({"n", "v"}, "<Leader>hp", require("hop").hint_patterns)
+keymap.set({"n", "v"}, "<Leader>hw", require("hop").hint_words)
+keymap.set({"n", "v"}, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
+keymap.set({"n", "v"}, "<Leader>hc", require("hop").hint_char1)
 
 -- Move line up/down
 keymap.set("n", "<A-j>", ":m .+1<CR>==")
