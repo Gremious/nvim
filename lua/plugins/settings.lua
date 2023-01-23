@@ -54,10 +54,9 @@ require('lualine').setup({
 
 require("projections").setup({
 	workspaces = {
-		"C:/Users/Gremious/Projects/Programming/Gremy/dev",
-		"C:/Users/Gremious/Projects/dev",
-	},
-	sessions_directory = "C:\\Users\\Gremious\\ProjectionsSesssions"
+		"~/Projects/Programming/gremy/dev",
+		"~/Projects/dev",
+	}
 })
 
 -- local wilder = require("wilder")
@@ -95,6 +94,10 @@ require("nvim-treesitter.configs").setup({
 })
 
 require("nvim-tree").setup({
+	view = {
+		width = 40,
+		adaptive_size = true,
+	},
 	diagnostics = {
 		enable = true,
 		show_on_dirs = true,

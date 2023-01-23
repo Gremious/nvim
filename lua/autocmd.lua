@@ -57,23 +57,23 @@ nvim_create_autocmd({ "VimLeavePre" }, {
 	end,
 })
 
--- if vim was started with arguments, do nothing
--- if in some project's root, attempt to restore that project's session
--- if not, restore last session
--- if no sessions, do nothing
-nvim_create_autocmd({ "vimenter" }, {
-	desc = "restore last session automatically.",
-
-	callback = function()
-		if vim.fn.argc() ~= 0 then return end
-
-		if session.info(vim.loop.cwd()) == nil then
-			session.restore_latest()
-		else
-			session.restore(vim.loop.cwd())
-		end
-	end
-})
+-- -- if vim was started with arguments, do nothing
+-- -- if in some project's root, attempt to restore that project's session
+-- -- if not, restore last session
+-- -- if no sessions, do nothing
+-- nvim_create_autocmd({ "vimenter" }, {
+--     desc = "restore last session automatically.",
+--
+--     callback = function()
+--         if vim.fn.argc() ~= 0 then return end
+--
+--         if session.info(vim.loop.cwd()) == nil then
+--             session.restore_latest()
+--         else
+--             session.restore(vim.loop.cwd())
+--         end
+--     end
+-- })
 
 nvim_create_autocmd({ "VimEnter" }, {
 	desc = "Switch to project if vim was started in a project dir.",
