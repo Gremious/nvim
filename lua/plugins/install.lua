@@ -10,7 +10,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim", -- lib other plugins use
 
 	-- themes
-	{ "kaicataldo/material.vim", branch = "main" }, -- theme
+	{ "kaicataldo/material.vim", }, -- theme
 	{ "catppuccin/nvim", name = "catppuccin" },
 	"chriskempson/base16-vim",
 	"folke/tokyonight.nvim",

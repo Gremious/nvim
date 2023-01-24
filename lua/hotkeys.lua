@@ -1,7 +1,6 @@
 local g = vim.g
 local keymap = vim.keymap
 
-g.mapleader = " "
 -- vim.g.maplocalleader = " "
 
 -- Navigage by visual line instead of text line
