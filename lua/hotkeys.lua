@@ -4,8 +4,8 @@ local keymap = vim.keymap
 -- vim.g.maplocalleader = " "
 
 -- Navigage by visual line instead of text line
-keymap.set({"n", "v"}, "j", "gj")
-keymap.set({"n", "v"}, "k", "gk")
+keymap.set({ "n", "v" }, "j", "gj")
+keymap.set({ "n", "v" }, "k", "gk")
 
 -- You can always call :Telescope keymap to see all keymaps
 -- Ctrl+S to save
@@ -70,11 +70,11 @@ keymap.set("n", "<leader>gu", ":GitGutterUndoHunk<cr>")
 keymap.set("n", "<leader>g]", ":GitGutterNextHunk<cr>")
 keymap.set("n", "<leader>g[", ":GitGutterPrevHunk<cr>")
 
-keymap.set({"n", "v"}, "<Leader>hh", require("hop").hint_anywhere)
-keymap.set({"n", "v"}, "<Leader>hp", require("hop").hint_patterns)
-keymap.set({"n", "v"}, "<Leader>hw", require("hop").hint_words)
-keymap.set({"n", "v"}, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
-keymap.set({"n", "v"}, "<Leader>hc", require("hop").hint_char1)
+keymap.set({ "n", "v" }, "<Leader>hh", require("hop").hint_anywhere)
+keymap.set({ "n", "v" }, "<Leader>hp", require("hop").hint_patterns)
+keymap.set({ "n", "v" }, "<Leader>hw", require("hop").hint_words)
+keymap.set({ "n", "v" }, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
+keymap.set({ "n", "v" }, "<Leader>hc", require("hop").hint_char1)
 
 -- Move line up/down
 keymap.set("n", "<A-j>", ":m .+1<CR>==")
@@ -129,13 +129,13 @@ end)
 keymap.set("n", "<leader>{", ":TSJSplit<cr>")
 keymap.set("n", "<leader>}", ":TSJJoin<cr>")
 
-local easy_opts = { silent=true, remap=false }
+local easy_opts = { silent = true, remap = false }
 -- trigger easy-action.
-keymap.set("n","<leader>e", "<cmd>BasicEasyAction<cr>", easy_opts)
+keymap.set("n", "<leader>e", "<cmd>BasicEasyAction<cr>", easy_opts)
 
 -- To insert something and jump back after you leave the insert mode
-keymap.set("n","<leader>ei", function()
-  require("easy-action").base_easy_action("i", nil, "InsertLeave")
+keymap.set("n", "<leader>ei", function()
+	require("easy-action").base_easy_action("i", nil, "InsertLeave")
 end, easy_opts)
 
 -- Show currently hovered texts' highlight group for colorscheme fixups

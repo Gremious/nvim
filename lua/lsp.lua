@@ -28,7 +28,7 @@ mason.setup({
 	},
 })
 
-local lsp_status = require('lsp-status')
+local lsp_status = require("lsp-status")
 lsp_status.register_progress()
 
 local function on_attach(client, buffer)
@@ -94,7 +94,7 @@ local rust_tools = {
 }
 
 local function rust_check_on_save()
-	local buffer = vim.fn.expand('%:p')
+	local buffer = vim.fn.expand("%:p")
 	if string.find(buffer, "analytics%-platform") ~= nil then
 		return "cranky"
 	else
@@ -143,7 +143,7 @@ local server = {
 }
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-vim.tbl_extend('keep', capabilities, lsp_status.capabilities)
+vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
 
 for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
 	if lsp_server == "rust_analyzer" then

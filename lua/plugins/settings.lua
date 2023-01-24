@@ -1,23 +1,9 @@
 local fn = vim.fn
 
--- Consider:
--- https://github.com/eugen0329/vim-esearch
-
--- Nerd Commenter
-vim.g.NERDCreateDefaultMappings = true
-vim.g.NERDSpaceDelims = true
-vim.g.NERDCommentEmptyLines = true
-vim.g.NERDTrimTrailingWhitespace = true
-vim.g.NERDDefaultAlign = "left"
-
-vim.g.sqlite_clib_path = vim.env.CONFIG .. "\\sqlite3\\sqlite3.dll"
--- Rooter will change to file location for non-project files
-vim.g.rooter_change_directory_for_non_project_files = "current"
-
--- GUNDO breaks without python3
-if vim.fn.has("python3") then
-	vim.g.gundo_prefer_python3 = 1
-end
+--[[
+   [ Consider:
+   [ https://github.com/eugen0329/vim-esearch
+-- ]]
 
 -- require("fidget").setup()
 require("marks").setup()
@@ -27,6 +13,22 @@ require("scope").setup()
 require("illuminate").configure()
 require("retrail").setup()
 require("easy-action").setup()
+
+-- Nerd Commenter
+vim.g.NERDCreateDefaultMappings = true
+vim.g.NERDSpaceDelims = true
+vim.g.NERDCommentEmptyLines = true
+vim.g.NERDTrimTrailingWhitespace = true
+vim.g.NERDDefaultAlign = "left"
+
+-- Rooter will change to file location for non-project files
+vim.g.rooter_change_directory_for_non_project_files = "current"
+
+-- GUNDO breaks without python3
+if vim.fn.has("python3") then
+	vim.g.gundo_prefer_python3 = 1
+end
+
 require("treesj").setup({
 	use_default_keymaps = false,
 	check_syntax_error = false,
@@ -34,49 +36,26 @@ require("treesj").setup({
 })
 
 -- TODO: Remove diagnostics from lsp-status cause lualine already shows them.
-require('lualine').setup({
+require("lualine").setup({
 	extensions = { "nvim-tree", "fugitive" },
-      sections = {
-        lualine_x = {
-			function() return require('lsp-status').status() end,
-			'encoding', 'fileformat', 'filetype',
+	sections = {
+		lualine_x = {
+			function()
+				return require("lsp-status").status()
+			end,
+			"encoding",
+			"fileformat",
+			"filetype",
 		},
-	}
+	},
 })
-
--- local autosession = require("auto-session")
--- autosession.setup({
---     log_level = "error",
---     auto_session_suppress_dirs = { "~/", "~/Projects", "~/Downloads", "/"},
--- })
---
--- require('session-lens').setup({})
 
 require("projections").setup({
 	workspaces = {
 		"~/Projects/Programming/gremy/dev",
 		"~/Projects/dev",
-	}
+	},
 })
-
--- local wilder = require("wilder")
--- wilder.setup({ modes = { ":", "/", "?" } })
--- wilder.set_option(
---     "renderer",
---     wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
---         highlighter = wilder.basic_highlighter(),
---         highlights = {
---             border = "Normal",
---             -- The color of the search match
---             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
---         },
---         left = { " ", wilder.popupmenu_devicons() },
---         right = { " ", wilder.popupmenu_scrollbar() },
---         border = "rounded",
---         -- min_height = 8,
---         max_height = 8,
---     }))
--- )
 
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "rust", "markdown", "lua", "help" },
@@ -190,33 +169,34 @@ telescope.setup({
 	},
 	extensions = {
 		fzf = {
-			fuzzy = true,                    -- false will only do exact matching
-			override_generic_sorter = true,  -- override the generic sorter
-			override_file_sorter = true,     -- override the file sorter
-			case_mode = "smart_case",        -- or "ignore_case" or "respect_case"
-		}
-	}
+			fuzzy = true, -- false will only do exact matching
+			override_generic_sorter = true, -- override the generic sorter
+			override_file_sorter = true, -- override the file sorter
+			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+		},
+	},
 })
 telescope.load_extension("fzf")
 telescope.load_extension("projections")
--- require("telescope").load_extension("session-lens")
 
--- FZF
--- let g:fzf_action = {
---   \ 'ctrl-t': 'tab split',
---   \ 'ctrl-x': 'split',
---   \ 'ctrl-v': 'vsplit',
---   \ 'ctrl-o': ':r !echo'}
-
--- to ignore file names:
--- fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%'), <bang>0)
-
--- let g:fzf_layout = { 'window': { 'width': 0.9, 'height': 0.8 } }
--- let g:fzf_preview_window = ['down:60%']
--- command! -bang -nargs=* Rg
---   \ call fzf#vim#grep(
---   \   'rg --column --line-number --no-heading --color=always --smart-case -- '.shellescape(<q-args>),
---   \   1,
---   \   fzf#vim#with_preview(),
---   \   <bang>0
---   \ )
+-- Lags to hell in big files cause of the search.
+-- Maybe only load in small files?
+--
+-- local wilder = require("wilder")
+-- wilder.setup({ modes = { ":", "/", "?" } })
+-- wilder.set_option(
+--     "renderer",
+--     wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
+--         highlighter = wilder.basic_highlighter(),
+--         highlights = {
+--             border = "Normal",
+--             -- The color of the search match
+--             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
+--         },
+--         left = { " ", wilder.popupmenu_devicons() },
+--         right = { " ", wilder.popupmenu_scrollbar() },
+--         border = "rounded",
+--         -- min_height = 8,
+--         max_height = 8,
+--     }))
+-- )

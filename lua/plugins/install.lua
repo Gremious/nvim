@@ -10,7 +10,7 @@ require("lazy").setup({
 	"nvim-lua/plenary.nvim", -- lib other plugins use
 
 	-- themes
-	{ "kaicataldo/material.vim", }, -- theme
+	{ "kaicataldo/material.vim" }, -- theme
 	{ "catppuccin/nvim", name = "catppuccin" },
 	"chriskempson/base16-vim",
 	"folke/tokyonight.nvim",
@@ -23,7 +23,9 @@ require("lazy").setup({
 	-- Markdown live preview
 	{
 		"iamcco/markdown-preview.nvim",
-		build = function() vim.fn["mkdp#util#install"]() end,
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
 	},
 
 	"stevearc/dressing.nvim", -- Pretty windows for things that use vim.ui like rust-tools
@@ -42,8 +44,8 @@ require("lazy").setup({
 	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
 	"imsnif/kdl.vim", -- kdl highlighting
 	"vmchale/dhall-vim", -- dhall highlighting
-	'ron-rs/ron.vim', -- ron highlighting
-	'GutenYe/json5.vim', -- json5 highlighting
+	"ron-rs/ron.vim", -- ron highlighting
+	"GutenYe/json5.vim", -- json5 highlighting
 
 	-- use 'luochen1990/rainbow' -- Rainbow brackets
 	"p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
@@ -56,7 +58,7 @@ require("lazy").setup({
 	"chentoast/marks.nvim", -- show marks in sign column
 	-- "vim-airline/vim-airline",
 	{
-		'Weissle/easy-action',
+		"Weissle/easy-action",
 		-- requires = {
 		--     {
 		--         "kevinhwang91/promise-async",
@@ -110,14 +112,12 @@ require("lazy").setup({
 	-- A `C` port of FZF that hooks direcntly into telescope.
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
-	{'nvim-telescope/telescope-fzf-native.nvim', build = 'cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build' },
+	{
+		"nvim-telescope/telescope-fzf-native.nvim",
+		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
+	},
 
 	"gnikdroy/projections.nvim",
-	-- use {'rmagatti/auto-session'}
-	-- use {
-	--     'rmagatti/session-lens',
-	--     requires = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
-	-- }
 
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
@@ -159,7 +159,7 @@ require("lazy").setup({
 
 	-- Optional
 	-- Visualize lsp progress
-	'nvim-lua/lsp-status.nvim', -- Lsp progress in statusline
+	"nvim-lua/lsp-status.nvim", -- Lsp progress in statusline
 	-- "j-hui/fidget.nvim",
 
 	-- "nvim-lua/popup.nvim",
@@ -177,7 +177,7 @@ require("lazy").setup({
 				require("duck").cook()
 			end, {})
 		end,
-	}
+	},
 
 	-- ==/ Off /==
 	-- -- pywal theme support (broken in neovide? :c)
