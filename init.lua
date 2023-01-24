@@ -16,6 +16,8 @@ local g = vim.g
 	in window (e.g. how when :BD sends out warning) and if it does it calls :q
 	else it calls :BD
 
+	go back to the other tab plugin (barbar i think?)
+
 	Notes:
 	For Gundo/Python support, need to run
 	`python -m pip install --user --upgrade pynvim`
@@ -57,10 +59,12 @@ g.rust_recommended_style = false
 opt.fileencoding = "utf-8"
 
 -- opt.autoindent = true
+-- opt.smartindent = true
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
 opt.expandtab = false;
+opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 
 opt.writebackup = true
 opt.history = 1000 -- longer command history
@@ -80,12 +84,10 @@ opt.cursorline = true -- highlight current line
 opt.showmatch = true -- matching brackets while typing
 -- opt.matchtime = 5 -- time of show
 
-opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 opt.linebreak = true -- Wrapped lines will wrap at breaks not mid-letter
 opt.splitbelow = true --new vertical split will be below
 opt.splitright = true --new horizontal split will be to the right
 opt.formatoptions = "crqlj" --wrap comments, never autowrap long lines
-
 vim.opt.diffopt:append({ "vertical" }) -- diffs are also vertical
 opt.cmdheight = 2 -- more space for displaying messages
 opt.signcolumn = "yes" -- always show signcolumn (column near number line
