@@ -1,3 +1,3 @@
-require("plugins.packer_install")
+require("plugins.install")
 require("plugins.settings")
 require("plugins.alpha")

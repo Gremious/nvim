@@ -1,6 +1,5 @@
 local opt = vim.opt
 local g = vim.g
-
 --[[
 	TODO:
 
@@ -40,6 +39,11 @@ else
 	opt.directory = "/var/lib/nvim/swap"
 	opt.undodir = "/var/lib/nvim/undo"
 end
+
+vim.g.mapleader = " "
+require("lazy-bootstrap")
+require("plugins.install")
+require("plugins")
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
@@ -134,8 +138,6 @@ function optinfo(o)
 end
 
 require("functions")
-require("plugins")
-require("plugins.packer_install")
 require("lsp")
 require("commands")
 require("hotkeys")
