@@ -159,6 +159,8 @@ local buny = {
 
 local new_fortune = fortune()
 
+-- TODO Garfield only on mondays lmao
+
 -- See if it has a "- Author Name"
 if string.match(new_fortune[#new_fortune], "%s%-%s?%w") ~= nil then
 	local author_name = table.remove(new_fortune)

@@ -75,6 +75,8 @@ end
 -- rust-tools will configure and enable certain LSP features for us.
 -- See https://github.com/simrat39/rust-tools.nvim#configuration
 local rust_tools = {
+    executor = require("rust-tools.executors").quickfix,
+
 	inlay_hints = {
 		auto = true,
 		parameter_hints_prefix = "<-",
@@ -111,23 +113,23 @@ local server = {
 	settings = {
 		-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
 		["rust-analyzer"] = {
-			diagnostics = {
-				disabled = {
-					"macro-error",
-					"unresolved-macro-call",
-					"unresolved-import",
-					"incorrect-ident-case",
-					"unresolved-proc-macro",
-					"missing-ok-or-some-in-tail-expr",
-					"missing-unsafe",
-					"mismatched-arg-count",
-				},
-			},
+			-- diagnostics = {
+			--     disabled = {
+			--         "macro-error",
+			--         "unresolved-macro-call",
+			--         "unresolved-import",
+			--         "incorrect-ident-case",
+			--         "unresolved-proc-macro",
+			--         "missing-ok-or-some-in-tail-expr",
+			--         "missing-unsafe",
+			--         "mismatched-arg-count",
+			--     },
+			-- },
 			cargo = {
 				loadOutDirsFromCheck = true,
 			},
 			procMacro = {
-				enable = false,
+				enable = true,
 			},
 			checkOnSave = {
 				command = rust_check_on_save(),

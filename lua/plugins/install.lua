@@ -1,12 +1,7 @@
--- TODO:
--- 1. Lazy load LSP stuff, maybe some other stuff too
--- 2. Dependency management? Don't just load plenary, make other things "require" it maybe
--- (that way if you auto-remove deps if you remove plugins)
 require("lazy").setup({
 	-- !! Important
 	"michaelb/do-nothing.vim",
 
-	"wbthomason/packer.nvim",
 	"nvim-lua/plenary.nvim", -- lib other plugins use
 
 	-- themes
@@ -20,6 +15,7 @@ require("lazy").setup({
 	"franbach/miramare",
 	"kyazdani42/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
+
 	-- Markdown live preview
 	{
 		"iamcco/markdown-preview.nvim",
@@ -36,9 +32,9 @@ require("lazy").setup({
 		-- requires = { "nvim-tree/nvim-web-devicons" },
 	},
 
-	-- Filetree
-	"kyazdani42/nvim-tree.lua",
+	"kyazdani42/nvim-tree.lua", -- Filetree
 
+	-- ==/ Highlights/Syntax /==
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- syntax highlighter
 	"nvim-treesitter/playground", -- treesitter debug
 	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
@@ -46,25 +42,24 @@ require("lazy").setup({
 	"vmchale/dhall-vim", -- dhall highlighting
 	"ron-rs/ron.vim", -- ron highlighting
 	"GutenYe/json5.vim", -- json5 highlighting
-
 	-- use 'luochen1990/rainbow' -- Rainbow brackets
 	"p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
+	"folke/todo-comments.nvim", -- Highlights TODO/INFO/etc.
 
 	"mg979/vim-visual-multi", -- Multiple cursors
-	"folke/todo-comments.nvim", -- Highlights TODO/INFO/etc.
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
 	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
 	-- "vim-airline/vim-airline",
 	{
 		"Weissle/easy-action",
-		-- requires = {
-		--     {
-		--         "kevinhwang91/promise-async",
-		--         module = { "async" },
-		--     }
-		-- }
+		dependencies = {
+			{
+				"kevinhwang91/promise-async",
+				module = { "async" },
+			}
+		}
 	},
 	{
 		"nvim-lualine/lualine.nvim",
@@ -89,7 +84,7 @@ require("lazy").setup({
 	"lukas-reineke/indent-blankline.nvim", -- Visible indents
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
-	"airblade/vim-rooter", -- changes working dir to project root whenever you open files
+	-- "airblade/vim-rooter", -- changes working dir to project root whenever you open files
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
 	"tpope/vim-surround", -- suround things with any text
 	"wellle/targets.vim",
@@ -109,6 +104,7 @@ require("lazy").setup({
 		version = "0.1.0",
 		-- requires = { { "nvim-lua/plenary.nvim" } },
 	},
+
 	-- A `C` port of FZF that hooks direcntly into telescope.
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
@@ -117,8 +113,16 @@ require("lazy").setup({
 		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
 	},
 
-	"gnikdroy/projections.nvim",
-
+	-- "gnikdroy/projections.nvim",
+	-- {
+	--     'rmagatti/auto-session',
+	--     config = function()
+	--         require("auto-session").setup {
+	--             log_level = "error",
+	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
+	--         }
+	--     end
+	-- },
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 
@@ -166,10 +170,11 @@ require("lazy").setup({
 
 	-- ==/ Silly /==
 	"Eandrju/cellular-automaton.nvim",
+
 	{
 		"tamton-aquib/duck.nvim",
 		config = function()
-			-- vim.keymap.set('n', '<leader>dc', function() require("duck").hatch("🐈", 0.75) end, {}) -- Quite a mellow cat
+			vim.keymap.set('n', '<leader>dc', function() require("duck").hatch("🐈", 0.75) end, {}) -- Quite a mellow cat
 			vim.keymap.set("n", "<leader>dn", function()
 				require("duck").hatch()
 			end, {})

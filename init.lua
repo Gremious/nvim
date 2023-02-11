@@ -18,12 +18,17 @@ local g = vim.g
 
 	go back to the other tab plugin (barbar i think?)
 
+	d<space> to delete whitespace and maybe merge from line down
+
+	dsw - delete surrounding wrapper - will `dw`, check if there's a (/{/[ etc under cursor, then `ds(` it - fast remove Some(...)
+
 	Notes:
 	For Gundo/Python support, need to run
 	`python -m pip install --user --upgrade pynvim`
 ]]
 
--- Environment specific options
+--// Environment specific options //--
+
 if vim.fn.has("win32") then
 -- TODO: use vim.fn.stdpath("config")?
 	vim.env.CONFIG = vim.env.LOCALAPPDATA .. "\\nvim"
@@ -31,7 +36,7 @@ if vim.fn.has("win32") then
 	vim.env.PATH = "C:\\Program Files\\Git\\usr\\bin;" .. vim.env.path
 
 	-- Default to unix, but auto-detect if file is in dos already.
-	-- If no "dos" - it will error every time you open vim help
+	-- If you don't add "dos" - it will error every time you open vim help
 	opt.fileformats = "unix,dos"
 else
 	vim.env.CONFIG = "~/.config/nvim"
@@ -66,7 +71,7 @@ opt.softtabstop = 4
 opt.expandtab = false;
 opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 
-opt.writebackup = true
+-- opt.backup = true
 opt.history = 1000 -- longer command history
 opt.undolevels = 1000 -- more undo levels
 opt.undofile = true -- persistent undo between sessions
@@ -87,8 +92,8 @@ opt.showmatch = true -- matching brackets while typing
 opt.linebreak = true -- Wrapped lines will wrap at breaks not mid-letter
 opt.splitbelow = true --new vertical split will be below
 opt.splitright = true --new horizontal split will be to the right
-opt.formatoptions = "crqlj" --wrap comments, never autowrap long lines
 vim.opt.diffopt:append({ "vertical" }) -- diffs are also vertical
+opt.formatoptions = "crqlj" --wrap comments, never autowrap long lines
 opt.cmdheight = 2 -- more space for displaying messages
 opt.signcolumn = "yes" -- always show signcolumn (column near number line
 -- opt.shortmess = "c" -- don"t pass messages to ins-completion-menu
@@ -98,8 +103,6 @@ vim.cmd("noh") -- don"t auto-highlight last search on new session
 opt.mouse = ""
 opt.clipboard:append({ "unnamed,unnamedplus" })
 opt.nrformats:remove({ "octal" })
---only care about case in search if there are upper-case letters, needs ignorecase
-opt.smartcase = true
 opt.whichwrap = "<>"
 
 -- opt.guifont = "JetBrainsMono_Nerd_Font:h12"
@@ -112,6 +115,10 @@ g.rainbow_active = 1
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
+
+-- TODO: a theme.lua with all the colors/highlights/etc visual changes, then I can source that after lazy bootstrap
+
+--// Themes //--
 
 -- g.catppuccin_flavour  = "mocha"
 -- vim.cmd('colorscheme catppuccin')

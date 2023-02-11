@@ -22,7 +22,7 @@ vim.g.NERDTrimTrailingWhitespace = true
 vim.g.NERDDefaultAlign = "left"
 
 -- Rooter will change to file location for non-project files
-vim.g.rooter_change_directory_for_non_project_files = "current"
+-- vim.g.rooter_change_directory_for_non_project_files = "current"
 
 -- GUNDO breaks without python3
 if vim.fn.has("python3") then
@@ -50,12 +50,12 @@ require("lualine").setup({
 	},
 })
 
-require("projections").setup({
-	workspaces = {
-		"~/Projects/Programming/gremy/dev",
-		"~/Projects/dev",
-	},
-})
+-- require("projections").setup({
+--     workspaces = {
+--         "~/Projects/Programming/gremy/dev",
+--         "~/Projects/dev",
+--     },
+-- })
 
 require("nvim-treesitter.configs").setup({
 	ensure_installed = { "rust", "markdown", "lua", "help" },
@@ -129,7 +129,7 @@ vim.g.cycle_phased_search = true
 vim.fn["cycle#add_groups"]({
 	{ "true", "false" },
 	{ "yes", "no" },
-	{ "on", "o)ff" },
+	{ "on", "off" },
 	{ "+", "-" },
 	{ ">", "<" },
 	{ '"', "'" },
@@ -177,7 +177,7 @@ telescope.setup({
 	},
 })
 telescope.load_extension("fzf")
-telescope.load_extension("projections")
+-- telescope.load_extension("projections")
 
 -- Lags to hell in big files cause of the search.
 -- Maybe only load in small files?

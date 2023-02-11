@@ -60,7 +60,7 @@ keymap.set("n", "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
 keymap.set("n", "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
 keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
-keymap.set("n", "<leader>hp", ":BufferLinePick<CR>")
+keymap.set("n", "<leader>ht", ":BufferLinePick<CR>")
 
 -- TODO: Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
 keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
