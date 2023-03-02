@@ -148,6 +148,10 @@ vim.fn["cycle#add_groups"]({
 	{ "without", "with" },
 	{ "exclude", "include" },
 	{ "asc", "desc" },
+	{ ":)", ":(" },
+	{ "c:", ":c" },
+	{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
+	{ "let", "let mut" },
 	{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 })
 
