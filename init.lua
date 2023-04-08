@@ -15,6 +15,7 @@ local g = vim.g
 	A "close split/buffer" button that checks if buffer currently exists twice
 	in window (e.g. how when :BD sends out warning) and if it does it calls :q
 	else it calls :BD
+	Leader qw is a decent hotkey for closing windows
 
 	go back to the other tab plugin (barbar i think?)
 
