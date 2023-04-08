@@ -180,7 +180,9 @@ telescope.setup({
 		},
 	},
 })
+
 telescope.load_extension("fzf")
+telescope.load_extension("session-lens")
 -- telescope.load_extension("projections")
 
 -- Lags to hell in big files cause of the search.

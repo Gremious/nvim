@@ -114,15 +114,19 @@ require("lazy").setup({
 	},
 
 	-- "gnikdroy/projections.nvim",
-	-- {
-	--     'rmagatti/auto-session',
-	--     config = function()
-	--         require("auto-session").setup {
-	--             log_level = "error",
-	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
-	--         }
-	--     end
-	-- },
+	{
+		'rmagatti/auto-session',
+		config = function()
+			require("auto-session").setup {
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
+			}
+		end
+	},
+	{
+		'rmagatti/session-lens',
+		dependencies = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+	},
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 
