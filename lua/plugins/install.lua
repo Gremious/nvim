@@ -169,7 +169,21 @@ require("lazy").setup({
 
 		-- AI-Completion
 		-- Powershell doesn't work for me in vim so I just use pwsh 7
-		{ "tzachar/cmp-tabnine", build = "pwsh ./install.ps1" },
+		{
+			"tzachar/cmp-tabnine",
+
+			cond = function()
+				vim.fn.has("win32") == 1
+			end,
+			build = function()
+
+				if vim.fn.has("win32") == 1 then
+					"pwsh ./install.ps1"
+				else
+					"sh ./install.sh"
+				end
+			end,
+		},
 
 		-- after = { "hrsh7th/nvim-cmp" },
 		-- requires = { "hrsh7th/nvim-cmp" },
