@@ -47,7 +47,21 @@ require("lazy").setup({
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
 	"folke/todo-comments.nvim", -- Highlights TODO/INFO/etc.
 
-	"mg979/vim-visual-multi", -- Multiple cursors
+	-- shows follow-up hotkey options in status bar
+	-- {
+	--     "folke/which-key.nvim",
+	--     config = function()
+	--         vim.o.timeout = true
+	--         vim.o.timeoutlen = 300
+	--         -- require("which-key").setup({
+	--         --     -- your configuration comes here
+	--         --     -- or leave it empty to use the default settings
+	--         --     -- refer to the configuration section below
+	--         -- })
+	--     end,
+	-- },
+
+	-- "mg979/vim-visual-multi", -- Multiple cursors
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
 	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
@@ -65,10 +79,10 @@ require("lazy").setup({
 		"nvim-lualine/lualine.nvim",
 		-- requires = { "kyazdani42/nvim-web-devicons" },
 	},
-	"akinsho/bufferline.nvim", -- Buffer Tabs
+	"akinsho/bufferline.nvim", -- Buffer Tabs (prettier?)
+	-- use 'romgrk/barbar.nvim' -- Buffer Tabs
 	"tiagovla/scope.nvim", -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
 	"qpkorr/vim-bufkill", -- Don't close the whole tab/window on :bd - use :BD instead
-	-- use 'romgrk/barbar.nvim' -- Buffer Tabs
 
 	"scrooloose/nerdcommenter", -- Toggle comments
 	"sjl/gundo.vim", -- undo tree
@@ -84,7 +98,7 @@ require("lazy").setup({
 	"lukas-reineke/indent-blankline.nvim", -- Visible indents
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
-	-- "airblade/vim-rooter", -- changes working dir to project root whenever you open files
+	"airblade/vim-rooter", -- changes working dir to project root whenever you open files
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
 	"tpope/vim-surround", -- suround things with any text
 	"wellle/targets.vim",
@@ -92,7 +106,16 @@ require("lazy").setup({
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	"beauwilliams/focus.nvim", -- resize splits when focusing them
-	"phaazon/hop.nvim", -- EasyMotion but better, jump around places
+
+	-- "phaazon/hop.nvim", -- EasyMotion but better, jump around places
+	-- {
+	--     "ggandor/leap.nvim",
+	--     config = function()
+	--         require('leap').add_default_mappings()
+	--     end,
+	-- },
+	"https://gitlab.com/madyanov/svart.nvim",
+	-- "madyanov/svart.nvim",
 	"lfilho/cosco.vim", -- Smart comma/semicolon insert
 
 	"bootleq/vim-cycle", -- C-a/x cycle throgh bools/etc.
@@ -127,7 +150,10 @@ require("lazy").setup({
 	-- https://github.com/sharksforarms/neovim-rust/
 
 	"neovim/nvim-lspconfig",
-	"williamboman/mason.nvim",
+	{
+		"williamboman/mason.nvim",
+		build = ":MasonUpdate" -- :MasonUpdate updates registry contents
+	},
 	"williamboman/mason-lspconfig.nvim",
 
 	-- Autocompletion framework
@@ -155,21 +181,44 @@ require("lazy").setup({
 	-- Icons for cmp
 	"onsails/lspkind.nvim",
 
+	-- Formatter (e.g. rustfmt)
+	"mhartington/formatter.nvim",
+
 	-- Debugging
 	"mfussenegger/nvim-dap",
+	-- {
+	--     "rcarriga/nvim-dap-ui",
+	--     -- version = "v3.2.2",
+	--     requires = {
+	--         "mfussenegger/nvim-dap",
+	--         "theHamsta/nvim-dap-virtual-text",
+	--         "jbyuki/one-small-step-for-vimkind",
+	--     },
+	--     config = function()
+	--         require("dapui").setup()
+	--     end,
+	-- },
 
 	-- Adds extra functionality over rust analyzer
 	"simrat39/rust-tools.nvim",
-
+	-- Very cool crates.io completion commands
+	{
+		'saecki/crates.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+		config = function()
+			require('crates').setup()
+		end,
+	},
 	-- Optional
 	-- Visualize lsp progress
 	"nvim-lua/lsp-status.nvim", -- Lsp progress in statusline
 	-- "j-hui/fidget.nvim",
 
 	-- "nvim-lua/popup.nvim",
+	-- "folke/trouble.nvim", -- pretty lsp info/diagnostics window
 
 	-- ==/ Silly /==
-	"Eandrju/cellular-automaton.nvim",
+	-- "Eandrju/cellular-automaton.nvim",
 
 	{
 		"tamton-aquib/duck.nvim",

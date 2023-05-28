@@ -1,5 +1,7 @@
 local opt = vim.opt
 local g = vim.g
+local api = vim.api
+
 --[[
 	TODO:
 
@@ -88,6 +90,7 @@ opt.relativenumber = true -- Line numbers are relative to cursor
 
 opt.cursorline = true -- highlight current line
 opt.showmatch = true -- matching brackets while typing
+opt.matchpairs:append({ "<:>" }) -- add angle brackets to % matching
 -- opt.matchtime = 5 -- time of show
 
 opt.linebreak = true -- Wrapped lines will wrap at breaks not mid-letter
@@ -142,6 +145,8 @@ vim.cmd('colorscheme material')
 
 -- colorscheme wal -- doesn"t seem to work with neovide very sad :c
 
+api.nvim_set_hl(0, "SvartLabel", { fg="#ffcb6b", underline=true })
+
 -- Quick option debug
 function optinfo(o)
 	print(vim.inspect(vim.api.nvim_get_option_info(o)))
@@ -152,3 +157,4 @@ require("lsp")
 require("commands")
 require("hotkeys")
 require("autocmd")
+
