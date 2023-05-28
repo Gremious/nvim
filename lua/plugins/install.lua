@@ -171,16 +171,18 @@ require("lazy").setup({
 		-- Powershell doesn't work for me in vim so I just use pwsh 7
 		{
 			"tzachar/cmp-tabnine",
-
 			cond = function()
-				vim.fn.has("win32") == 1
+				if vim.fn.has("win32") == 1 then
+					return true
+				else
+					return false
+				end
 			end,
 			build = function()
-
 				if vim.fn.has("win32") == 1 then
-					"pwsh ./install.ps1"
+					return "pwsh ./install.ps1"
 				else
-					"sh ./install.sh"
+					return "sh ./install.sh"
 				end
 			end,
 		},
