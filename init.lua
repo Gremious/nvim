@@ -32,7 +32,7 @@ local api = vim.api
 
 --// Environment specific options //--
 
-if vim.fn.has("win32") then
+if vim.fn.has("win32") == 1 then
 -- TODO: use vim.fn.stdpath("config")?
 	vim.env.CONFIG = vim.env.LOCALAPPDATA .. "\\nvim"
 	-- " Fixes fzf preview
