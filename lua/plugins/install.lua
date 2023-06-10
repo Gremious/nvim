@@ -33,7 +33,7 @@ require("lazy").setup({
 	},
 
 	"kyazdani42/nvim-tree.lua", -- Filetree
-
+hgello
 	-- ==/ Highlights/Syntax /==
 	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- syntax highlighter
 	"nvim-treesitter/playground", -- treesitter debug
@@ -132,10 +132,17 @@ require("lazy").setup({
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
 	{
-		"nvim-telescope/telescope-fzf-native.nvim",
-		build = "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build",
-	},
+		'nvim-telescope/telescope-fzf-native.nvim',
+		build = 'make',
 
+		build = function()
+			if vim.fn.has("win32") == 1 then
+				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+			else
+				return "make"
+			end
+		end,
+	},
 	-- "gnikdroy/projections.nvim",
 	-- {
 	--     'rmagatti/auto-session',

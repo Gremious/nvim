@@ -59,7 +59,7 @@ require("lualine").setup({
 -- })
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "rust", "markdown", "lua", "help" },
+	ensure_installed = { "rust", "markdown", "lua", "vimdoc" },
 	highlight = {
 		enable = true,
 	},
