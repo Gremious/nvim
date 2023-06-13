@@ -1,3 +1,5 @@
+-- You can always call :Telescope keymap to see all keymaps
+
 local g = vim.g
 local keymap = vim.keymap
 
@@ -7,7 +9,6 @@ local keymap = vim.keymap
 keymap.set({ "n", "v" }, "j", "gj")
 keymap.set({ "n", "v" }, "k", "gk")
 
--- You can always call :Telescope keymap to see all keymaps
 -- Ctrl+S to save
 keymap.set("n", "<C-S>", ":update<CR>", { silent = true })
 
@@ -63,18 +64,23 @@ keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
 keymap.set("n", "<leader>ht", ":BufferLinePick<CR>")
 
 -- TODO: Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
-keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
+keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
+-- keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
 
 keymap.set("n", "<leader>gh", ":GitGutterPreviewHunk<cr>")
 keymap.set("n", "<leader>gu", ":GitGutterUndoHunk<cr>")
-keymap.set("n", "<leader>g]", ":GitGutterNextHunk<cr>")
-keymap.set("n", "<leader>g[", ":GitGutterPrevHunk<cr>")
+keymap.set("n", "]<leader>g", ":GitGutterNextHunk<cr>")
+keymap.set("n", "[<leader>g", ":GitGutterPrevHunk<cr>")
 
-keymap.set({ "n", "v" }, "<Leader>hh", require("hop").hint_anywhere)
-keymap.set({ "n", "v" }, "<Leader>hp", require("hop").hint_patterns)
-keymap.set({ "n", "v" }, "<Leader>hw", require("hop").hint_words)
-keymap.set({ "n", "v" }, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
-keymap.set({ "n", "v" }, "<Leader>hc", require("hop").hint_char1)
+-- keymap.set({ "n", "v" }, "<Leader>hh", require("hop").hint_anywhere)
+-- keymap.set({ "n", "v" }, "<Leader>hp", require("hop").hint_patterns)
+-- keymap.set({ "n", "v" }, "<Leader>hw", require("hop").hint_words)
+-- keymap.set({ "n", "v" }, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
+-- keymap.set({ "n", "v" }, "<Leader>hc", require("hop").hint_char1)
+
+keymap.set({ "n", "x", "o" }, "s", "<Cmd>Svart<CR>")        -- begin exact search
+keymap.set({ "n", "x", "o" }, "S", "<Cmd>SvartRegex<CR>")   -- begin regex search
+keymap.set({ "n", "x", "o" }, "gs", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
 
 -- Move line up/down
 keymap.set("n", "<A-j>", ":m .+1<CR>==")

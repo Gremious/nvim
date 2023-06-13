@@ -8,14 +8,14 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess:append({ c = true })
 
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
 local lspkind = require("lspkind")
-
 -- local lsp_status = require('lsp-status')
 
+-- order important
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
-	ensure_installed = { "sumneko_lua", "rust_analyzer" },
+	ensure_installed = { "lua_ls", "rust_analyzer" },
 })
 
 mason.setup({
@@ -51,7 +51,7 @@ local function on_attach(client, buffer)
 	keymap.set("n", "g0", vim.lsp.buf.document_symbol, keymap_opts)
 	keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, keymap_opts)
 	keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
-	keymap.set("n", "<c-k>", vim.lsp.buf.signature_help, keymap_opts)
+	keymap.set("n", "<a-p>", vim.lsp.buf.signature_help, keymap_opts)
 	keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
 	keymap.set("n", "<leader>rn", vim.lsp.buf.rename, keymap_opts)
 
@@ -65,8 +65,8 @@ local function on_attach(client, buffer)
 	})
 
 	-- Goto previous/next diagnostic warning/error
-	keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 	keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
+	keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 
 	lsp_status.on_attach(client)
 end
@@ -86,6 +86,8 @@ local rust_tools = {
 	-- Debugging
 	--currenly broken?
 	-- https://github.com/simrat39/rust-tools.nvim/issues/179
+	-- check this config
+	-- https://www.reddit.com/r/rust/comments/zhokwt/share_your_neovim_setup_rusttools_nvimdap/
 	dap = {
 		adapter = {
 			type = "executable",
@@ -125,16 +127,17 @@ local server = {
 			--         "mismatched-arg-count",
 			--     },
 			-- },
-			cargo = {
-				loadOutDirsFromCheck = true,
+			check = {
+				command = "cranky",
+				-- command = rust_check_on_save(),
+				-- extraArgs = { "--all", "--", "-W", "clippy::all" },
 			},
-			procMacro = {
-				enable = true,
-			},
-			checkOnSave = {
-				command = rust_check_on_save(),
-				allTargets = false,
-			},
+
+			-- rust-analyzer.server.extraEnv
+			-- neovim doesn"t have custom client-side code to honor this setting, it doesn"t actually work
+			-- https://github.com/neovim/nvim-lspconfig/issues/1735
+			-- it's in init.vim as a real env variable
+			--
 			--	server = {
 			--		extraEnv = {
 			--			CARGO_TARGET_DIR = "target/rust-analyzer-check"
@@ -151,8 +154,8 @@ for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
 	if lsp_server == "rust_analyzer" then
 		require("rust-tools").setup({ tools = rust_tools, server = server, capabilities = capabilities })
 	-- if lsp_server == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
-	elseif lsp_server == "sumneko_lua" then
-		require("lspconfig").sumneko_lua.setup({
+	elseif lsp_server == "lua_ls" then
+		require("lspconfig").lua_ls.setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
 			settings = {
@@ -212,6 +215,7 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "path" },
 		{ name = "buffer" },
+        { name = "crates" },
 		{ name = "cmp_tabnine" },
 	},
 })

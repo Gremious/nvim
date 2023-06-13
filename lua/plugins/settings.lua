@@ -5,9 +5,10 @@ local fn = vim.fn
    [ https://github.com/eugen0329/vim-esearch
 -- ]]
 
+require("mason").setup()
 -- require("fidget").setup()
 require("marks").setup()
-require("hop").setup()
+--require("hop").setup()
 require("focus").setup()
 require("scope").setup()
 require("illuminate").configure()
@@ -22,7 +23,7 @@ vim.g.NERDTrimTrailingWhitespace = true
 vim.g.NERDDefaultAlign = "left"
 
 -- Rooter will change to file location for non-project files
--- vim.g.rooter_change_directory_for_non_project_files = "current"
+vim.g.rooter_change_directory_for_non_project_files = "current"
 
 -- GUNDO breaks without python3
 if vim.fn.has("python3") then
@@ -58,7 +59,7 @@ require("lualine").setup({
 -- })
 
 require("nvim-treesitter.configs").setup({
-	ensure_installed = { "rust", "markdown", "lua", "help" },
+	ensure_installed = { "rust", "markdown", "lua", "vimdoc" },
 	highlight = {
 		enable = true,
 	},
@@ -72,11 +73,14 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 require("nvim-tree").setup({
 	view = {
 		width = 40,
 		adaptive_size = true,
 	},
+	sync_root_with_cwd = true,
 	diagnostics = {
 		enable = true,
 		show_on_dirs = true,
