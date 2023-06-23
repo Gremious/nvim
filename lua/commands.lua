@@ -7,30 +7,17 @@ local function create_command(name, fn)
 end
 
 local function open_config_file(file)
-	api.nvim_command(cmd.edit(env.CONFIG .. "/" .. file))
+	api.nvim_command(cmd.edit(vim.fn.stdpath("config") .. "/" .. file))
 end
 
 -- Type config -> get config
 create_command("Config", function()
 	open_config_file("init.lua")
 end)
-create_command("ConfigPacker", function()
-	open_config_file("lua/plugins/packer_install.lua")
-end)
-create_command("ConfigPlugins", function()
-	open_config_file("lua/plugins/settings.lua")
-end)
-create_command("ConfigLsp", function()
-	open_config_file("lua/lsp.lua")
-end)
-create_command("ConfigCommands", function()
-	open_config_file("lua/commands.lua")
-end)
-create_command("ConfigHotkeys", function()
-	open_config_file("lua/hotkeys.lua")
-end)
-create_command("ConfigAutocmd", function()
-	open_config_file("lua/autocmd.lua")
+
+-- Type config -> get config
+create_command("ConfigSearch", function()
+	require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
 end)
 
 -- Replicate :Rg command with telescope

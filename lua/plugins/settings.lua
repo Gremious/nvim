@@ -65,7 +65,7 @@ require("nvim-tree").setup({
 	-- Update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file.
 	update_focused_file = {
 		enable = true,
-		update_root = true
+		update_root = true,
 	},
 	-- Prefer startup root directory when updating root directory of the tree.
 	prefer_startup_root = true,
@@ -154,7 +154,6 @@ vim.fn["cycle#add_groups"]({
 	{ "let", "let mut" },
 	{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 })
-
 
 -- Lags to hell in big files cause of the search.
 -- Maybe only load in small files?

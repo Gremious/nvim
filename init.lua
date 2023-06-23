@@ -4,13 +4,12 @@ local api = vim.api
 
 --[[
 	TODO:
-
 	Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 
 	a lil rust thing to auto insert #[derive(|)]? Also maybe Snippets to
 
 	surround in Option<>/Result<> (for types not values)
-	surround with .with(|&element|)?
+	surround with .tap(|&element|), pipe whole chain?
 
 	Some command to quicklist-do search repalce + update?
 
@@ -19,21 +18,14 @@ local api = vim.api
 	else it calls :BD
 	Leader qw is a decent hotkey for closing windows
 
-	go back to the other tab plugin (barbar i think?)
-
 	d<space> to delete whitespace and maybe merge from line down
 
 	dsw - delete surrounding wrapper - will `dw`, check if there's a (/{/[ etc under cursor, then `ds(` it - fast remove Some(...)
-
-	Notes:
-	For Gundo/Python support, need to run
-	`python -m pip install --user --upgrade pynvim`
 ]]
 
 --// Environment specific options //--
 
 if vim.fn.has("win32") == 1 then
--- TODO: use vim.fn.stdpath("config")?
 	vim.env.CONFIG = vim.env.LOCALAPPDATA .. "\\nvim"
 	-- " Fixes fzf preview
 	vim.env.PATH = "C:\\Program Files\\Git\\usr\\bin;" .. vim.env.path
@@ -42,18 +34,20 @@ if vim.fn.has("win32") == 1 then
 	-- If you don't add "dos" - it will error every time you open vim help
 	opt.fileformats = "unix,dos"
 else
-	vim.env.CONFIG = "~/.config/nvim"
-
-	-- The FHS 3 compliant place on linux
+	-- The FHS 3 compliant place on linux.
+	-- Might wanna own those dirs or something though.
+	-- Perthaps there are local user-folder alternatives?
 	opt.backupdir = "/var/lib/nvim/backup"
 	opt.directory = "/var/lib/nvim/swap"
 	opt.undodir = "/var/lib/nvim/undo"
 end
 
 vim.g.mapleader = " "
+
 require("lazy-bootstrap")
 require("plugins.install")
 require("plugins")
+require("theme")
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
@@ -71,7 +65,7 @@ opt.fileencoding = "utf-8"
 opt.tabstop = 4
 opt.shiftwidth = 4
 opt.softtabstop = 4
-opt.expandtab = false;
+opt.expandtab = false
 opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 
 -- opt.backup = true
@@ -79,7 +73,6 @@ opt.history = 1000 -- longer command history
 opt.undolevels = 1000 -- more undo levels
 opt.undofile = true -- persistent undo between sessions
 
-opt.termguicolors = true -- 24-bit colors
 opt.lazyredraw = true -- don"t redraw in macros
 opt.synmaxcol = 500 -- don"t syntax past 500 char in a single-line (think minified code
 opt.scrolloff = 15 -- don"t syntax past 500 char in a single-line (think minified code
@@ -115,41 +108,13 @@ opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h13"
 
 -- g.neovide_remember_window_size  = false
 g.neovide_refresh_rate = 140
-g.rainbow_active = 1
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
 
--- TODO: a theme.lua with all the colors/highlights/etc visual changes, then I can source that after lazy bootstrap
-
---// Themes //--
-
--- g.catppuccin_flavour  = "mocha"
--- vim.cmd('colorscheme catppuccin')
-
-g.miramare_enable_italic = false
-g.miramare_disable_italic_comment = true
--- vim.cmd("colorscheme miramare")
-
-g.material_theme_style = "ocean"
-g.material_terminal_italics = true
-vim.cmd('colorscheme material')
-
--- vim.cmd('colorscheme tokyonight-night')
-
--- vim.cmd('colorscheme oh-lucy-evening')
--- vim.cmd('colorscheme oh-lucy')
-
--- vim.cmd[[colorscheme minimal-base16]]
--- vim.cmd("colorscheme minimal")
-
--- colorscheme wal -- doesn"t seem to work with neovide very sad :c
-
-api.nvim_set_hl(0, "SvartLabel", { fg="#ffcb6b", underline=true })
-
 -- Quick option debug
 function optinfo(o)
-	print(vim.inspect(vim.api.nvim_get_option_info(o)))
+	print(vim.inspect(api.nvim_get_option_info(o)))
 end
 
 require("functions")
@@ -157,4 +122,3 @@ require("lsp")
 require("commands")
 require("hotkeys")
 require("autocmd")
-

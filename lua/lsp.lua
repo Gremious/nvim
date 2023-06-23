@@ -75,7 +75,7 @@ end
 -- rust-tools will configure and enable certain LSP features for us.
 -- See https://github.com/simrat39/rust-tools.nvim#configuration
 local rust_tools = {
-    executor = require("rust-tools.executors").quickfix,
+	executor = require("rust-tools.executors").quickfix,
 
 	inlay_hints = {
 		auto = true,
@@ -215,7 +215,7 @@ cmp.setup({
 		{ name = "luasnip" },
 		{ name = "path" },
 		{ name = "buffer" },
-        { name = "crates" },
+		{ name = "crates" },
 		{ name = "cmp_tabnine" },
 	},
 })
