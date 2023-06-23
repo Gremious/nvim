@@ -10,7 +10,7 @@ require("mason").setup()
 require("marks").setup()
 --require("hop").setup()
 require("focus").setup()
-require("scope").setup()
+
 require("illuminate").configure()
 require("retrail").setup()
 require("easy-action").setup()
@@ -23,7 +23,7 @@ vim.g.NERDTrimTrailingWhitespace = true
 vim.g.NERDDefaultAlign = "left"
 
 -- Rooter will change to file location for non-project files
-vim.g.rooter_change_directory_for_non_project_files = "current"
+-- vim.g.rooter_change_directory_for_non_project_files = "current"
 
 -- GUNDO breaks without python3
 if vim.fn.has("python3") then
@@ -34,6 +34,45 @@ require("treesj").setup({
 	use_default_keymaps = false,
 	check_syntax_error = false,
 	max_join_length = 160,
+})
+
+-- require("projections").setup({
+--     workspaces = {
+--         "~/Projects/Programming/gremy/dev",
+--         "~/Projects/dev",
+--     },
+-- })
+
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+require("nvim-tree").setup({
+	view = {
+		width = 40,
+		adaptive_size = true,
+	},
+	diagnostics = {
+		enable = true,
+		show_on_dirs = true,
+		show_on_open_dirs = false,
+		debounce_delay = 50,
+		severity = {
+			min = vim.diagnostic.severity.WARN,
+			max = vim.diagnostic.severity.ERROR,
+		},
+	},
+
+	-- Update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file.
+	update_focused_file = {
+		enable = true,
+		update_root = true
+	},
+	-- Prefer startup root directory when updating root directory of the tree.
+	prefer_startup_root = true,
+	-- Changes the tree root directory on `DirChanged` and refreshes the tree.
+	sync_root_with_cwd = false,
+	-- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+	respect_buf_cwd = true,
 })
 
 -- TODO: Remove diagnostics from lsp-status cause lualine already shows them.
@@ -73,26 +112,6 @@ require("nvim-treesitter.configs").setup({
 	},
 })
 
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-require("nvim-tree").setup({
-	view = {
-		width = 40,
-		adaptive_size = true,
-	},
-	sync_root_with_cwd = true,
-	diagnostics = {
-		enable = true,
-		show_on_dirs = true,
-		show_on_open_dirs = false,
-		debounce_delay = 50,
-		severity = {
-			min = vim.diagnostic.severity.WARN,
-			max = vim.diagnostic.severity.ERROR,
-		},
-	},
-})
-
 require("todo-comments").setup({
 	keywords = {
 		TODO = { icon = " ", color = "warning" },
@@ -102,29 +121,6 @@ require("todo-comments").setup({
 require("indent_blankline").setup({
 	use_treesitter = true,
 	show_current_context = true,
-})
-
-require("bufferline").setup({
-	options = {
-		buffer_close_icon = "",
-		close_icon = "",
-		modified_icon = "✏",
-
-		-- separator_style = "slant",
-		diagnostics = "nvim_lsp",
-		diagnostics_update_in_insert = true,
-		diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
-			local s = " "
-			for e, n in pairs(diagnostics_dict) do
-				local sym = e == "error" and " " or (e == "warning" and " " or "")
-				s = s .. n .. sym
-			end
-			return s
-		end,
-		-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-		-- enforce_regular_tabs = false | true,
-		-- always_show_bufferline = true,
-	},
 })
 
 -- Cycle
@@ -159,35 +155,6 @@ vim.fn["cycle#add_groups"]({
 	{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 })
 
-local telescope = require("telescope")
-telescope.setup({
-	defaults = {
-		layout_strategy = "vertical",
-		layout_config = { height = 0.95 },
-		mappings = {
-			i = {
-				["<esc>"] = require("telescope.actions").close,
-			},
-		},
-	},
-	pickers = {
-		colorscheme = {
-			enable_preview = true,
-		},
-	},
-	extensions = {
-		fzf = {
-			fuzzy = true, -- false will only do exact matching
-			override_generic_sorter = true, -- override the generic sorter
-			override_file_sorter = true, -- override the file sorter
-			case_mode = "smart_case", -- or "ignore_case" or "respect_case"
-		},
-	},
-})
-
-telescope.load_extension("fzf")
-telescope.load_extension("session-lens")
--- telescope.load_extension("projections")
 
 -- Lags to hell in big files cause of the search.
 -- Maybe only load in small files?

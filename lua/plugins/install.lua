@@ -34,7 +34,26 @@ require("lazy").setup({
 
 	"kyazdani42/nvim-tree.lua", -- Filetree
 	-- ==/ Highlights/Syntax /==
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- syntax highlighter
+	{
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "rust", "markdown", "lua", "help" },
+				highlight = {
+					enable = true,
+				},
+				rainbow = {
+					enable = true,
+					extended_mode = true,
+					max_file_lines = 4000,
+				},
+				indent = {
+					enable = false,
+				},
+			})
+		end,
+	}, -- syntax highlighter
 	"nvim-treesitter/playground", -- treesitter debug
 	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
 	"imsnif/kdl.vim", -- kdl highlighting
@@ -78,10 +97,45 @@ require("lazy").setup({
 		"nvim-lualine/lualine.nvim",
 		-- requires = { "kyazdani42/nvim-web-devicons" },
 	},
-	"akinsho/bufferline.nvim", -- Buffer Tabs (prettier?)
-	-- use 'romgrk/barbar.nvim' -- Buffer Tabs
-	"tiagovla/scope.nvim", -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
-	"qpkorr/vim-bufkill", -- Don't close the whole tab/window on :bd - use :BD instead
+
+	-- {
+	--     -- Buffer Tabs (prettier?)
+	--     "akinsho/bufferline.nvim",
+	--     config = function()
+	--         require("bufferline").setup({
+	--             options = {
+	--                 buffer_close_icon = "",
+	--                 close_icon = "",
+	--                 modified_icon = "✏",
+    --
+	--                 -- separator_style = "slant",
+	--                 diagnostics = "nvim_lsp",
+	--                 diagnostics_update_in_insert = true,
+	--                 diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
+	--                     local s = " "
+	--                     for e, n in pairs(diagnostics_dict) do
+	--                         local sym = e == "error" and " " or (e == "warning" and " " or "")
+	--                         s = s .. n .. sym
+	--                     end
+	--                     return s
+	--                 end,
+	--                 -- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+	--                 -- enforce_regular_tabs = false | true,
+	--                 -- always_show_bufferline = true,
+	--             },
+	--         })
+	--     end,
+	-- },
+	"romgrk/barbar.nvim", -- Buffer Tabs
+	-- --
+	-- {
+	--     -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	--     "tiagovla/scope.nvim",
+	--     config = function()
+	--         require("scope").setup()
+	--     end,
+	-- },
+	-- "qpkorr/vim-bufkill", -- Don't close the whole tab/window on :bd - use :BD instead
 
 	"scrooloose/nerdcommenter", -- Toggle comments
 	"sjl/gundo.vim", -- undo tree
@@ -97,7 +151,14 @@ require("lazy").setup({
 	"lukas-reineke/indent-blankline.nvim", -- Visible indents
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
-	"airblade/vim-rooter", -- changes working dir to project root whenever you open files
+
+	{
+		'saecki/crates.nvim',
+		requires = { 'nvim-lua/plenary.nvim' },
+		config = function()
+			require('crates').setup()
+		end,
+	},
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
 	"tpope/vim-surround", -- suround things with any text
 	"wellle/targets.vim",
@@ -125,6 +186,32 @@ require("lazy").setup({
 		"nvim-telescope/telescope.nvim",
 		version = "0.1.0",
 		-- requires = { { "nvim-lua/plenary.nvim" } },
+		config = function()
+			require("telescope").setup({
+				defaults = {
+					layout_strategy = "vertical",
+					layout_config = { height = 0.95 },
+					mappings = {
+						i = {
+							["<esc>"] = require("telescope.actions").close,
+						},
+					},
+				},
+				pickers = {
+					colorscheme = {
+						enable_preview = true,
+					},
+				},
+				extensions = {
+					fzf = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true, -- override the generic sorter
+						override_file_sorter = true, -- override the file sorter
+						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+					},
+				},
+			})
+		end
 	},
 
 	-- A `C` port of FZF that hooks direcntly into telescope.
@@ -132,8 +219,6 @@ require("lazy").setup({
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
 	{
 		'nvim-telescope/telescope-fzf-native.nvim',
-		build = 'make',
-
 		build = function()
 			if vim.fn.has("win32") == 1 then
 				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
@@ -142,20 +227,44 @@ require("lazy").setup({
 			end
 		end,
 	},
-	-- "gnikdroy/projections.nvim",
 	{
 			'rmagatti/auto-session',
 			config = function()
-					require("auto-session").setup {
+					require("auto-session").setup({
 							log_level = "error",
 							auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
-					}
+					})
+
+					require("telescope").load_extension('fzf')
 			end
 	},
 	{
 			'rmagatti/session-lens',
 			dependencies = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
 	},
+	-- "gnikdroy/projections.nvim",
+	-- {
+	--     'rmagatti/auto-session',
+	--     config = function()
+	--         require("auto-session").setup {
+	--             log_level = "error",
+	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
+	--         }
+	--     end
+	-- },
+	-- {
+	--     -- project picker
+	--     "ahmedkhalf/project.nvim",
+    --
+	--     after = {
+	--         "nvim-telescope/telescope.nvim",
+	--     },
+	--     config = function()
+	--         require('project_nvim').setup()
+	--         require("telescope").load_extension('projects')
+	--     end,
+	-- },
+
 	-- ===== LSP =====
 	-- https://github.com/sharksforarms/neovim-rust/
 

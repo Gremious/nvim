@@ -2,6 +2,8 @@
 
 local g = vim.g
 local keymap = vim.keymap
+local nvim_tree = require("nvim-tree.api")
+local telescope = require("telescope.builtin")
 
 -- vim.g.maplocalleader = " "
 
@@ -39,32 +41,52 @@ keymap.set("i", "<C-z>", "<C-o>u")
 keymap.set("i", "<C-r>", "<C-o><C-r>")
 
 vim.keymap.set("n", "<Leader>rg", function()
-	require("telescope.builtin").grep_string()
+	telescope.grep_string()
 end)
 vim.keymap.set("n", "<Leader>f", function()
-	require("telescope.builtin").grep_string({ search = "" })
+	telescope.grep_string({ search = "" })
 end)
 vim.keymap.set("n", "<Leader>F", function()
-	require("telescope.builtin").find_files()
+	telescope.find_files()
 end)
+vim.keymap.set("n", "<Leader>?f", function()
+	telescope.resume()
+end)
+
+keymap.set("n", "<leader>:", ":Telescope commands<cr>")
+-- keymap.set("n", "<leader>P", function()
+--     vim.cmd("Telescope projections")
+-- end)
+
+
+ keymap.set("n", "<Left>", "<Cmd>BufferPrevious<CR>", { silent = true })
+ keymap.set("n", "<Right>", "<Cmd>BufferNext<CR>", { silent = true })
+
+ keymap.set("n", "<C-Left>", "<Cmd>BufferMovePrevious<CR>", { silent = true })
+ keymap.set("n", "<C-Right>", "<Cmd>BufferMoveNext<CR>", { silent = true })
+
+keymap.set("n", "<A-Right>", ":tabnext<CR>", { silent = true })
+keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
 
 -- BufferLine
 -- " These commands will navigate through buffers in order
 -- " regardless of which mode you are using  e.g. if you change
 -- " the order of buffers :bnext and :bprevious will not respect the custom ordering
-keymap.set("n", "<right>", ":BufferLineCycleNext<CR>", { silent = true })
-keymap.set("n", "<left>", ":BufferLineCyclePrev<CR>", { silent = true })
+-- keymap.set("n", "<right>", ":BufferLineCycleNext<CR>", { silent = true })
+-- keymap.set("n", "<left>", ":BufferLineCyclePrev<CR>", { silent = true })
+-- keymap.set("n", "<C-Right>", ":BufferLineMoveNext<CR>", { silent = true })
+-- keymap.set("n", "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
+-- keymap.set("n", "<A-Right>", ":tabnext<CR>", { silent = true })
+-- keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
+-- keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
+-- keymap.set("n", "<leader>ht", ":BufferLinePick<CR>")
+--
 
--- " These commands will move the current buffer backwards or forwards in the bufferline
-keymap.set("n", "<C-Right>", ":BufferLineMoveNext<CR>", { silent = true })
-keymap.set("n", "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
-keymap.set("n", "<A-Right>", ":tabnext<CR>", { silent = true })
-keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
-keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
-keymap.set("n", "<leader>ht", ":BufferLinePick<CR>")
-
--- TODO: Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
-keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
+vim.keymap.set("n", "<Leader><tab>", function()
+	nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
+end)
+-- TODO Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
+-- keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
 -- keymap.set("n", "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
 
 keymap.set("n", "<leader>gh", ":GitGutterPreviewHunk<cr>")
@@ -103,7 +125,6 @@ keymap.set(
 -- without yanking it
 keymap.set("v", "<leader>p", '"_dP')
 
-keymap.set("n", "<leader>:", ":Telescope commands<cr>")
 keymap.set("c", "<C-v>", "<C-r>+")
 
 function ChangeScaleFactor(delta)
@@ -128,9 +149,6 @@ keymap.set("n", "<Plug>CycleFallbackPrev", "<C-x>", { silent = true })
 -- nnoremap <leader>; <C-v>$A;<Esc>
 keymap.set("n", "<Leader>;", "<Plug>(cosco-commaOrSemiColon)", { silent = true })
 
-keymap.set("n", "<leader>P", function()
-	vim.cmd("Telescope projections")
-end)
 
 keymap.set("n", "<leader>{", ":TSJSplit<cr>")
 keymap.set("n", "<leader>}", ":TSJJoin<cr>")
