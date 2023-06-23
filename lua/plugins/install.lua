@@ -4,7 +4,7 @@ require("lazy").setup({
 
 	"nvim-lua/plenary.nvim", -- lib other plugins use
 
-	-- themes
+	-- ==/ Themes /==
 	{ "kaicataldo/material.vim" }, -- theme
 	{ "catppuccin/nvim", name = "catppuccin" },
 	"chriskempson/base16-vim",
@@ -25,14 +25,8 @@ require("lazy").setup({
 	},
 
 	"stevearc/dressing.nvim", -- Pretty windows for things that use vim.ui like rust-tools
-
-	-- Startup screen
-	{
-		"goolord/alpha-nvim",
-		-- requires = { "nvim-tree/nvim-web-devicons" },
-	},
-
 	"kyazdani42/nvim-tree.lua", -- Filetree
+
 	-- ==/ Highlights/Syntax /==
 	{
 		"nvim-treesitter/nvim-treesitter",
@@ -60,30 +54,26 @@ require("lazy").setup({
 	"vmchale/dhall-vim", -- dhall highlighting
 	"ron-rs/ron.vim", -- ron highlighting
 	"GutenYe/json5.vim", -- json5 highlighting
-	-- use 'luochen1990/rainbow' -- Rainbow brackets
 	"p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
 	"folke/todo-comments.nvim", -- Highlights TODO/INFO/etc.
 
 	-- shows follow-up hotkey options in status bar
 	-- {
-	--     "folke/which-key.nvim",
-	--     config = function()
-	--         vim.o.timeout = true
-	--         vim.o.timeoutlen = 300
-	--         -- require("which-key").setup({
-	--         --     -- your configuration comes here
-	--         --     -- or leave it empty to use the default settings
-	--         --     -- refer to the configuration section below
-	--         -- })
-	--     end,
+	--	   "folke/which-key.nvim",
+	--	   config = function()
+	--		   vim.o.timeout = true
+	--		   vim.o.timeoutlen = 300
+	--		   -- require("which-key").setup({
+	--		   --	  -- your configuration comes here
+	--		   --	  -- or leave it empty to use the default settings
+	--		   --	  -- refer to the configuration section below
+	--		   -- })
+	--	   end,
 	-- },
-
-	-- "mg979/vim-visual-multi", -- Multiple cursors
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
 	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
-	-- "vim-airline/vim-airline",
 	{
 		"Weissle/easy-action",
 		dependencies = {
@@ -95,45 +85,44 @@ require("lazy").setup({
 	},
 	{
 		"nvim-lualine/lualine.nvim",
-		-- requires = { "kyazdani42/nvim-web-devicons" },
+		after = { "kyazdani42/nvim-web-devicons" },
 	},
 
-	-- {
-	--     -- Buffer Tabs (prettier?)
-	--     "akinsho/bufferline.nvim",
-	--     config = function()
-	--         require("bufferline").setup({
-	--             options = {
-	--                 buffer_close_icon = "",
-	--                 close_icon = "",
-	--                 modified_icon = "✏",
-    --
-	--                 -- separator_style = "slant",
-	--                 diagnostics = "nvim_lsp",
-	--                 diagnostics_update_in_insert = true,
-	--                 diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
-	--                     local s = " "
-	--                     for e, n in pairs(diagnostics_dict) do
-	--                         local sym = e == "error" and " " or (e == "warning" and " " or "")
-	--                         s = s .. n .. sym
-	--                     end
-	--                     return s
-	--                 end,
-	--                 -- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-	--                 -- enforce_regular_tabs = false | true,
-	--                 -- always_show_bufferline = true,
-	--             },
-	--         })
-	--     end,
-	-- },
-	"romgrk/barbar.nvim", -- Buffer Tabs
+	{
+		-- Buffer Tabs (prettier?)
+		"akinsho/bufferline.nvim",
+		config = function()
+			require("bufferline").setup({
+				options = {
+					buffer_close_icon = "",
+					close_icon = "",
+					modified_icon = "✏",
+
+					-- separator_style = "slant",
+					diagnostics = "nvim_lsp",
+					diagnostics_update_in_insert = true,
+					diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
+						local s = " "
+						for e, n in pairs(diagnostics_dict) do
+							local sym = e == "error" and " " or (e == "warning" and " " or "")
+							s = s .. n .. sym
+						end
+						return s
+					end,
+					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+					-- enforce_regular_tabs = false | true,
+					-- always_show_bufferline = true,
+				},
+			})
+		end,
+	},
 	-- --
 	-- {
-	--     -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
-	--     "tiagovla/scope.nvim",
-	--     config = function()
-	--         require("scope").setup()
-	--     end,
+	--	   -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	--	   "tiagovla/scope.nvim",
+	--	   config = function()
+	--		   require("scope").setup()
+	--	   end,
 	-- },
 	-- "qpkorr/vim-bufkill", -- Don't close the whole tab/window on :bd - use :BD instead
 
@@ -167,19 +156,51 @@ require("lazy").setup({
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	"beauwilliams/focus.nvim", -- resize splits when focusing them
 
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					-- default options: exact mode, multi window, all directions, with a backdrop
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			{
+				"S",
+				mode = { "n", "o", "x" },
+				function()
+					require("flash").treesitter()
+				end,
+				desc = "Flash Treesitter",
+			},
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+		},
+	},
 	-- "phaazon/hop.nvim", -- EasyMotion but better, jump around places
 	-- {
-	--     "ggandor/leap.nvim",
-	--     config = function()
-	--         require('leap').add_default_mappings()
-	--     end,
+	--	   "ggandor/leap.nvim",
+	--	   config = function()
+	--		   require('leap').add_default_mappings()
+	--	   end,
 	-- },
-	"https://gitlab.com/madyanov/svart.nvim",
+	-- "https://gitlab.com/madyanov/svart.nvim",
+
 	-- "madyanov/svart.nvim",
 	"lfilho/cosco.vim", -- Smart comma/semicolon insert
-
 	"bootleq/vim-cycle", -- C-a/x cycle throgh bools/etc.
-
 	"zakharykaplan/nvim-retrail", -- Auto-trim trailing whitespace on :write
 
 	{
@@ -228,46 +249,44 @@ require("lazy").setup({
 		end,
 	},
 	{
-			'rmagatti/auto-session',
-			config = function()
-					require("auto-session").setup({
-							log_level = "error",
-							auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
-					})
+		'rmagatti/auto-session',
+		config = function()
+			require("auto-session").setup({
+				log_level = "error",
+				auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
+			})
 
-					require("telescope").load_extension('fzf')
-			end
+			require("telescope").load_extension('fzf')
+		end
 	},
 	{
-			'rmagatti/session-lens',
-			dependencies = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
+		'rmagatti/session-lens',
+		dependencies = {'rmagatti/auto-session', 'nvim-telescope/telescope.nvim'},
 	},
 	-- "gnikdroy/projections.nvim",
 	-- {
-	--     'rmagatti/auto-session',
-	--     config = function()
-	--         require("auto-session").setup {
-	--             log_level = "error",
-	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
-	--         }
-	--     end
+	--	   'rmagatti/auto-session',
+	--	   config = function()
+	--		   require("auto-session").setup {
+	--			   log_level = "error",
+	--			   auto_session_suppress_dirs = { "~/", "~/Downloads", "/"},
+	--		   }
+	--	   end
 	-- },
 	-- {
-	--     -- project picker
-	--     "ahmedkhalf/project.nvim",
-    --
-	--     after = {
-	--         "nvim-telescope/telescope.nvim",
-	--     },
-	--     config = function()
-	--         require('project_nvim').setup()
-	--         require("telescope").load_extension('projects')
-	--     end,
+	--	   -- project picker
+	--	   "ahmedkhalf/project.nvim",
+	--
+	--	   after = {
+	--		   "nvim-telescope/telescope.nvim",
+	--	   },
+	--	   config = function()
+	--		   require('project_nvim').setup()
+	--		   require("telescope").load_extension('projects')
+	--	   end,
 	-- },
 
-	-- ===== LSP =====
-	-- https://github.com/sharksforarms/neovim-rust/
-
+	-- ==/ LSP /==
 	"neovim/nvim-lspconfig",
 	{
 		"williamboman/mason.nvim",
@@ -322,35 +341,36 @@ require("lazy").setup({
 	-- Debugging
 	"mfussenegger/nvim-dap",
 	-- {
-	--     "rcarriga/nvim-dap-ui",
-	--     -- version = "v3.2.2",
-	--     requires = {
-	--         "mfussenegger/nvim-dap",
-	--         "theHamsta/nvim-dap-virtual-text",
-	--         "jbyuki/one-small-step-for-vimkind",
-	--     },
-	--     config = function()
-	--         require("dapui").setup()
-	--     end,
+	--	   "rcarriga/nvim-dap-ui",
+	--	   -- version = "v3.2.2",
+	--	   requires = {
+	--		   "mfussenegger/nvim-dap",
+	--		   "theHamsta/nvim-dap-virtual-text",
+	--		   "jbyuki/one-small-step-for-vimkind",
+	--	   },
+	--	   config = function()
+	--		   require("dapui").setup()
+	--	   end,
 	-- },
 
 	-- Adds extra functionality over rust analyzer
 	"simrat39/rust-tools.nvim",
-	-- Very cool crates.io completion commands
 	{
+		-- Very cool crates.io completion commands
 		'saecki/crates.nvim',
 		requires = { 'nvim-lua/plenary.nvim' },
 		config = function()
 			require('crates').setup()
 		end,
 	},
+
 	-- Optional
 	-- Visualize lsp progress
 	"nvim-lua/lsp-status.nvim", -- Lsp progress in statusline
 	-- "j-hui/fidget.nvim",
 
 	-- "nvim-lua/popup.nvim",
-	-- "folke/trouble.nvim", -- pretty lsp info/diagnostics window
+	-- "folke/trouble.nvim", -- pretty lsp info/diagnostics window?
 
 	-- ==/ Silly /==
 	-- "Eandrju/cellular-automaton.nvim",
@@ -372,9 +392,22 @@ require("lazy").setup({
 	-- -- pywal theme support (broken in neovide? :c)
 	-- use 'dylanaraps/wal.vim'
 
+
+	-- ==/🪦 Graveyard 🪦/==
+	-- "romgrk/barbar.nvim", -- Old Buffer Tabs
+
 	-- Cool but I just use :telescope commands?
 	-- "LinArcX/telescope-command-palette.nvim", -- Define custom things for the pretty search menu
 
 	-- -- Allows for the creations of 'submodes'
 	-- use 'https://github.com/Iron-E/nvim-libmodal'
+
+	-- {
+	-- -- Startup screen
+	--	   "goolord/alpha-nvim",
+	--	   -- requires = { "nvim-tree/nvim-web-devicons" },
+	-- },
+
+	-- Multiple cursors - doesn't quite work how i want :(
+	-- "mg979/vim-visual-multi",
 })
