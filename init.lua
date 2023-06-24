@@ -45,7 +45,7 @@ end
 vim.g.mapleader = " "
 
 require("lazy-bootstrap")
-require("plugins.install")
+-- require("plugins.install")
 require("plugins")
 require("theme")
 
@@ -112,13 +112,26 @@ g.neovide_refresh_rate = 140
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
 
--- Quick option debug
-function optinfo(o)
-	print(vim.inspect(api.nvim_get_option_info(o)))
-end
+-- Disable netrw in favor of nvim-tree
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
 
 require("functions")
 require("lsp")
 require("commands")
 require("hotkeys")
 require("autocmd")
+
+
+-- Quick option debug
+function Optinfo(o)
+	print(vim.inspect(api.nvim_get_option_info(o)))
+end
+
+function Hasmodule(module)
+    local function requiref(mod)
+        require(module)
+    end
+
+	return pcall(requiref,module)
+end

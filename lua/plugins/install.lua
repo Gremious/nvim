@@ -1,30 +1,29 @@
+-- [ Consider:
+-- [ https://github.com/eugen0329/vim-esearch
+-- ]]
+
+
 require("lazy").setup({
-	-- !! Important
-	"michaelb/do-nothing.vim",
-
+	"michaelb/do-nothing.vim", -- !! Important
 	"nvim-lua/plenary.nvim", -- lib other plugins use
-
-	-- themes
-	{ "kaicataldo/material.vim" }, -- theme
-	{ "catppuccin/nvim", name = "catppuccin" },
-	"chriskempson/base16-vim",
-	"folke/tokyonight.nvim",
-	"Yazeed1s/oh-lucy.nvim",
-	-- "vim-airline/vim-airline-themes",
-	{ "embark-theme/vim", name = "embark" },
-	"franbach/miramare",
-	"kyazdani42/nvim-web-devicons",
-	"Yazeed1s/minimal.nvim",
-
-	-- Markdown live preview
 	{
-		"iamcco/markdown-preview.nvim",
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
+		-- Pretty windows for things that use vim.ui like rust-tools
+		-- Immediately nicer for lsp rename
+		-- Every plugin that uses vim.ui will basically use
+		-- ether pretty windows or telescope automatically
+		"stevearc/dressing.nvim",
 	},
 
-	"stevearc/dressing.nvim", -- Pretty windows for things that use vim.ui like rust-tools
+	-- ==/ themes /==
+	"chriskempson/base16-vim",
+	"folke/tokyonight.nvim",
+	"franbach/miramare",
+	"kaicataldo/material.vim", -- theme
+	"nvim-tree/nvim-web-devicons",
+	"Yazeed1s/minimal.nvim",
+	"Yazeed1s/oh-lucy.nvim",
+	{ "catppuccin/nvim", name = "catppuccin" },
+	{ "embark-theme/vim", name = "embark" },
 
 	-- Startup screen
 	-- {
@@ -33,10 +32,58 @@ require("lazy").setup({
 	-- },
 	{
 		"kyazdani42/nvim-tree.lua",
-		requires = { "nvim-tree/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			view = {
+				width = 40,
+				adaptive_size = true,
+			},
+			diagnostics = {
+				enable = true,
+				show_on_dirs = true,
+				show_on_open_dirs = false,
+				debounce_delay = 50,
+				severity = {
+					min = vim.diagnostic.severity.WARN,
+					max = vim.diagnostic.severity.ERROR,
+				},
+			},
+
+			-- Update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file.
+			update_focused_file = {
+				enable = true,
+				update_root = true,
+			},
+			-- Prefer startup root directory when updating root directory of the tree.
+			prefer_startup_root = true,
+			-- Changes the tree root directory on `DirChanged` and refreshes the tree.
+			sync_root_with_cwd = false,
+			-- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+			respect_buf_cwd = true,
+		},
 	},
 	-- ==/ Highlights/Syntax /==
-	{ "nvim-treesitter/nvim-treesitter", build = ":TSUpdate" }, -- syntax highlighter
+	{
+		-- syntax highlighter
+		"nvim-treesitter/nvim-treesitter",
+		build = ":TSUpdate",
+		config = function()
+			require("nvim-treesitter.configs").setup({
+				ensure_installed = { "rust", "markdown", "lua", "vimdoc" },
+				highlight = {
+					enable = true,
+				},
+				rainbow = {
+					enable = true,
+					extended_mode = true,
+					max_file_lines = 4000,
+				},
+				indent = {
+					enable = false,
+				},
+			})
+		end
+	},
 	"nvim-treesitter/playground", -- treesitter debug
 	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
 	"imsnif/kdl.vim", -- kdl highlighting
@@ -44,10 +91,25 @@ require("lazy").setup({
 	"ron-rs/ron.vim", -- ron highlighting
 	"GutenYe/json5.vim", -- json5 highlighting
 	-- use 'luochen1990/rainbow' -- Rainbow brackets
-	"p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
+	-- "p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
-	"folke/todo-comments.nvim", -- Highlights TODO/INFO/etc.
+	{
+		-- Highlights TODO/INFO/etc.
+		"folke/todo-comments.nvim",
+		opts = {
+			keywords = {
+				TODO = { icon = " ", color = "warning" },
+			},
+		},
+	},
 
+	-- Markdown live preview
+	{
+		"iamcco/markdown-preview.nvim",
+		build = function()
+			vim.fn["mkdp#util#install"]()
+		end,
+	},
 	-- shows follow-up hotkey options in status bar
 	-- {
 	--	   "folke/which-key.nvim",
@@ -66,7 +128,6 @@ require("lazy").setup({
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
 	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
-	-- "vim-airline/vim-airline",
 	{
 		"Weissle/easy-action",
 		dependencies = {
@@ -77,42 +138,120 @@ require("lazy").setup({
 		},
 	},
 	{
+
+		-- TODO: Remove diagnostics from lsp-status cause lualine already shows them.
+		-- go to lsp status and check their config i think they updated
 		"nvim-lualine/lualine.nvim",
-		requires = { "kyazdani42/nvim-web-devicons" },
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		opts = {
+			extensions = { "nvim-tree", "fugitive", "nvim-dap-ui", "quickfix" },
+			sections = {
+				lualine_x = {
+					function()
+						return require("lsp-status").status()
+					end,
+					"encoding",
+					"fileformat",
+					"filetype",
+				},
+			},
+		},
 	},
 
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
+		opts = {
+			options = {
+				sort_by = 'insert_after_current',
+				show_close_icon = false,
+				show_buffer_close_icons = false,
+				modified_icon = "✏",
+
+				-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+				-- separator_style = "slant",
+
+				diagnostics = "nvim_lsp",
+				diagnostics_update_in_insert = true,
+				--- diagnostics_dict is a dictionary from error level ("error", "warning" or "info") to number of errors for each level.
+				diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
+					local ret = " "
+					for diag_type, count in pairs(diagnostics_dict) do
+						local sym = diag_type == "error" and " " or (diag_type == "warning" and " " or "")
+						ret = ret .. count .. sym
+					end
+					return ret
+				end,
+
+				-- enforce_regular_tabs = false | true,
+				-- always_show_bufferline = true,
+			},
+		},
 	},
 	-- use 'romgrk/barbar.nvim' -- Buffer Tabs
-	"tiagovla/scope.nvim", -- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
-	"qpkorr/vim-bufkill", -- Don't close the whole tab/window on :bd - use :BD instead
 
-	"scrooloose/nerdcommenter", -- Toggle comments
+	-- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	"tiagovla/scope.nvim",
+	-- Don't close the whole tab/window on :bd - use :BD instead
+	"qpkorr/vim-bufkill",
+
+	{
+		-- Toggle comments
+		"scrooloose/nerdcommenter",
+		config = function()
+			vim.g.NERDCreateDefaultMappings = true
+			vim.g.NERDSpaceDelims = true
+			vim.g.NERDCommentEmptyLines = true
+			vim.g.NERDTrimTrailingWhitespace = true
+			vim.g.NERDDefaultAlign = "right"
+		end
+	},
 	{
 		-- undo tree
 		-- need to run:
 		-- python -m pip install --user --upgrade pynvim
 		"sjl/gundo.vim",
+		config = function ()
+			-- GUNDO breaks without python3
+			if vim.fn.has("python3") then
+				vim.g.gundo_prefer_python3 = 1
+			end
+		end
 	},
-	"yegappan/mru", -- most recently used files so i can undo a close
 	{
+		-- Open/close brackets, statements, etc
 		"Wansmer/treesj",
-		requires = { "nvim-treesitter" },
+		opts = {
+			use_default_keymaps = false,
+			check_syntax_error = false,
+			max_join_length = 160,
+		},
+		dependencies = { "nvim-treesitter" },
 	},
-	-- { "junegunn/fzf", build = ":call fzf#install()" }
-	-- { "junegunn/fzf.vim" }
 	"godlygeek/tabular", -- Tab/Spaces aligner
-	"ciaranm/detectindent", -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
-	"lukas-reineke/indent-blankline.nvim", -- Visible indents
+	{
+		-- Visible indents
+		"lukas-reineke/indent-blankline.nvim",
+		-- main = "indent_blankline",
+		config = function()
+			require("indent_blankline").setup({
+				use_treesitter = true,
+				show_current_context = true,
+			})
+		end
+	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
-	"airblade/vim-rooter", -- changes working dir to project root whenever you open files
+	-- {
+	--     -- changes working dir to project root whenever you open files
+	--     "airblade/vim-rooter",
+	--     config = function()
+	--         vim.g.rooter_change_directory_for_non_project_files = "current"
+	--     end
+	-- },
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
 	"tpope/vim-surround", -- suround things with any text
 	"wellle/targets.vim",
-	-- "gelguy/wilder.nvim",
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	"beauwilliams/focus.nvim", -- resize splits when focusing them
@@ -132,21 +271,90 @@ require("lazy").setup({
 	--
 	--	   end
 	-- },
-	"lfilho/cosco.vim", -- Smart comma/semicolon insert
-
-	"bootleq/vim-cycle", -- C-a/x cycle throgh bools/etc.
-
-	"zakharykaplan/nvim-retrail", -- Auto-trim trailing whitespace on :write
-
+	-- Smart comma/semicolon insert
+	"lfilho/cosco.vim",
+	{
+		-- C-a/x cycle throgh bools/etc.
+		"bootleq/vim-cycle",
+		config = function()
+			vim.g.cycle_no_mappings = true
+			vim.g.cycle_phased_search = true
+			vim.fn["cycle#add_groups"]({
+				{ "true", "false" },
+				{ "yes", "no" },
+				{ "on", "off" },
+				{ "+", "-" },
+				{ ">", "<" },
+				{ '"', "'" },
+				{ "==", "!=" },
+				-- { "0", "1" },
+				{ "and", "or" },
+				{ "in", "out" },
+				{ "up", "down" },
+				{ "left", "right" },
+				{ "min", "max" },
+				{ "get", "set" },
+				{ "add", "remove" },
+				{ "to", "from" },
+				{ "read", "write" },
+				{ "only", "except" },
+				{ "without", "with" },
+				{ "exclude", "include" },
+				{ "asc", "desc" },
+				{ ":)", ":(" },
+				{ "c:", ":c" },
+				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
+				{ "let", "let mut" },
+				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
+			})
+		end
+	},
+	{
+		-- Auto-trim trailing whitespace on :write
+		"zakharykaplan/nvim-retrail",
+		lazy = false,
+		-- main = "retrail",
+		config = function()
+			require("retrail").setup()
+		end
+	},
 	{
 		"nvim-telescope/telescope.nvim",
-		version = "0.1.0",
-		-- requires = { { "nvim-lua/plenary.nvim" } },
+		dependencies = { "nvim-lua/plenary.nvim" },
+		config = function()
+			require("telescope").setup({
+				defaults = {
+					layout_strategy = "vertical",
+					layout_config = { height = 0.95 },
+					mappings = {
+						i = {
+							["<esc>"] = require("telescope.actions").close,
+							["<C-Down>"] = require('telescope.actions').cycle_history_next,
+							["<C-Up>"] = require('telescope.actions').cycle_history_prev,
+						},
+					},
+				},
+				pickers = {
+					colorscheme = {
+						enable_preview = true,
+					},
+				},
+				extensions = {
+					fzf = {
+						fuzzy = true, -- false will only do exact matching
+						override_generic_sorter = true, -- override the generic sorter
+						override_file_sorter = true, -- override the file sorter
+						case_mode = "smart_case", -- or "ignore_case" or "respect_case"
+					},
+				},
+			})
+		end,
 	},
 
-	-- A `C` port of FZF that hooks direcntly into telescope.
 	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
+	-- if you don't mind not using telescope, you can always still use
+	-- { "junegunn/fzf", build = ":call fzf#install()" }
 	{
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = function()
@@ -156,30 +364,53 @@ require("lazy").setup({
 				return "make"
 			end
 		end,
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("telescope").load_extension("fzf")
+		end
 	},
 	-- "gnikdroy/projections.nvim",
-	{
-		"rmagatti/auto-session",
-		config = function()
-			require("auto-session").setup({
-				log_level = "error",
-				auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
-			})
-		end,
-	},
-	{
-		"rmagatti/session-lens",
-		dependencies = { "rmagatti/auto-session", "nvim-telescope/telescope.nvim" },
-	},
-	-- ===== LSP =====
+	-- require("projections").setup({
+		--     workspaces = {
+			--         "~/Projects/Programming/gremy/dev",
+			--         "~/Projects/dev",
+			--     },
+			-- })
+	-- {
+	--     "rmagatti/auto-session",
+	--     dependencies = { "nvim-telescope/telescope.nvim" },
+	--     config = function()
+	--         require("auto-session").setup({
+	--             log_level = "error",
+	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
+	--         })
+	--     end,
+	-- },
+	-- {
+	--     "rmagatti/session-lens",
+	--     dependencies = { "rmagatti/auto-session", "nvim-telescope/telescope.nvim" },
+	--     config = function()
+	--         require("telescope").load_extension("session-lens")
+	--     end,
+	-- },
+
+	-- ==/ LSP /==
 	-- https://github.com/sharksforarms/neovim-rust/
 
 	"neovim/nvim-lspconfig",
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
+		config = function()
+			-- lazy doesn't seem to do this one auto
+			require("mason").setup()
+		end
 	},
-	"williamboman/mason-lspconfig.nvim",
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = { "williamboman/mason.nvim" },
+
+	},
 
 	-- Autocompletion framework
 	"hrsh7th/nvim-cmp",
@@ -213,7 +444,7 @@ require("lazy").setup({
 		},
 
 		-- after = { "hrsh7th/nvim-cmp" },
-		-- requires = { "hrsh7th/nvim-cmp" },
+		-- dependencies = { "hrsh7th/nvim-cmp" },
 	},
 
 	-- Snippet engine
@@ -230,7 +461,7 @@ require("lazy").setup({
 	-- {
 	--	   "rcarriga/nvim-dap-ui",
 	--	   -- version = "v3.2.2",
-	--	   requires = {
+	--	   dependencies = {
 	--	   "mfussenegger/nvim-dap",
 	--	   "theHamsta/nvim-dap-virtual-text",
 	--	   "jbyuki/one-small-step-for-vimkind",
@@ -245,7 +476,7 @@ require("lazy").setup({
 	-- Very cool crates.io completion commands
 	{
 		"saecki/crates.nvim",
-		requires = { "nvim-lua/plenary.nvim" },
+		dependencies = { "nvim-lua/plenary.nvim" },
 		config = function()
 			require("crates").setup()
 		end,
@@ -277,13 +508,42 @@ require("lazy").setup({
 		end,
 	},
 
+	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing to me?
+	"yegappan/mru", -- most recently used files so i can undo a close
+
 	-- ==/ Off /==
 	-- -- pywal theme support (broken in neovide? :c)
 	-- use 'dylanaraps/wal.vim'
+
+	-- Don't rly use it
+	-- "ciaranm/detectindent", -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
 
 	-- Cool but I just use :telescope commands?
 	-- "LinArcX/telescope-command-palette.nvim", -- Define custom things for the pretty search menu
 
 	-- -- Allows for the creations of 'submodes'
 	-- use 'https://github.com/Iron-E/nvim-libmodal'
+	
+	-- Very laggy
+	-- "gelguy/wilder.nvim",
+	-- Maybe only load in small files?
+	--
+	-- local wilder = require("wilder")
+	-- wilder.setup({ modes = { ":", "/", "?" } })
+	-- wilder.set_option(
+	--     "renderer",
+	--     wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
+		--         highlighter = wilder.basic_highlighter(),
+		--         highlights = {
+			--             border = "Normal",
+			--             -- The color of the search match
+			--             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
+			--         },
+			--         left = { " ", wilder.popupmenu_devicons() },
+			--         right = { " ", wilder.popupmenu_scrollbar() },
+			--         border = "rounded",
+			--         -- min_height = 8,
+			--         max_height = 8,
+			--     }))
+			-- )
 })
