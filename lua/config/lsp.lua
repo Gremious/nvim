@@ -1,3 +1,8 @@
+local lspkind = require("lspkind")
+local mason = require("mason")
+local mason_lspconfig = require("mason-lspconfig")
+local lsp_status = require("lsp-status")
+
 -- Set completeopt to have a better completion experience
 -- :help completeopt
 -- menuone: popup even when there's only one match
@@ -8,27 +13,35 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess:append({ c = true })
 
-local lspkind = require("lspkind")
--- local lsp_status = require('lsp-status')
-
--- order important
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
-	ensure_installed = { "lua_ls", "rust_analyzer" },
-})
-mason.setup({
-	ui = {
-		icons = {
-			server_installed = "✓",
-			server_pending = "➜",
-			server_uninstalled = "✗",
-		},
-	},
+	-- "codelldb"
+	--
+	-- "pyright"
+	-- "stylua"
+	-- "bash-language-server bashls"
+	-- "css-lsp cssls"
+	-- "dhall-lsp dhall_lsp_server"
+	-- "fixjson"
+	-- "json-lsp jsonls"
+	-- "jsonlint"
+	-- "rust-analyzer rust_analyzer"
+	-- "vim-language-server vimls"
+	ensure_installed = { "lua_ls", "rust_analyzer", "bashls" },
 })
 
-local lsp_status = require("lsp-status")
+mason.setup({
+	-- ui = {
+		-- icons = {
+			-- server_installed = "✓",
+			-- server_pending = "➜",
+			-- server_uninstalled = "✗",
+		-- },
+	-- },
+})
+
 lsp_status.register_progress()
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
 
 local function on_attach(client, buffer)
 	local keymap = vim.keymap
@@ -67,73 +80,53 @@ local function on_attach(client, buffer)
 	keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
 	keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 
+	-- on_attach(client)
 	lsp_status.on_attach(client)
 end
+
+-- TODO: Don't show when i have opened the config
+--
+-- " Set updatetime for CursorHold
+-- " 300ms of no cursor movement to trigger CursorHold
+-- set updatetime=300
+vim.opt.updatetime = 1000
 
 -- Configure LSP through rust-tools.nvim plugin.
 -- rust-tools will configure and enable certain LSP features for us.
 -- See https://github.com/simrat39/rust-tools.nvim#configuration
-local rust_tools = {
-	executor = require("rust-tools.executors").quickfix,
+local rust_tools_config = {
+	-- executor = require("rust-tools.executors").quickfix,
 
 	inlay_hints = {
 		auto = true,
 		parameter_hints_prefix = "<-",
 		other_hints_prefix = "->",
 	},
+	dap = function()
+		local install_root_dir = vim.fn.stdpath "data" .. "/mason"
+		local extension_path = install_root_dir .. "/packages/codelldb/extension/"
+		local codelldb_path = extension_path .. "adapter/codelldb"
+		local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
-	-- Debugging
-	--currenly broken?
-	-- https://github.com/simrat39/rust-tools.nvim/issues/179
-	-- check this config
-	-- https://www.reddit.com/r/rust/comments/zhokwt/share_your_neovim_setup_rusttools_nvimdap/
-	dap = {
-		adapter = {
-			type = "executable",
-			command = "lldb-vscode",
-			name = "rt_lldb",
-		},
-	},
+		return {
+			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+		}
+	end,
 }
 
-local function rust_check_on_save()
-	local buffer = vim.fn.expand("%:p")
-	if string.find(buffer, "analytics%-platform") ~= nil then
-		return "cranky"
-	else
-		return "clippy"
-	end
-end
-
--- all the opts to send to nvim-lspconfig
--- these override the defaults set by rust-tools.nvim
--- see https://github.com/neovim/nvim-lspconfig/blob/master/CONFIG.md#rust_analyzer
-local server = {
-	-- on_attach is a callback called when the language server attachs to the buffer
+local rust_tools_rust_server = {
 	on_attach = on_attach,
 	settings = {
+		-- List of all options:
 		-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
 		["rust-analyzer"] = {
-			-- diagnostics = {
-			--     disabled = {
-			--         "macro-error",
-			--         "unresolved-macro-call",
-			--         "unresolved-import",
-			--         "incorrect-ident-case",
-			--         "unresolved-proc-macro",
-			--         "missing-ok-or-some-in-tail-expr",
-			--         "missing-unsafe",
-			--         "mismatched-arg-count",
-			--     },
-			-- },
 			check = {
 				command = "cranky",
-				-- command = rust_check_on_save(),
 				-- extraArgs = { "--all", "--", "-W", "clippy::all" },
 			},
 
 			-- rust-analyzer.server.extraEnv
-			-- neovim doesn"t have custom client-side code to honor this setting, it doesn"t actually work
+			-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
 			-- https://github.com/neovim/nvim-lspconfig/issues/1735
 			-- it's in init.vim as a real env variable
 			--
@@ -146,14 +139,15 @@ local server = {
 	},
 }
 
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
+mason_lspconfig.setup_handlers({
+	-- The first entry (without a key) will be the default handler
+	-- and will be called for each installed server that doesn't have
+	-- a dedicated handler.
+	function(server_name)
+		require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
+	end,
 
-for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
-	if lsp_server == "rust_analyzer" then
-		require("rust-tools").setup({ tools = rust_tools, server = server, capabilities = capabilities })
-	-- if lsp_server == "rust_analyzer" then require("lspconfig")["rust_analyzer"].setup(server)
-	elseif lsp_server == "lua_ls" then
+	["lua_ls"] = function()
 		require("lspconfig").lua_ls.setup({
 			on_attach = on_attach,
 			capabilities = capabilities,
@@ -166,10 +160,19 @@ for _, lsp_server in ipairs(mason_lspconfig.get_installed_servers()) do
 				},
 			},
 		})
-	else
-		require("lspconfig")[lsp_server].setup({ on_attach = on_attach, capabilities = capabilities })
-	end
-end
+	end,
+
+	["rust_analyzer"] = function()
+		require("rust-tools").setup({
+			-- rust_tools specific settings
+			tools = rust_tools_config,
+			-- on_attach is actually bound server for rust-tools
+			server = rust_tools_rust_server,
+			-- I use lsp-status which adds itself to the capabilities table
+			capabilities = capabilities,
+		})
+	end,
+})
 
 -- Setup Completion
 -- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
@@ -222,9 +225,3 @@ cmp.setup({
 -- have a fixed column for the diagnostics to appear in
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"
-
--- " Set updatetime for CursorHold
--- " 300ms of no cursor movement to trigger CursorHold
--- set updatetime=300
-vim.opt.updatetime = 1000
--- TODO: Don't show when i have opened the config

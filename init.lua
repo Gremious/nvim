@@ -112,16 +112,11 @@ g.neovide_refresh_rate = 140
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
 
--- Disable netrw in favor of nvim-tree
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
-
 require("config.functions")
 require("config.lsp")
 require("config.commands")
 require("config.hotkeys")
 require("config.autocmd")
-
 
 -- Quick option debug
 function Optinfo(o)
@@ -129,9 +124,9 @@ function Optinfo(o)
 end
 
 function Hasmodule(module)
-    local function requiref(mod)
-        require(module)
-    end
+	local function requiref(mod)
+		require(module)
+	end
 
-	return pcall(requiref,module)
+	return pcall(requiref, module)
 end

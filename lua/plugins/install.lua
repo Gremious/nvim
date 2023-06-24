@@ -2,7 +2,6 @@
 -- [ https://github.com/eugen0329/vim-esearch
 -- ]]
 
-
 require("lazy").setup({
 	"michaelb/do-nothing.vim", -- !! Important
 	"nvim-lua/plenary.nvim", -- lib other plugins use
@@ -82,7 +81,7 @@ require("lazy").setup({
 					enable = false,
 				},
 			})
-		end
+		end,
 	},
 	"nvim-treesitter/playground", -- treesitter debug
 	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
@@ -163,7 +162,7 @@ require("lazy").setup({
 		dependencies = "nvim-tree/nvim-web-devicons",
 		opts = {
 			options = {
-				sort_by = 'insert_after_current',
+				sort_by = "insert_after_current",
 				show_close_icon = false,
 				show_buffer_close_icons = false,
 				modified_icon = "✏",
@@ -204,19 +203,19 @@ require("lazy").setup({
 			vim.g.NERDCommentEmptyLines = true
 			vim.g.NERDTrimTrailingWhitespace = true
 			vim.g.NERDDefaultAlign = "right"
-		end
+		end,
 	},
 	{
 		-- undo tree
 		-- need to run:
 		-- python -m pip install --user --upgrade pynvim
 		"sjl/gundo.vim",
-		config = function ()
+		config = function()
 			-- GUNDO breaks without python3
 			if vim.fn.has("python3") then
 				vim.g.gundo_prefer_python3 = 1
 			end
-		end
+		end,
 	},
 	{
 		-- Open/close brackets, statements, etc
@@ -238,7 +237,7 @@ require("lazy").setup({
 				use_treesitter = true,
 				show_current_context = true,
 			})
-		end
+		end,
 	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
@@ -307,7 +306,7 @@ require("lazy").setup({
 				{ "let", "let mut" },
 				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 			})
-		end
+		end,
 	},
 	{
 		-- Auto-trim trailing whitespace on :write
@@ -316,7 +315,7 @@ require("lazy").setup({
 		-- main = "retrail",
 		config = function()
 			require("retrail").setup()
-		end
+		end,
 	},
 	{
 		"nvim-telescope/telescope.nvim",
@@ -329,8 +328,8 @@ require("lazy").setup({
 					mappings = {
 						i = {
 							["<esc>"] = require("telescope.actions").close,
-							["<C-Down>"] = require('telescope.actions').cycle_history_next,
-							["<C-Up>"] = require('telescope.actions').cycle_history_prev,
+							["<C-Down>"] = require("telescope.actions").cycle_history_next,
+							["<C-Up>"] = require("telescope.actions").cycle_history_prev,
 						},
 					},
 				},
@@ -367,15 +366,15 @@ require("lazy").setup({
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		config = function()
 			require("telescope").load_extension("fzf")
-		end
+		end,
 	},
 	-- "gnikdroy/projections.nvim",
 	-- require("projections").setup({
-		--     workspaces = {
-			--         "~/Projects/Programming/gremy/dev",
-			--         "~/Projects/dev",
-			--     },
-			-- })
+	--     workspaces = {
+	--         "~/Projects/Programming/gremy/dev",
+	--         "~/Projects/dev",
+	--     },
+	-- })
 	-- {
 	--     "rmagatti/auto-session",
 	--     dependencies = { "nvim-telescope/telescope.nvim" },
@@ -404,12 +403,11 @@ require("lazy").setup({
 		config = function()
 			-- lazy doesn't seem to do this one auto
 			require("mason").setup()
-		end
+		end,
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },
-
 	},
 
 	-- Autocompletion framework
@@ -472,7 +470,11 @@ require("lazy").setup({
 	-- },
 
 	-- Adds extra functionality over rust analyzer
-	"simrat39/rust-tools.nvim",
+	{
+		"simrat39/rust-tools.nvim",
+		dependencies = { "mfussenegger/nvim-dap" },
+	},
+
 	-- Very cool crates.io completion commands
 	{
 		"saecki/crates.nvim",
@@ -481,12 +483,12 @@ require("lazy").setup({
 			require("crates").setup()
 		end,
 	},
-	-- Optional
-	-- Visualize lsp progress
-	"nvim-lua/lsp-status.nvim", -- Lsp progress in statusline
-	-- "j-hui/fidget.nvim",
 
+	-- Lsp progress in statusline
+	"nvim-lua/lsp-status.nvim",
+	-- "j-hui/fidget.nvim",
 	-- "nvim-lua/popup.nvim",
+
 	-- "folke/trouble.nvim", -- pretty lsp info/diagnostics window
 
 	-- ==/ Silly /==
@@ -533,17 +535,17 @@ require("lazy").setup({
 	-- wilder.set_option(
 	--     "renderer",
 	--     wilder.popupmenu_renderer(wilder.popupmenu_border_theme({
-		--         highlighter = wilder.basic_highlighter(),
-		--         highlights = {
-			--             border = "Normal",
-			--             -- The color of the search match
-			--             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
-			--         },
-			--         left = { " ", wilder.popupmenu_devicons() },
-			--         right = { " ", wilder.popupmenu_scrollbar() },
-			--         border = "rounded",
-			--         -- min_height = 8,
-			--         max_height = 8,
-			--     }))
-			-- )
+	--         highlighter = wilder.basic_highlighter(),
+	--         highlights = {
+	--             border = "Normal",
+	--             -- The color of the search match
+	--             accent = wilder.make_hl("WilderAccent", "Pmenu", { { a = 1 }, { a = 1 }, { foreground = "#f4468f" } }),
+	--         },
+	--         left = { " ", wilder.popupmenu_devicons() },
+	--         right = { " ", wilder.popupmenu_scrollbar() },
+	--         border = "rounded",
+	--         -- min_height = 8,
+	--         max_height = 8,
+	--     }))
+	-- )
 })

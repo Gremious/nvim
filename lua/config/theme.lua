@@ -16,7 +16,7 @@ g.material_terminal_italics = true
 -- vim.cmd("colorscheme material")
 -- vim.cmd('colorscheme tokyonight-night')
 -- vim.cmd('colorscheme oh-lucy-evening')
-vim.cmd('colorscheme oh-lucy')
+vim.cmd("colorscheme oh-lucy")
 -- vim.cmd[[colorscheme minimal-base16]]
 -- vim.cmd("colorscheme minimal")
 

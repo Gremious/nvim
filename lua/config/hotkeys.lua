@@ -77,7 +77,6 @@ keymap.set("n", "<A-Left>", ":tabprev<CR>", { silent = true })
 keymap.set("n", "<leader>p", ":BufferLineTogglePin<CR>")
 keymap.set("n", "<leader>ht", ":BufferLinePick<CR>")
 
-
 vim.keymap.set("n", "<Leader><tab>", function()
 	nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
 end)
@@ -96,8 +95,8 @@ keymap.set("n", "[<leader>g", ":GitGutterPrevHunk<cr>")
 -- keymap.set({ "n", "v" }, "<Leader>hl", require("hop").hint_lines_skip_whitespace)
 -- keymap.set({ "n", "v" }, "<Leader>hc", require("hop").hint_char1)
 
-keymap.set({ "n", "x", "o" }, "s", "<Cmd>Svart<CR>")        -- begin exact search
-keymap.set({ "n", "x", "o" }, "S", "<Cmd>SvartRegex<CR>")   -- begin regex search
+keymap.set({ "n", "x", "o" }, "s", "<Cmd>Svart<CR>") -- begin exact search
+keymap.set({ "n", "x", "o" }, "S", "<Cmd>SvartRegex<CR>") -- begin regex search
 keymap.set({ "n", "x", "o" }, "gs", "<Cmd>SvartRepeat<CR>") -- repeat with last accepted query
 
 -- Move line up/down
@@ -144,7 +143,6 @@ keymap.set("n", "<Plug>CycleFallbackPrev", "<C-x>", { silent = true })
 -- Semicolon at EOL
 -- nnoremap <leader>; <C-v>$A;<Esc>
 keymap.set("n", "<Leader>;", "<Plug>(cosco-commaOrSemiColon)", { silent = true })
-
 
 keymap.set("n", "<leader>{", ":TSJSplit<cr>")
 keymap.set("n", "<leader>}", ":TSJJoin<cr>")
