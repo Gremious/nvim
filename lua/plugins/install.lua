@@ -411,15 +411,24 @@ require("lazy").setup({
 	},
 
 	-- Autocompletion framework
-	"hrsh7th/nvim-cmp",
+	{
+		"hrsh7th/nvim-cmp",
+		dependencies = { "saecki/crates.nvim" },
+	},
 	{
 		-- cmp LSP completion
 		"hrsh7th/cmp-nvim-lsp",
+		-- Auto-complete using fn params
+		"hrsh7th/cmp-nvim-lsp-signature-help",
+		-- Auto-complete document symbols
+		"hrsh7th/cmp-nvim-lsp-document-symbol",
 		-- cmp Snippet completion
 		"saadparwaiz1/cmp_luasnip",
 		-- cmp Path completion
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-buffer",
+		-- vim : cmdline
+		"hrsh7th/cmp-cmdline",
 
 		-- AI-Completion
 		-- Powershell doesn't work for me in vim so I just use pwsh 7
@@ -441,8 +450,7 @@ require("lazy").setup({
 			end,
 		},
 
-		-- after = { "hrsh7th/nvim-cmp" },
-		-- dependencies = { "hrsh7th/nvim-cmp" },
+		dependencies = { "hrsh7th/nvim-cmp" },
 	},
 
 	-- Snippet engine
@@ -479,9 +487,6 @@ require("lazy").setup({
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
-		config = function()
-			require("crates").setup()
-		end,
 	},
 
 	-- Lsp progress in statusline

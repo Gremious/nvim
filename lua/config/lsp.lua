@@ -39,6 +39,73 @@ mason.setup({
 	-- },
 })
 
+-- Setup Completion
+-- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
+local cmp = require("cmp")
+cmp.setup({
+	formatting = {
+		format = lspkind.cmp_format({
+			mode = "symbol_text",
+			menu = {
+				nvim_lsp = "[LSP]",
+				buffer = "[Buffer]",
+				luasnip = "[LuaSnip]",
+				path = "[Path]",
+				cmp_tabnine = "[T9]",
+			},
+		}),
+	},
+	snippet = {
+		expand = function(args)
+			require("luasnip").lsp_expand(args.body)
+		end,
+	},
+	mapping = {
+		["<C-p>"] = cmp.mapping.select_prev_item(),
+		["<C-n>"] = cmp.mapping.select_next_item(),
+		-- Add tab support
+		["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		["<Tab>"] = cmp.mapping.select_next_item(),
+		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-f>"] = cmp.mapping.scroll_docs(4),
+		["<C-Space>"] = cmp.mapping.complete(),
+		["<C-e>"] = cmp.mapping.close(),
+		["<CR>"] = cmp.mapping.confirm({
+			behavior = cmp.ConfirmBehavior.Insert,
+			select = true,
+		}),
+	},
+
+	-- Installed sources
+	sources = {
+		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp_signature_help" },
+		{ name = "nvim_lsp_document_symbol" },
+		{ name = "luasnip" },
+		{ name = "path" },
+		{ name = "buffer" },
+		{ name = "crates" },
+		{ name = "cmp_tabnine" },
+	},
+})
+
+cmp.setup.cmdline(':', {
+	mapping = cmp.mapping.preset.cmdline(),
+	sources = cmp.config.sources(
+		{
+			{ name = 'path' }
+		},
+		{
+			{
+				name = 'cmdline',
+				option = {
+					ignore_cmds = { 'Man', '!' }
+				}
+			}
+		}
+	)
+})
+
 lsp_status.register_progress()
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
@@ -109,7 +176,7 @@ local rust_tools_config = {
 		local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
 
 		return {
-			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
 		}
 	end,
 }
@@ -141,8 +208,7 @@ local rust_tools_rust_server = {
 
 mason_lspconfig.setup_handlers({
 	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have
-	-- a dedicated handler.
+	-- and will be called for each installed server that doesn't have a dedicated handler.
 	function(server_name)
 		require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
 	end,
@@ -172,54 +238,6 @@ mason_lspconfig.setup_handlers({
 			capabilities = capabilities,
 		})
 	end,
-})
-
--- Setup Completion
--- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-local cmp = require("cmp")
-cmp.setup({
-	formatting = {
-		format = lspkind.cmp_format({
-			mode = "symbol_text",
-			menu = {
-				buffer = "[Buffer]",
-				nvim_lsp = "[LSP]",
-				luasnip = "[LuaSnip]",
-				path = "[Path]",
-				cmp_tabnine = "[T9]",
-			},
-		}),
-	},
-	snippet = {
-		expand = function(args)
-			require("luasnip").lsp_expand(args.body)
-		end,
-	},
-	mapping = {
-		["<C-p>"] = cmp.mapping.select_prev_item(),
-		["<C-n>"] = cmp.mapping.select_next_item(),
-		-- Add tab support
-		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-		["<Tab>"] = cmp.mapping.select_next_item(),
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-		["<C-e>"] = cmp.mapping.close(),
-		["<CR>"] = cmp.mapping.confirm({
-			behavior = cmp.ConfirmBehavior.Insert,
-			select = true,
-		}),
-	},
-
-	-- Installed sources
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "luasnip" },
-		{ name = "path" },
-		{ name = "buffer" },
-		{ name = "crates" },
-		{ name = "cmp_tabnine" },
-	},
 })
 
 -- have a fixed column for the diagnostics to appear in
