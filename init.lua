@@ -44,10 +44,10 @@ end
 
 vim.g.mapleader = " "
 
-require("lazy-bootstrap")
+require("config.lazy-bootstrap")
 -- require("plugins.install")
 require("plugins")
-require("theme")
+require("config.theme")
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
@@ -116,11 +116,11 @@ opt.smartcase = true -- only care about case in search if there are upper-case l
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
-require("functions")
-require("lsp")
-require("commands")
-require("hotkeys")
-require("autocmd")
+require("config.functions")
+require("config.lsp")
+require("config.commands")
+require("config.hotkeys")
+require("config.autocmd")
 
 
 -- Quick option debug

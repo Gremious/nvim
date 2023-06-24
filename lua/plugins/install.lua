@@ -523,7 +523,7 @@ require("lazy").setup({
 
 	-- -- Allows for the creations of 'submodes'
 	-- use 'https://github.com/Iron-E/nvim-libmodal'
-	
+
 	-- Very laggy
 	-- "gelguy/wilder.nvim",
 	-- Maybe only load in small files?

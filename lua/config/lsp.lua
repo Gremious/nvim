@@ -17,7 +17,6 @@ local mason_lspconfig = require("mason-lspconfig")
 mason_lspconfig.setup({
 	ensure_installed = { "lua_ls", "rust_analyzer" },
 })
-
 mason.setup({
 	ui = {
 		icons = {
@@ -228,3 +227,4 @@ vim.wo.signcolumn = "yes"
 -- " 300ms of no cursor movement to trigger CursorHold
 -- set updatetime=300
 vim.opt.updatetime = 1000
+-- TODO: Don't show when i have opened the config
