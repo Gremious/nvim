@@ -18,7 +18,7 @@ local api = vim.api
 	else it calls :BD
 	Leader qw is a decent hotkey for closing windows
 
-	d<space> to delete whitespace and maybe merge from line down
+	<space>d to delete whitespace and maybe merge from line down?
 
 	dsw - delete surrounding wrapper - will `dw`, check if there's a (/{/[ etc under cursor, then `ds(` it - fast remove Some(...)
 ]]

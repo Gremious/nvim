@@ -13,6 +13,55 @@ require("lazy").setup({
 		"stevearc/dressing.nvim",
 	},
 
+	-- "phaazon/hop.nvim", -- EasyMotion but better?, jump around places instant
+	-- {
+	--	   "ggandor/leap.nvim",
+	--	   config = function()
+	--	   require('leap').add_default_mappings()
+	--	   end,
+	-- },
+	-- "https://gitlab.com/madyanov/svart.nvim",
+	-- {
+	--	   "madyanov/svart.nvim",
+	--	   setup = function ()
+	--	   vim.api.nvim_set_hl(0, "SvartLabel", { fg = "#ffcb6b", underline = true })
+	--
+	--	   end
+	-- },
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					-- default options: exact mode, multi window, all directions, with a backdrop
+					require("flash").jump()
+				end,
+				desc = "Flash",
+			},
+			-- {
+				-- "S",
+				-- mode = { "n", "o", "x" },
+				-- function()
+					-- require("flash").treesitter()
+				-- end,
+				-- desc = "Flash Treesitter",
+			-- },
+			{
+				"r",
+				mode = "o",
+				function()
+					require("flash").remote()
+				end,
+				desc = "Remote Flash",
+			},
+		},
+	},
+
 	-- ==/ themes /==
 	"chriskempson/base16-vim",
 	"folke/tokyonight.nvim",
@@ -24,15 +73,20 @@ require("lazy").setup({
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
 
-	-- Startup screen
-	-- {
-	--	   "goolord/alpha-nvim",
-	--	   requires = { "nvim-tree/nvim-web-devicons" },
-	-- },
 	{
 		"kyazdani42/nvim-tree.lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
+			hijack_unnamed_buffer_when_opening = true,
+
+			actions = {
+				open_file = {
+					quit_on_open = true,
+					window_picker = {
+						enable = false,
+					},
+				},
+			},
 			view = {
 				width = 40,
 				adaptive_size = true,
@@ -53,13 +107,34 @@ require("lazy").setup({
 				enable = true,
 				update_root = true,
 			},
-			-- Prefer startup root directory when updating root directory of the tree.
+			-- -- Prefer startup root directory when updating root directory of the tree.
 			prefer_startup_root = true,
 			-- Changes the tree root directory on `DirChanged` and refreshes the tree.
-			sync_root_with_cwd = false,
+			sync_root_with_cwd = true,
 			-- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 			respect_buf_cwd = true,
 		},
+	},
+	{
+		"ahmedkhalf/project.nvim",
+		config = function()
+			require("project_nvim").setup({
+				scope_chdir = "tab",
+				patterns = {
+					"target",
+					">dev",
+					".git",
+					"_darcs",
+					".hg",
+					".bzr",
+					".svn",
+					"Makefile",
+					"package.json",
+				},
+			})
+
+			require('telescope').load_extension('projects')
+		end
 	},
 	-- ==/ Highlights/Syntax /==
 	{
@@ -128,15 +203,6 @@ require("lazy").setup({
 	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
 	{
-		"Weissle/easy-action",
-		dependencies = {
-			{
-				"kevinhwang91/promise-async",
-				module = { "async" },
-			},
-		},
-	},
-	{
 
 		-- TODO: Remove diagnostics from lsp-status cause lualine already shows them.
 		-- go to lsp status and check their config i think they updated
@@ -160,37 +226,42 @@ require("lazy").setup({
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
-		opts = {
-			options = {
-				sort_by = "insert_after_current",
-				show_close_icon = false,
-				show_buffer_close_icons = false,
-				modified_icon = "✏",
+		config = function()
+			-- NOTE: Just opts does not work, breaks scope vim
+			require("bufferline").setup({
+				options = {
+					sort_by = "insert_after_current",
+					show_close_icon = false,
+					show_buffer_close_icons = false,
+					modified_icon = "✏",
 
-				-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-				-- separator_style = "slant",
+					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
+					separator_style = "thin",
 
-				diagnostics = "nvim_lsp",
-				diagnostics_update_in_insert = true,
-				--- diagnostics_dict is a dictionary from error level ("error", "warning" or "info") to number of errors for each level.
-				diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
-					local ret = " "
-					for diag_type, count in pairs(diagnostics_dict) do
-						local sym = diag_type == "error" and " " or (diag_type == "warning" and " " or "")
-						ret = ret .. count .. sym
-					end
-					return ret
-				end,
+					diagnostics = "nvim_lsp",
+					diagnostics_update_in_insert = true,
+					--- diagnostics_dict is a dictionary from error level ("error", "warning" or "info") to number of errors for each level.
+					diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
+						local ret = " "
+						for diag_type, count in pairs(diagnostics_dict) do
+							local sym = diag_type == "error" and " " or (diag_type == "warning" and " " or "")
+							ret = ret .. count .. sym
+						end
+						return ret
+					end,
 
-				-- enforce_regular_tabs = false | true,
-				-- always_show_bufferline = true,
-			},
-		},
+					-- enforce_regular_tabs = false | true,
+					-- always_show_bufferline = true,
+				},
+			})
+		end
 	},
-	-- use 'romgrk/barbar.nvim' -- Buffer Tabs
-
 	-- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
-	"tiagovla/scope.nvim",
+	{
+		"tiagovla/scope.nvim",
+		-- lazy = false,
+		opts = { restore_state = false },
+	},
 	-- Don't close the whole tab/window on :bd - use :BD instead
 	"qpkorr/vim-bufkill",
 
@@ -241,13 +312,6 @@ require("lazy").setup({
 	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
-	-- {
-	--     -- changes working dir to project root whenever you open files
-	--     "airblade/vim-rooter",
-	--     config = function()
-	--         vim.g.rooter_change_directory_for_non_project_files = "current"
-	--     end
-	-- },
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
 	"tpope/vim-surround", -- suround things with any text
 	"wellle/targets.vim",
@@ -255,21 +319,6 @@ require("lazy").setup({
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	"beauwilliams/focus.nvim", -- resize splits when focusing them
 
-	-- "phaazon/hop.nvim", -- EasyMotion but better, jump around places
-	-- {
-	--	   "ggandor/leap.nvim",
-	--	   config = function()
-	--	   require('leap').add_default_mappings()
-	--	   end,
-	-- },
-	"https://gitlab.com/madyanov/svart.nvim",
-	-- {
-	--	   "madyanov/svart.nvim",
-	--	   setup = function ()
-	--	   vim.api.nvim_set_hl(0, "SvartLabel", { fg = "#ffcb6b", underline = true })
-	--
-	--	   end
-	-- },
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
 	{
@@ -368,30 +417,6 @@ require("lazy").setup({
 			require("telescope").load_extension("fzf")
 		end,
 	},
-	-- "gnikdroy/projections.nvim",
-	-- require("projections").setup({
-	--     workspaces = {
-	--         "~/Projects/Programming/gremy/dev",
-	--         "~/Projects/dev",
-	--     },
-	-- })
-	-- {
-	--     "rmagatti/auto-session",
-	--     dependencies = { "nvim-telescope/telescope.nvim" },
-	--     config = function()
-	--         require("auto-session").setup({
-	--             log_level = "error",
-	--             auto_session_suppress_dirs = { "~/", "~/Downloads", "/" },
-	--         })
-	--     end,
-	-- },
-	-- {
-	--     "rmagatti/session-lens",
-	--     dependencies = { "rmagatti/auto-session", "nvim-telescope/telescope.nvim" },
-	--     config = function()
-	--         require("telescope").load_extension("session-lens")
-	--     end,
-	-- },
 
 	-- ==/ LSP /==
 	-- https://github.com/sharksforarms/neovim-rust/
@@ -464,18 +489,6 @@ require("lazy").setup({
 
 	-- Debugging
 	"mfussenegger/nvim-dap",
-	-- {
-	--	   "rcarriga/nvim-dap-ui",
-	--	   -- version = "v3.2.2",
-	--	   dependencies = {
-	--	   "mfussenegger/nvim-dap",
-	--	   "theHamsta/nvim-dap-virtual-text",
-	--	   "jbyuki/one-small-step-for-vimkind",
-	--	   },
-	--	   config = function()
-	--	   require("dapui").setup()
-	--	   end,
-	-- },
 
 	-- Adds extra functionality over rust analyzer
 	{
@@ -515,6 +528,15 @@ require("lazy").setup({
 		end,
 	},
 
+	-- {
+		-- "Weissle/easy-action",
+		-- dependencies = {
+			-- {
+				-- "kevinhwang91/promise-async",
+				-- module = { "async" },
+			-- },
+		-- },
+	-- },
 	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing to me?
 	"yegappan/mru", -- most recently used files so i can undo a close
 

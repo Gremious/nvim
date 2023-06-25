@@ -14,8 +14,6 @@ end
 create_command("Config", function()
 	open_config_file("init.lua")
 end)
-
--- Type config -> get config
 create_command("ConfigSearch", function()
 	require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
 end)
