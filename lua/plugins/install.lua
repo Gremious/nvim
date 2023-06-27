@@ -32,16 +32,42 @@ require("lazy").setup({
 		"folke/flash.nvim",
 		event = "VeryLazy",
 		---@type Flash.Config
-		opts = {},
+		opts = {
+			modes = {
+				search = {
+					enabled = false,
+				},
+				char = {
+					-- enabled = false,
+					keys = { "f", "F", "t", "T", ".", "," },
+				},
+			},
+			jump = {
+				nohlsearch = true,
+				-- autojump = true,
+			},
+			char = { enabled = false },
+		},
 		keys = {
 			{
 				"s",
 				mode = { "n", "x", "o" },
 				function()
-					-- default options: exact mode, multi window, all directions, with a backdrop
-					require("flash").jump()
+					require("flash").jump({
+						search = { forward = true, wrap = false, multi_window = true },
+					})
 				end,
-				desc = "Flash",
+				desc = "Flash forwards only.",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump({
+						search = { forward = false, wrap = false, multi_window = true },
+					})
+				end,
+				desc = "Flash backwards only",
 			},
 			-- {
 				-- "S",
@@ -107,23 +133,26 @@ require("lazy").setup({
 				enable = true,
 				update_root = true,
 			},
-			-- -- Prefer startup root directory when updating root directory of the tree.
-			prefer_startup_root = true,
 			-- Changes the tree root directory on `DirChanged` and refreshes the tree.
 			sync_root_with_cwd = true,
 			-- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 			respect_buf_cwd = true,
+
+			-- -- Prefer startup root directory when updating root directory of the tree.
+			prefer_startup_root = true,
 		},
 	},
 	{
 		"ahmedkhalf/project.nvim",
 		config = function()
 			require("project_nvim").setup({
+				detection_methods = {"pattern" },
 				scope_chdir = "tab",
 				patterns = {
 					"target",
 					">dev",
 					".git",
+					".toml",
 					"_darcs",
 					".hg",
 					".bzr",
@@ -230,16 +259,24 @@ require("lazy").setup({
 			-- NOTE: Just opts does not work, breaks scope vim
 			require("bufferline").setup({
 				options = {
+					-- TODO: Custom insert fn: if current buff pinned, insert at leftmost (relative) else, after current
+					-- Waiting on pinned status to be exposed
 					sort_by = "insert_after_current",
 					show_close_icon = false,
 					show_buffer_close_icons = false,
 					modified_icon = "✏",
 
+					indicator = {
+						-- icon = "▎", -- this should be omitted if indicator style is not 'icon'
+						style = "underline",
+						-- style = "icon",
+					},
 					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
 					separator_style = "thin",
 
 					diagnostics = "nvim_lsp",
 					diagnostics_update_in_insert = true,
+
 					--- diagnostics_dict is a dictionary from error level ("error", "warning" or "info") to number of errors for each level.
 					diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
 						local ret = " "
@@ -352,7 +389,7 @@ require("lazy").setup({
 				{ ":)", ":(" },
 				{ "c:", ":c" },
 				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
-				{ "let", "let mut" },
+				{ "let ", "let mut " },
 				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
 			})
 		end,

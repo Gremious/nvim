@@ -37,9 +37,11 @@ vim.keymap.set(modes.NORMAL, "<Leader>f", function()
 	-- grep actually does the search
 	telescope.grep_string({ search = "", use_regex = true })
 end)
-
 vim.keymap.set(modes.NORMAL, "<Leader>F", function()
 	telescope.find_files()
+end)
+vim.keymap.set(modes.NORMAL, "<Leader>S", function()
+	telescope.lsp_dynamic_workspace_symbols()
 end)
 vim.keymap.set(modes.NORMAL, "<Leader>?", function()
 	telescope.resume()
@@ -59,13 +61,14 @@ keymap.set(modes.NORMAL, "<right>", ":BufferLineCycleNext<CR>", { silent = true 
 keymap.set(modes.NORMAL, "<left>", ":BufferLineCyclePrev<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<C-Right>", ":BufferLineMoveNext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
+keymap.set(modes.NORMAL, "<leader>p", ":BufferLineTogglePin<CR>")
+keymap.set(modes.NORMAL, "<leader>P", ":BufferLinePick<CR>")
+
 keymap.set(modes.NORMAL, "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<A-Left>", ":tabprev<CR>", { silent = true })
-keymap.set(modes.NORMAL, "<leader>p", ":BufferLineTogglePin<CR>")
-keymap.set(modes.NORMAL, "<leader>ht", ":BufferLinePick<CR>")
 
 vim.keymap.set(modes.NORMAL, "<Leader><tab>", function()
-	nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = true })
+	nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
 end)
 -- TODO Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
 -- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
@@ -95,7 +98,6 @@ keymap.set(modes.VISUAL_AND_SELECT, "<A-j>", ":m '>+1<CR>gv=gv")
 keymap.set(modes.VISUAL_AND_SELECT, "<A-k>", ":m '<-2<CR>gv=gv")
 
 -- F11 to fullscreen
--- nnoremap  <F11> :let g:neovide_fullscreen = (g:neovide_fullscreen == v:true, { silent = true }) ? v:false : v:true<cr>
 keymap.set(
 	modes.NORMAL,
 	"<F11>",
