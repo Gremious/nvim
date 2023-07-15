@@ -146,19 +146,24 @@ require("lazy").setup({
 		"ahmedkhalf/project.nvim",
 		config = function()
 			require("project_nvim").setup({
-				detection_methods = {"pattern" },
+				-- manual_mode = false,
+				detection_methods = { "pattern", "lsp" },
+				-- detection_methods = { "pattern" },
 				scope_chdir = "tab",
 				patterns = {
 					"target",
 					">dev",
-					".git",
-					".toml",
-					"_darcs",
-					".hg",
-					".bzr",
-					".svn",
-					"Makefile",
-					"package.json",
+					-- ">crates",
+					-- ".gitignore",
+					-- "^dev",
+					-- ".git",
+					-- ".toml",
+					-- "_darcs",
+					-- ".hg",
+					-- ".bzr",
+					-- ".svn",
+					-- "Makefile",
+					-- "package.json",
 				},
 			})
 
