@@ -1,6 +1,3 @@
--- [ Consider:
--- [ https://github.com/eugen0329/vim-esearch
--- ]]
 
 require("lazy").setup({
 	"michaelb/do-nothing.vim", -- !! Important
@@ -98,6 +95,9 @@ require("lazy").setup({
 	"Yazeed1s/oh-lucy.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
+	-- Does not work on gvim outside of terminalm, e.g. neovide, nvim-qt... :(
+	-- (It looks a lot better if instead of this, u run in terminal with set notermguicolors?)
+	-- "dylanaraps/wal.vim",
 
 	{
 		"kyazdani42/nvim-tree.lua",
@@ -271,11 +271,11 @@ require("lazy").setup({
 					show_buffer_close_icons = false,
 					modified_icon = "✏",
 
-					indicator = {
-						-- icon = "▎", -- this should be omitted if indicator style is not 'icon'
-						style = "underline",
-						-- style = "icon",
-					},
+					-- indicator = {
+						-- -- icon = "▎", -- this should be omitted if indicator style is not 'icon'
+						-- -- style = "underline",
+						-- -- style = "icon",
+					-- },
 					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
 					separator_style = "thin",
 
@@ -359,7 +359,13 @@ require("lazy").setup({
 	"wellle/targets.vim",
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
-	"beauwilliams/focus.nvim", -- resize splits when focusing them
+	{
+		-- resize splits when focusing them
+		"beauwilliams/focus.nvim",
+		config = function()
+			require("focus").setup()
+		end,
+	},
 
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
@@ -583,9 +589,6 @@ require("lazy").setup({
 	"yegappan/mru", -- most recently used files so i can undo a close
 
 	-- ==/ Off /==
-	-- -- pywal theme support (broken in neovide? :c)
-	-- use 'dylanaraps/wal.vim'
-
 	-- Don't rly use it
 	-- "ciaranm/detectindent", -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
 
