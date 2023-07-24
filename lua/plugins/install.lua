@@ -549,7 +549,7 @@ require("lazy").setup({
 	-- "j-hui/fidget.nvim",
 	-- "nvim-lua/popup.nvim",
 
-	-- "folke/trouble.nvim", -- pretty lsp info/diagnostics window
+	"folke/trouble.nvim", -- pretty lsp info/diagnostics window
 
 	-- ==/ Silly /==
 	-- "Eandrju/cellular-automaton.nvim",
