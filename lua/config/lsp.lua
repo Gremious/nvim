@@ -172,6 +172,9 @@ local rust_tools_config = {
 		parameter_hints_prefix = "<-",
 		other_hints_prefix = "->",
 	},
+	server = {
+		standalone = false,
+	},
 	dap = function()
 		local install_root_dir = vim.fn.stdpath "data" .. "/mason"
 		local extension_path = install_root_dir .. "/packages/codelldb/extension/"
