@@ -271,13 +271,13 @@ require("lazy").setup({
 					show_buffer_close_icons = false,
 					modified_icon = "✏",
 
-					-- indicator = {
-						-- -- icon = "▎", -- this should be omitted if indicator style is not 'icon'
-						-- -- style = "underline",
-						-- -- style = "icon",
-					-- },
+					indicator = {
+						icon = ">", -- this should be omitted if indicator style is not 'icon'
+						-- style = "underline",
+						style = "icon",
+					},
 					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-					separator_style = "thin",
+					-- separator_style = "thick",
 
 					diagnostics = "nvim_lsp",
 					diagnostics_update_in_insert = true,
