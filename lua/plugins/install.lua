@@ -142,34 +142,34 @@ require("lazy").setup({
 			prefer_startup_root = true,
 		},
 	},
-	{
-		"ahmedkhalf/project.nvim",
-		config = function()
-			require("project_nvim").setup({
-				-- manual_mode = false,
-				detection_methods = { "pattern", "lsp" },
-				-- detection_methods = { "pattern" },
-				scope_chdir = "tab",
-				patterns = {
-					"target",
-					">dev",
-					-- ">crates",
-					-- ".gitignore",
-					-- "^dev",
-					-- ".git",
-					-- ".toml",
-					-- "_darcs",
-					-- ".hg",
-					-- ".bzr",
-					-- ".svn",
-					-- "Makefile",
-					-- "package.json",
-				},
-			})
-
-			require('telescope').load_extension('projects')
-		end
-	},
+	-- {
+		-- "ahmedkhalf/project.nvim",
+		-- config = function()
+			-- require("project_nvim").setup({
+				-- -- manual_mode = false,
+				-- detection_methods = { "pattern", "lsp" },
+				-- -- detection_methods = { "pattern" },
+				-- scope_chdir = "tab",
+				-- patterns = {
+					-- "target",
+					-- ">dev",
+					-- -- ">crates",
+					-- -- ".gitignore",
+					-- -- "^dev",
+					-- -- ".git",
+					-- -- ".toml",
+					-- -- "_darcs",
+					-- -- ".hg",
+					-- -- ".bzr",
+					-- -- ".svn",
+					-- -- "Makefile",
+					-- -- "package.json",
+				-- },
+			-- })
+--
+			-- require('telescope').load_extension('projects')
+		-- end
+	-- },
 	-- ==/ Highlights/Syntax /==
 	{
 		-- syntax highlighter
