@@ -202,12 +202,11 @@ local rust_tools_rust_server = {
 			-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
 			-- https://github.com/neovim/nvim-lspconfig/issues/1735
 			-- it's in init.vim as a real env variable
-			--
-			--	server = {
-			--		extraEnv = {
-			--			CARGO_TARGET_DIR = "target/rust-analyzer-check"
-			--		}
-			--	}
+				server = {
+					extraEnv = {
+						CARGO_TARGET_DIR = "target/rust-analyzer-check"
+					}
+				}
 		},
 	},
 }

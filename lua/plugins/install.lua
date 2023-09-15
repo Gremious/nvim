@@ -1,4 +1,3 @@
-
 require("lazy").setup({
 	"michaelb/do-nothing.vim", -- !! Important
 	"nvim-lua/plenary.nvim", -- lib other plugins use
@@ -103,6 +102,9 @@ require("lazy").setup({
 		"kyazdani42/nvim-tree.lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
+			filesystem_watchers = {
+				enable = false
+			},
 			hijack_unnamed_buffer_when_opening = true,
 
 			actions = {
@@ -128,48 +130,20 @@ require("lazy").setup({
 				},
 			},
 
-			-- Update the focused file on `BufEnter`, un-collapses the folders recursively until it finds the file.
+			-- update the focused file on `bufenter`, un-collapses the folders recursively until it finds the file.
 			update_focused_file = {
 				enable = true,
-				update_root = true,
+				update_root = false,
 			},
-			-- Changes the tree root directory on `DirChanged` and refreshes the tree.
-			sync_root_with_cwd = true,
-			-- Will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
+			-- changes the tree root directory on `dirchanged` and refreshes the tree.
+			sync_root_with_cwd = false,
+			-- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 			respect_buf_cwd = true,
 
-			-- -- Prefer startup root directory when updating root directory of the tree.
+			-- prefer startup root directory when updating root directory of the tree.
 			prefer_startup_root = true,
 		},
 	},
-	-- {
-		-- "ahmedkhalf/project.nvim",
-		-- config = function()
-			-- require("project_nvim").setup({
-				-- -- manual_mode = false,
-				-- detection_methods = { "pattern", "lsp" },
-				-- -- detection_methods = { "pattern" },
-				-- scope_chdir = "tab",
-				-- patterns = {
-					-- "target",
-					-- ">dev",
-					-- -- ">crates",
-					-- -- ".gitignore",
-					-- -- "^dev",
-					-- -- ".git",
-					-- -- ".toml",
-					-- -- "_darcs",
-					-- -- ".hg",
-					-- -- ".bzr",
-					-- -- ".svn",
-					-- -- "Makefile",
-					-- -- "package.json",
-				-- },
-			-- })
---
-			-- require('telescope').load_extension('projects')
-		-- end
-	-- },
 	-- ==/ Highlights/Syntax /==
 	{
 		-- syntax highlighter
@@ -189,6 +163,10 @@ require("lazy").setup({
 				indent = {
 					enable = false,
 				},
+				keymaps = {
+					goto_next_usage = "<]-l>",
+					goto_previous_usage = "<[-l>",
+				}
 			})
 		end,
 	},
@@ -198,8 +176,7 @@ require("lazy").setup({
 	"vmchale/dhall-vim", -- dhall highlighting
 	"ron-rs/ron.vim", -- ron highlighting
 	"GutenYe/json5.vim", -- json5 highlighting
-	-- use 'luochen1990/rainbow' -- Rainbow brackets
-	-- "p00f/nvim-ts-rainbow", -- rainbow parens for treesitter
+	"HiPhish/rainbow-delimiters.nvim", -- rainbow brackets
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
 	{
 		-- Highlights TODO/INFO/etc.
@@ -306,7 +283,6 @@ require("lazy").setup({
 	},
 	-- Don't close the whole tab/window on :bd - use :BD instead
 	"qpkorr/vim-bufkill",
-
 	{
 		-- Toggle comments
 		"scrooloose/nerdcommenter",
@@ -315,7 +291,6 @@ require("lazy").setup({
 			vim.g.NERDSpaceDelims = true
 			vim.g.NERDCommentEmptyLines = true
 			vim.g.NERDTrimTrailingWhitespace = true
-			vim.g.NERDDefaultAlign = "right"
 		end,
 	},
 	{
@@ -341,17 +316,17 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter" },
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
-	{
-		-- Visible indents
-		"lukas-reineke/indent-blankline.nvim",
-		-- main = "indent_blankline",
-		config = function()
-			require("indent_blankline").setup({
-				use_treesitter = true,
-				show_current_context = true,
-			})
-		end,
-	},
+	-- {
+		-- -- Visible indents
+		-- "lukas-reineke/indent-blankline.nvim",
+		-- -- main = "indent_blankline",
+		-- config = function()
+			-- require("indent_blankline").setup({
+				-- use_treesitter = true,
+				-- show_current_context = true,
+			-- })
+		-- end,
+	-- },
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
@@ -367,6 +342,13 @@ require("lazy").setup({
 		end,
 	},
 
+	{
+		-- Center buffer to center of screen (or monitor, for me)
+		"shortcuts/no-neck-pain.nvim",
+		-- opts = {
+			--
+		-- },
+	},
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
 	{
