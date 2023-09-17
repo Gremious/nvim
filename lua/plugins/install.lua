@@ -437,7 +437,7 @@ require("lazy").setup({
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = function()
 			if vim.fn.has("win32") == 1 then
-				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G \"Visual Studio 17 2022\" && cmake --build build --config Release && cmake --install build --prefix build"
 			else
 				return "make"
 			end
