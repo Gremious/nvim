@@ -9,21 +9,6 @@ require("lazy").setup({
 		"stevearc/dressing.nvim",
 	},
 
-	-- "phaazon/hop.nvim", -- EasyMotion but better?, jump around places instant
-	-- {
-	--	   "ggandor/leap.nvim",
-	--	   config = function()
-	--	   require('leap').add_default_mappings()
-	--	   end,
-	-- },
-	-- "https://gitlab.com/madyanov/svart.nvim",
-	-- {
-	--	   "madyanov/svart.nvim",
-	--	   setup = function ()
-	--	   vim.api.nvim_set_hl(0, "SvartLabel", { fg = "#ffcb6b", underline = true })
-	--
-	--	   end
-	-- },
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -33,16 +18,36 @@ require("lazy").setup({
 				search = {
 					enabled = false,
 				},
+				-- dynamic configuration for ftFT motions
 				char = {
-					-- enabled = false,
-					keys = { "f", "F", "t", "T", ".", "," },
+					-- hide after jump when not using jump labels
+					autohide = true,
+					-- set to `false` to use the current line only
+					multi_line = true,
+					-- by default all keymaps are enabled, but you can disable some of them,
+					-- by removing them from the list.
+					-- If you rather use another key, you can map them
+					-- to something else, e.g., { [";"] = "L", [","] = H }
+					keys = { "f", "F", "t", "T", ";", "," },
+					---@alias Flash.CharActions table<string, "next" | "prev" | "right" | "left">
+					-- The direction for `prev` and `next` is determined by the motion.
+					-- `left` and `right` are always left and right.
+					char_actions = function(motion)
+						return {
+							[";"] = "right", -- set to `right` to always go right
+							[","] = "left", -- set to `left` to always go left
+							-- clever-f style
+							[motion:lower()] = "right",
+							[motion:upper()] = "left",
+						}
+					end,
+					jump = { register = false },
 				},
 			},
 			jump = {
 				nohlsearch = true,
 				-- autojump = true,
 			},
-			char = { enabled = false },
 		},
 		keys = {
 			{
@@ -66,7 +71,7 @@ require("lazy").setup({
 				desc = "Flash backwards only",
 			},
 			-- {
-				-- "S",
+				-- "ts",
 				-- mode = { "n", "o", "x" },
 				-- function()
 					-- require("flash").treesitter()
@@ -81,17 +86,67 @@ require("lazy").setup({
 				end,
 				desc = "Remote Flash",
 			},
+			{
+				"hw",
+				mode = {"n"},
+				function()
+					require("flash").jump({
+						pattern = ".", -- initialize pattern with any char
+						search = {
+							forward = true,
+							wrap = false,
+							multi_window = true,
+							mode = function(pattern)
+								-- remove leading dot
+								if pattern:sub(1, 1) == "." then
+									pattern = pattern:sub(2)
+								end
+								-- return word pattern and proper skip pattern
+								return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							end,
+						},
+					})
+				end
+			},
+			{
+				"hW",
+				mode = {"n"},
+				function()
+					require("flash").jump({
+						pattern = ".", -- initialize pattern with any char
+						search = {
+							forward = false,
+							wrap = false,
+							multi_window = true,
+							mode = function(pattern)
+								-- remove leading dot
+								if pattern:sub(1, 1) == "." then
+									pattern = pattern:sub(2)
+								end
+								-- return word pattern and proper skip pattern
+								return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							end,
+						},
+					})
+				end
+			}
 		},
+		config = function()
+		   vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffcb6b", underline = true })
+		end
 	},
 
 	-- ==/ themes /==
 	"chriskempson/base16-vim",
-	"folke/tokyonight.nvim",
+	"tiagovla/tokyodark.nvim",
+
 	"franbach/miramare",
 	"kaicataldo/material.vim", -- theme
 	"nvim-tree/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
+	"sainnhe/sonokai",
+
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
 	-- Does not work on gvim outside of terminalm, e.g. neovide, nvim-qt... :(
@@ -164,8 +219,8 @@ require("lazy").setup({
 					enable = false,
 				},
 				keymaps = {
-					goto_next_usage = "<]-l>",
-					goto_previous_usage = "<[-l>",
+					goto_next_usage = "<]-u>",
+					goto_previous_usage = "<[-u>",
 				}
 			})
 		end,
@@ -195,6 +250,7 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
+
 	-- shows follow-up hotkey options in status bar
 	-- {
 	--	   "folke/which-key.nvim",
@@ -211,7 +267,6 @@ require("lazy").setup({
 
 	-- "mg979/vim-visual-multi", -- Multiple cursors
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
-	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
 	{
 
@@ -233,7 +288,9 @@ require("lazy").setup({
 			},
 		},
 	},
-
+	{
+		"tpope/vim-abolish",
+	},
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -336,9 +393,12 @@ require("lazy").setup({
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	{
 		-- resize splits when focusing them
-		"beauwilliams/focus.nvim",
+		"nvim-focus/focus.nvim",
+		commit = "1e2752aa3233497a17640e6474dbd6b35aaeeb26",
 		config = function()
-			require("focus").setup()
+			require("focus").setup({
+				excluded_filetypes = {'TelescopePrompt'},
+			})
 		end,
 	},
 

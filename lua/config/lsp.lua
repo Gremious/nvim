@@ -237,7 +237,7 @@ mason_lspconfig.setup_handlers({
 		require("rust-tools").setup({
 			-- rust_tools specific settings
 			tools = rust_tools_config,
-			-- on_attach is actually bound server for rust-tools
+			-- on_attach is actually bound rust-tools server
 			server = rust_tools_rust_server,
 			-- I use lsp-status which adds itself to the capabilities table
 			capabilities = capabilities,

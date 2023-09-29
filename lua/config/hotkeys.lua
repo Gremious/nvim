@@ -22,7 +22,8 @@ local modes = {
 -- vim.g.maplocalleader = " "
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "j", "gj", { desc = "Navigate down by visual line instead of text line." })
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "k", "gk", { desc = "Navigate up by visual line instead of text line." })
-keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT}, "<C-s>", ":update<CR>", { silent = true, desc = "Ctrl+s to save." })
+keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "<C-s>", ":update<CR>", { silent = true, desc = "Ctrl+s to save." })
+keymap.set({ modes.NORMAL }, "<leader>=", "m`va{==````", { desc = "Autoformat around current {} scope" })
 
 keymap.set(modes.NORMAL, "<leader><esc>", ":noh<CR>", { silent = true, desc = "Clear search highlighting" })
 keymap.set(modes.NORMAL, "<Leader>w", ":set list!<CR>", { desc = "Show whitespace."})
