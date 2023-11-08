@@ -109,8 +109,8 @@ opt.whichwrap = "<>"
 -- opt.guifont = "FiraCode_Nerd_Font_Mono:h12"
 opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h13"
 
--- g.neovide_remember_window_size  = false
-g.neovide_refresh_rate = 140
+-- g.neovide_remember_window_size = false
+g.neovide_refresh_rate = 144
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
