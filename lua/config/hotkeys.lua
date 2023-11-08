@@ -168,14 +168,20 @@ keymap.set(modes.NORMAL, "<Leader>sH", "[S", { silent = true })
 keymap.set(modes.NORMAL, "<Leader>sa", "zg", { silent = true })
 -- ==/ spellcheck mode /==
 
-keymap.set(modes.INSERT, "<Tab>", function() luasnip.expand_or_jump() end, {silent = true, noremap = false})
-keymap.set(modes.INSERT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
-
-keymap.set(modes.SELECT, "<Tab>", function() luasnip.jump(1) end, {silent = true})
-keymap.set(modes.SELECT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+-- keymap.set(modes.INSERT, "<Tab>", function() luasnip.expand_or_jump() end, {silent = true, noremap = false})
+-- keymap.set(modes.INSERT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+--
+-- keymap.set(modes.SELECT, "<Tab>", function() luasnip.jump(1) end, {silent = true})
+-- keymap.set(modes.SELECT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
 
 -- keymap.set({modes.INSERT, modes.SELECT}, "<C>", function()
 	-- if luasnip.choice_active() then
 		-- luasnip.change_choice(1)
 	-- end
 -- end, {silent = true})
+
+
+keymap.set({modes.INSERT, modes.SELECT, modes.NORMAL}, "<leader>p", function()
+	-- print(vim.inspect(require("cmp").get_active_entry()))
+	print(vim.inspect(require("cmp").get_active_entry() == nil))
+end)

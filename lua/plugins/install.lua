@@ -626,7 +626,7 @@ require("lazy").setup({
 	"folke/trouble.nvim", -- pretty lsp info/diagnostics window
 
 	-- ==/ Silly /==
-	-- "Eandrju/cellular-automaton.nvim",
+	"Eandrju/cellular-automaton.nvim",
 
 	{
 		"tamton-aquib/duck.nvim",
