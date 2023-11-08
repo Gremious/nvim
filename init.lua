@@ -21,6 +21,9 @@ local api = vim.api
 	<space>d to delete whitespace and maybe merge from line down?
 
 	dsw - delete surrounding wrapper - will `dw`, check if there's a (/{/[ etc under cursor, then `ds(` it - fast remove Some(...)
+
+	custom hop searches for frequently used edits:
+	e.g. place caret in the {:|?}, ?}|" or item|) in a println/log::debug!("{:?}", item)
 ]]
 
 --// Environment specific options //--
