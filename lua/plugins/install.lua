@@ -550,7 +550,18 @@ require("lazy").setup({
 		-- Auto-complete document symbols
 		"hrsh7th/cmp-nvim-lsp-document-symbol",
 		-- cmp Snippet completion
-		"saadparwaiz1/cmp_luasnip",
+		{
+			"saadparwaiz1/cmp_luasnip",
+			config = function()
+				require("luasnip.loaders.from_snipmate").lazy_load()
+			end,
+		},
+		-- {
+			-- Various language snippets for luasnip
+			-- I just copied them myself cause I wanted to edit the rust ones
+			-- "honza/vim-snippets",
+			-- dependencies = { "saadparwaiz1/cmp_luasnip" },
+		-- },
 		-- cmp Path completion
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-buffer",
@@ -579,9 +590,12 @@ require("lazy").setup({
 
 		dependencies = { "hrsh7th/nvim-cmp" },
 	},
-
-	-- Snippet engine
-	"L3MON4D3/LuaSnip",
+	{
+		-- Snippet engine
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+	},
 
 	-- Icons for cmp
 	"onsails/lspkind.nvim",
@@ -601,7 +615,7 @@ require("lazy").setup({
 	-- Very cool crates.io completion commands
 	{
 		"saecki/crates.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
+		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
 	},
 
 	-- Lsp progress in statusline

@@ -2,6 +2,7 @@ local g = vim.g
 local keymap = vim.keymap
 local nvim_tree = require("nvim-tree.api")
 local telescope = require("telescope.builtin")
+local luasnip = require("luasnip")
 
 -- :h map-modes
 -- :h nvim_set_keymap
@@ -167,3 +168,14 @@ keymap.set(modes.NORMAL, "<Leader>sH", "[S", { silent = true })
 keymap.set(modes.NORMAL, "<Leader>sa", "zg", { silent = true })
 -- ==/ spellcheck mode /==
 
+keymap.set(modes.INSERT, "<Tab>", function() luasnip.expand_or_jump() end, {silent = true, noremap = false})
+keymap.set(modes.INSERT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+
+keymap.set(modes.SELECT, "<Tab>", function() luasnip.jump(1) end, {silent = true})
+keymap.set(modes.SELECT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+
+-- keymap.set({modes.INSERT, modes.SELECT}, "<C>", function()
+	-- if luasnip.choice_active() then
+		-- luasnip.change_choice(1)
+	-- end
+-- end, {silent = true})
