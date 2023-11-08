@@ -86,50 +86,50 @@ require("lazy").setup({
 				end,
 				desc = "Remote Flash",
 			},
-			{
-				"hw",
-				mode = {"n"},
-				function()
-					require("flash").jump({
-						pattern = ".", -- initialize pattern with any char
-						search = {
-							forward = true,
-							wrap = false,
-							multi_window = true,
-							mode = function(pattern)
-								-- remove leading dot
-								if pattern:sub(1, 1) == "." then
-									pattern = pattern:sub(2)
-								end
-								-- return word pattern and proper skip pattern
-								return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
-							end,
-						},
-					})
-				end
-			},
-			{
-				"hW",
-				mode = {"n"},
-				function()
-					require("flash").jump({
-						pattern = ".", -- initialize pattern with any char
-						search = {
-							forward = false,
-							wrap = false,
-							multi_window = true,
-							mode = function(pattern)
-								-- remove leading dot
-								if pattern:sub(1, 1) == "." then
-									pattern = pattern:sub(2)
-								end
-								-- return word pattern and proper skip pattern
-								return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
-							end,
-						},
-					})
-				end
-			}
+			-- {
+				-- "hw",
+				-- mode = {"n"},
+				-- function()
+					-- require("flash").jump({
+						-- pattern = ".", -- initialize pattern with any char
+						-- search = {
+							-- forward = true,
+							-- wrap = false,
+							-- multi_window = true,
+							-- mode = function(pattern)
+								-- -- remove leading dot
+								-- if pattern:sub(1, 1) == "." then
+									-- pattern = pattern:sub(2)
+								-- end
+								-- -- return word pattern and proper skip pattern
+								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- end,
+						-- },
+					-- })
+				-- end
+			-- },
+			-- {
+				-- "hW",
+				-- mode = {"n"},
+				-- function()
+					-- require("flash").jump({
+						-- pattern = ".", -- initialize pattern with any char
+						-- search = {
+							-- forward = false,
+							-- wrap = false,
+							-- multi_window = true,
+							-- mode = function(pattern)
+								-- -- remove leading dot
+								-- if pattern:sub(1, 1) == "." then
+									-- pattern = pattern:sub(2)
+								-- end
+								-- -- return word pattern and proper skip pattern
+								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- end,
+						-- },
+					-- })
+				-- end
+			-- }
 		},
 		config = function()
 		   vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffcb6b", underline = true })
@@ -475,6 +475,18 @@ require("lazy").setup({
 				pickers = {
 					colorscheme = {
 						enable_preview = true,
+					},
+					lsp_references = {
+						include_declaration = false,
+						-- just show path only, on selector
+						-- we have a preview window
+						show_line = false,
+					},
+					lsp_workspace_symbols = {
+						fname_width = 80,
+					},
+					lsp_dynamic_workspace_symbols = {
+						fname_width = 80,
 					},
 				},
 				extensions = {
