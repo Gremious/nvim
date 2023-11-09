@@ -565,7 +565,7 @@ require("lazy").setup({
 		-- cmp Path completion
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-buffer",
-		-- vim : cmdline
+		-- vim ':' cmdline
 		"hrsh7th/cmp-cmdline",
 
 		-- AI-Completion
@@ -616,6 +616,15 @@ require("lazy").setup({
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+		config = function()
+			require('crates').setup({
+				src = {
+					cmp = {
+						enabled = true,
+					},
+				},
+			})
+		end,
 	},
 
 	-- Lsp progress in statusline
