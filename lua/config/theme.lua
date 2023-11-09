@@ -41,6 +41,11 @@ end
 
 material()
 
+--  Update  hl group:  may not work here, try in the end of an init.lua
+-- local current_def = vim.api.nvim_get_hl(0, { name = "Comment" })
+-- local new_def = vim.tbl_extend('force', current_def, { nocombine = true , cterm = { nocombine = true }})
+-- vim.api.nvim_set_hl(0, "Comment", new_def)
+
 -- vim.cmd('colorscheme oh-lucy-evening')
 -- vim.cmd("colorscheme oh-lucy")
 -- vim.cmd("colorscheme tokyodark")

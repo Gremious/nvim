@@ -373,17 +373,11 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter" },
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
-	-- {
-		-- -- Visible indents
-		-- "lukas-reineke/indent-blankline.nvim",
-		-- -- main = "indent_blankline",
-		-- config = function()
-			-- require("indent_blankline").setup({
-				-- use_treesitter = true,
-				-- show_current_context = true,
-			-- })
-		-- end,
-	-- },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {},
+	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
