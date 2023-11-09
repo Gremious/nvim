@@ -77,27 +77,23 @@ cmp.setup({
 		["<C-e>"] = cmp.mapping.close(),
 		-- ["<Esc>"] = cmp.mapping.close(),
 
-		-- ["<CR>"] = cmp.mapping.confirm({
-			-- behavior = cmp.ConfirmBehavior.Insert,
-			-- select = false,
-		-- }),
-
-		-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
 		["<Tab>"] = cmp.mapping.select_next_item(),
 
 		["<CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
-				if cmp.get_active_entry() ~= nil then
+				if cmp.get_selected_entry() ~= nil then
 					cmp.confirm({
 						behavior = cmp.ConfirmBehavior.Insert,
 						select = false,
 					})
 				elseif luasnip.jumpable(1) then
+					SetUndoBreakpoint()
 					luasnip.jump(1)
 				else
 					fallback()
 				end
 			elseif luasnip.jumpable(1) then
+				SetUndoBreakpoint()
 				luasnip.jump(1)
 			else
 				fallback()
@@ -109,6 +105,7 @@ cmp.setup({
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then
+				SetUndoBreakpoint()
 				luasnip.jump(-1)
 			else
 				fallback()

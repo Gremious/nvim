@@ -115,6 +115,11 @@ g.neovide_refresh_rate = 144
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
 
+--- Starts a new undo block.
+function SetUndoBreakpoint()
+	vim.o.undolevels = vim.o.undolevels
+end
+
 require("config.functions")
 require("config.lsp")
 require("config.commands")
@@ -133,3 +138,4 @@ function Hasmodule(module)
 
 	return pcall(requiref, module)
 end
+
