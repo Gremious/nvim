@@ -4,19 +4,19 @@
 
 # Functions
 snippet fn "Function definition"
-	fn ${1:function_name}(${2}) ${3}{
+	fn ${1:function_name}(${2})${3} {
 		${0}
 	}
 snippet pfn "Function definition"
-	pub fn ${1:function_name}(${2}) ${3}{
+	pub fn ${1:function_name}(${2})${3} {
 		${0}
 	}
 snippet afn "Async function definition"
-	async fn ${1:function_name}(${2}) ${3}{
+	async fn ${1:function_name}(${2})${3} {
 		${0}
 	}
 snippet pafn "Async function definition"
-	pub async fn ${1:function_name}(${2}) ${3}{
+	pub async fn ${1:function_name}(${2})${3} {
 		${0}
 	}
 snippet bench "Bench function" b
@@ -250,3 +250,11 @@ snippet unim "unimplemented!()"
 	unimplemented!()
 snippet use "use ...;" b
 	use ${1:std::$2};
+
+# Gremy Snippets
+snippet usep "use crate::prelude::*;"
+	use crate::prelude::*;
+snippet uses "use super::*;"
+	use super::*;
+snippet static-lazy "Lazy static declaration"
+	static ${1:name}: Lazy<${2:type}> = Lazy::new(|| ${0});
