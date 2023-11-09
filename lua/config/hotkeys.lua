@@ -181,7 +181,7 @@ keymap.set(modes.NORMAL, "<Leader>sa", "zg", { silent = true })
 -- end, {silent = true})
 
 
-keymap.set({modes.INSERT, modes.SELECT, modes.NORMAL}, "<leader>p", function()
-	-- print(vim.inspect(require("cmp").get_active_entry()))
-	print(vim.inspect(require("cmp").get_active_entry() == nil))
-end)
+-- keymap.set({modes.INSERT, modes.SELECT, modes.NORMAL}, "<leader>p", function()
+	-- -- print(vim.inspect(require("cmp").get_active_entry()))
+	-- print(vim.inspect(require("cmp").get_active_entry() == nil))
+-- end)

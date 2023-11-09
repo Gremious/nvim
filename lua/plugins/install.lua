@@ -389,11 +389,9 @@ require("lazy").setup({
 		-- resize splits when focusing them
 		"nvim-focus/focus.nvim",
 		commit = "1e2752aa3233497a17640e6474dbd6b35aaeeb26",
-		config = function()
-			require("focus").setup({
-				excluded_filetypes = {'TelescopePrompt'},
-			})
-		end,
+		opts = {
+			excluded_filetypes = {'TelescopePrompt'},
+		},
 	},
 
 	{
