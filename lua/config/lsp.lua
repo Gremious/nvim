@@ -80,40 +80,41 @@ cmp.setup({
 		-- ["<CR>"] = cmp.mapping.confirm({
 			-- behavior = cmp.ConfirmBehavior.Insert,
 			-- select = false,
-			-- }),
+		-- }),
 
-			["<S-Tab>"] = cmp.mapping.select_prev_item(),
-			["<Tab>"] = cmp.mapping.select_next_item(),
-			-- ["<Tab>"] = cmp.mapping(function(fallback)
-				-- cmp.mapping.select_next_item()
-			-- end),
+		-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		["<Tab>"] = cmp.mapping.select_next_item(),
 
-			["<CR>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					if cmp.get_active_entry() ~= nil then
-						cmp.confirm({
-							behavior = cmp.ConfirmBehavior.Insert,
-							select = false,
-						})
-					else
-						fallback()
-					end
+		["<CR>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				if cmp.get_active_entry() ~= nil then
+					cmp.confirm({
+						behavior = cmp.ConfirmBehavior.Insert,
+						select = false,
+					})
+				elseif luasnip.jumpable(1) then
+					luasnip.jump(1)
 				else
 					fallback()
 				end
+			elseif luasnip.jumpable(1) then
+				luasnip.jump(1)
+			else
+				fallback()
+			end
 
-			end, { "i", "s" }),
+		end, { "i", "s" }),
 
-			-- ["<S-Tab>"] = cmp.mapping(function(fallback)
-				-- if cmp.visible() then
-					-- cmp.select_prev_item()
-				-- elseif luasnip.jumpable(-1) then
-					-- luasnip.jump(-1)
-				-- else
-					-- fallback()
-				-- end
-			-- end, { "i", "s" }),
-		},
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item()
+			elseif luasnip.jumpable(-1) then
+				luasnip.jump(-1)
+			else
+				fallback()
+			end
+		end, { "i", "s" }),
+	},
 
 	-- Installed sources
 	sources = {
