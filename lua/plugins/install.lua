@@ -137,20 +137,18 @@ require("lazy").setup({
 	},
 
 	-- ==/ themes /==
-	"chriskempson/base16-vim",
-	"tiagovla/tokyodark.nvim",
-
-	"franbach/miramare",
-	"kaicataldo/material.vim", -- theme
-	"nvim-tree/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
+	"chriskempson/base16-vim",
+	"franbach/miramare",
+	"kaicataldo/material.vim",
+	"nvim-tree/nvim-web-devicons",
 	"sainnhe/sonokai",
-
+	"tiagovla/tokyodark.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
 	-- Does not work on gvim outside of terminalm, e.g. neovide, nvim-qt... :(
-	-- (It looks a lot better if instead of this, u run in terminal with set notermguicolors?)
+	-- (and tbh it looks a lot better if instead of this, u run in terminal with set notermguicolors)
 	-- "dylanaraps/wal.vim",
 
 	{
@@ -199,6 +197,7 @@ require("lazy").setup({
 			prefer_startup_root = true,
 		},
 	},
+
 	-- ==/ Highlights/Syntax /==
 	{
 		-- syntax highlighter
@@ -394,13 +393,6 @@ require("lazy").setup({
 		},
 	},
 
-	{
-		-- Center buffer to center of screen (or monitor, for me)
-		"shortcuts/no-neck-pain.nvim",
-		-- opts = {
-			--
-		-- },
-	},
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
 	{
@@ -493,11 +485,11 @@ require("lazy").setup({
 		end,
 	},
 
-	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
-	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
-	-- if you don't mind not using telescope, you can always still use
-	-- { "junegunn/fzf", build = ":call fzf#install()" }
 	{
+		-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
+		-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
+		-- if you don't mind not using telescope, you can always still use
+		-- { "junegunn/fzf", build = ":call fzf#install()" }
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = function()
 			if vim.fn.has("win32") == 1 then
@@ -529,8 +521,8 @@ require("lazy").setup({
 		dependencies = { "williamboman/mason.nvim" },
 	},
 
-	-- Autocompletion framework
 	{
+		-- Autocompletion framework
 		"hrsh7th/nvim-cmp",
 		dependencies = { "saecki/crates.nvim" },
 	},
@@ -586,7 +578,7 @@ require("lazy").setup({
 		-- Snippet engine
 		"L3MON4D3/LuaSnip",
 		-- follow latest release.
-		version = "v2.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
+		version = "v2.*",
 	},
 
 	-- Icons for cmp
@@ -598,13 +590,7 @@ require("lazy").setup({
 	-- Debugging
 	"mfussenegger/nvim-dap",
 
-	-- Adds extra functionality over rust analyzer
-	{
-		"simrat39/rust-tools.nvim",
-		dependencies = { "mfussenegger/nvim-dap" },
-	},
-
-	-- Very cool crates.io completion commands
+	-- Crates.io
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
@@ -617,6 +603,12 @@ require("lazy").setup({
 				},
 			})
 		end,
+	},
+
+	-- Adds extra functionality over rust analyzer
+	{
+		"simrat39/rust-tools.nvim",
+		dependencies = { "mfussenegger/nvim-dap" },
 	},
 
 	-- Lsp progress in statusline
@@ -645,26 +637,16 @@ require("lazy").setup({
 		end,
 	},
 
-	-- {
-		-- "Weissle/easy-action",
-		-- dependencies = {
-			-- {
-				-- "kevinhwang91/promise-async",
-				-- module = { "async" },
-			-- },
-		-- },
-	-- },
-	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing to me?
+	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing?
+	-- though it doesn't seem to sort them the same idk needs testing
 	"yegappan/mru", -- most recently used files so i can undo a close
 
 	-- ==/ Off /==
 	-- Don't rly use it
 	-- "ciaranm/detectindent", -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
 
-	-- Cool but I just use :telescope commands?
-	-- "LinArcX/telescope-command-palette.nvim", -- Define custom things for the pretty search menu
-
 	-- -- Allows for the creations of 'submodes'
+	-- rly like the idea, don't have uses for it
 	-- use 'https://github.com/Iron-E/nvim-libmodal'
 
 	-- Very laggy

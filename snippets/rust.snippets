@@ -94,7 +94,7 @@ snippet cfg "cfg attribute" b
 snippet feat "feature attribute" b
 	#![feature(${1:plugin})]
 snippet der "#[derive(..)]" b
-	#[derive(${1:Debug})]
+	#[derive(${1:Debug}${0})]
 snippet attr "#[..]" b
 	#[${1:inline}]
 snippet crate "Define create meta attributes"
@@ -209,7 +209,7 @@ snippet ss "static string declaration"
 snippet stat "static item declaration"
 	static ${1}: ${2:usize} = ${0};
 # Concurrency
-snippet spawn "spawn a thread"
+snippet spawn-thread "spawn a thread"
 	thread::spawn(${1:move }|| {
 		${0}
 	});
@@ -251,10 +251,13 @@ snippet unim "unimplemented!()"
 snippet use "use ...;" b
 	use ${1:std::$2};
 
-# Gremy Snippets
+# My Snippets
 snippet usep "use crate::prelude::*;"
 	use crate::prelude::*;
 snippet uses "use super::*;"
 	use super::*;
 snippet static-lazy "Lazy static declaration"
 	static ${1:name}: Lazy<${2:type}> = Lazy::new(|| ${0});
+
+# snippet spawn "Spawn Complain"
+

@@ -83,12 +83,17 @@ cmp.setup({
 			if cmp.visible() then
 				if cmp.get_selected_entry() ~= nil then
 					cmp.confirm({
-						behavior = cmp.ConfirmBehavior.Insert,
+						behavior = cmp.ConfirmBehavior.Replace,
 						select = false,
 					})
 				elseif luasnip.jumpable(1) then
 					SetUndoBreakpoint()
 					luasnip.jump(1)
+				-- elseif cmp.get_active_entry() ~= nil then
+					-- cmp.confirm({
+						-- behavior = cmp.ConfirmBehavior.Replace,
+						-- select = false,
+					-- })
 				else
 					fallback()
 				end
@@ -101,7 +106,7 @@ cmp.setup({
 
 		end, { "i", "s" }),
 
-		["<S-Tab>"] = cmp.mapping(function(fallback)
+		["<S-CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
 			elseif luasnip.jumpable(-1) then
