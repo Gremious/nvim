@@ -78,6 +78,7 @@ cmp.setup({
 		-- ["<Esc>"] = cmp.mapping.close(),
 
 		["<Tab>"] = cmp.mapping.select_next_item(),
+		["<S-Tab>"] = cmp.mapping.select_prev_item(),
 
 		["<CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
@@ -97,7 +98,7 @@ cmp.setup({
 				else
 					fallback()
 				end
-			elseif luasnip.jumpable(1) then
+			elseif luasnip.locally_jumpable(1) then
 				SetUndoBreakpoint()
 				luasnip.jump(1)
 			else

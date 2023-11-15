@@ -105,9 +105,10 @@ opt.clipboard:append({ "unnamed,unnamedplus" })
 opt.nrformats:remove({ "octal" })
 opt.whichwrap = "<>"
 
--- opt.guifont = "JetBrainsMono_Nerd_Font:h12"
--- opt.guifont = "FiraCode_Nerd_Font_Mono:h12"
-opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h13"
+-- font names are weird, you can set guifont=* to list them
+-- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
+-- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
+opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h14"
 
 -- g.neovide_remember_window_size = false
 g.neovide_refresh_rate = 144

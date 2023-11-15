@@ -156,7 +156,7 @@ end)
 -- true)
 
 -- == spellcheck-mode ==
-keymap.set(modes.NORMAL, "<Leader>ss", ":set spell!<CR>", { silent = true })
+keymap.set(modes.NORMAL, "<Leader>sc", ":set spell!<CR>", { silent = true })
 --toggle suggestions
 keymap.set(modes.NORMAL, "<Leader>s", "z=", { silent = true })
 keymap.set(modes.NORMAL, "<Leader><C-s>", "z=", { silent = true })

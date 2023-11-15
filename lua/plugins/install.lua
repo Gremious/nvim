@@ -51,6 +51,37 @@ require("lazy").setup({
 		},
 		keys = {
 			{
+				"<Leader>ss",
+				mode = {"n", "x", "o"},
+				function()
+					local function pattern()
+						local current_line = vim.api.nvim_get_current_line()
+						local curr_column = vim.api.nvim_win_get_cursor(0)[2]
+						local line_after_cursor = current_line:sub(curr_column + 1);
+						local char_under_cursor = current_line:sub(curr_column + 1, curr_column + 1)
+
+						-- if is whitespace
+						if string.match(char_under_cursor, "%s") then
+							local next_non_blank_at = line_after_cursor:match("^%s*"):len()
+							local next_non_blank = line_after_cursor:sub(next_non_blank_at+1, next_non_blank_at+1)
+
+							-- is non-alphanumeric
+							if next_non_blank:match("%W") then
+								return next_non_blank
+							else
+								return vim.fn.expand("<cword>")
+							end
+						elseif char_under_cursor:match("%W") then
+							return char_under_cursor
+						else
+							return vim.fn.expand("<cword>")
+						end
+					end
+
+					require("flash").jump({ pattern = pattern() })
+				end
+			},
+			{
 				"s",
 				mode = { "n", "x", "o" },
 				function()
