@@ -87,14 +87,9 @@ cmp.setup({
 						behavior = cmp.ConfirmBehavior.Replace,
 						select = false,
 					})
-				elseif luasnip.jumpable(1) then
+				elseif luasnip.locally_jumpable(1) then
 					SetUndoBreakpoint()
 					luasnip.jump(1)
-				-- elseif cmp.get_active_entry() ~= nil then
-					-- cmp.confirm({
-						-- behavior = cmp.ConfirmBehavior.Replace,
-						-- select = false,
-					-- })
 				else
 					fallback()
 				end
