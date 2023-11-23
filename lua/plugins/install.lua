@@ -9,21 +9,6 @@ require("lazy").setup({
 		"stevearc/dressing.nvim",
 	},
 
-	-- "phaazon/hop.nvim", -- EasyMotion but better?, jump around places instant
-	-- {
-	--	   "ggandor/leap.nvim",
-	--	   config = function()
-	--	   require('leap').add_default_mappings()
-	--	   end,
-	-- },
-	-- "https://gitlab.com/madyanov/svart.nvim",
-	-- {
-	--	   "madyanov/svart.nvim",
-	--	   setup = function ()
-	--	   vim.api.nvim_set_hl(0, "SvartLabel", { fg = "#ffcb6b", underline = true })
-	--
-	--	   end
-	-- },
 	{
 		"folke/flash.nvim",
 		event = "VeryLazy",
@@ -33,18 +18,69 @@ require("lazy").setup({
 				search = {
 					enabled = false,
 				},
+				-- dynamic configuration for ftFT motions
 				char = {
-					-- enabled = false,
-					keys = { "f", "F", "t", "T", ".", "," },
+					-- hide after jump when not using jump labels
+					autohide = true,
+					-- set to `false` to use the current line only
+					multi_line = true,
+					-- by default all keymaps are enabled, but you can disable some of them,
+					-- by removing them from the list.
+					-- If you rather use another key, you can map them
+					-- to something else, e.g., { [";"] = "L", [","] = H }
+					keys = { "f", "F", "t", "T", ";", "," },
+					---@alias Flash.CharActions table<string, "next" | "prev" | "right" | "left">
+					-- The direction for `prev` and `next` is determined by the motion.
+					-- `left` and `right` are always left and right.
+					char_actions = function(motion)
+						return {
+							[";"] = "right", -- set to `right` to always go right
+							[","] = "left", -- set to `left` to always go left
+							-- clever-f style
+							[motion:lower()] = "right",
+							[motion:upper()] = "left",
+						}
+					end,
+					jump = { register = false },
 				},
 			},
 			jump = {
 				nohlsearch = true,
 				-- autojump = true,
 			},
-			char = { enabled = false },
 		},
 		keys = {
+			{
+				"<Leader>ss",
+				mode = {"n", "x", "o"},
+				function()
+					local function pattern()
+						local current_line = vim.api.nvim_get_current_line()
+						local curr_column = vim.api.nvim_win_get_cursor(0)[2]
+						local line_after_cursor = current_line:sub(curr_column + 1);
+						local char_under_cursor = current_line:sub(curr_column + 1, curr_column + 1)
+
+						-- if is whitespace
+						if string.match(char_under_cursor, "%s") then
+							local next_non_blank_at = line_after_cursor:match("^%s*"):len()
+							local next_non_blank = line_after_cursor:sub(next_non_blank_at+1, next_non_blank_at+1)
+
+							-- is non-alphanumeric
+							if next_non_blank:match("%W") then
+								return next_non_blank
+							else
+								return vim.fn.expand("<cword>")
+							end
+						elseif char_under_cursor:match("%W") then
+							return char_under_cursor
+						else
+							return vim.fn.expand("<cword>")
+						end
+					end
+
+					require("flash").jump({ pattern = pattern() })
+				end
+			},
 			{
 				"s",
 				mode = { "n", "x", "o" },
@@ -66,7 +102,7 @@ require("lazy").setup({
 				desc = "Flash backwards only",
 			},
 			-- {
-				-- "S",
+				-- "ts",
 				-- mode = { "n", "o", "x" },
 				-- function()
 					-- require("flash").treesitter()
@@ -81,21 +117,69 @@ require("lazy").setup({
 				end,
 				desc = "Remote Flash",
 			},
+			-- {
+				-- "hw",
+				-- mode = {"n"},
+				-- function()
+					-- require("flash").jump({
+						-- pattern = ".", -- initialize pattern with any char
+						-- search = {
+							-- forward = true,
+							-- wrap = false,
+							-- multi_window = true,
+							-- mode = function(pattern)
+								-- -- remove leading dot
+								-- if pattern:sub(1, 1) == "." then
+									-- pattern = pattern:sub(2)
+								-- end
+								-- -- return word pattern and proper skip pattern
+								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- end,
+						-- },
+					-- })
+				-- end
+			-- },
+			-- {
+				-- "hW",
+				-- mode = {"n"},
+				-- function()
+					-- require("flash").jump({
+						-- pattern = ".", -- initialize pattern with any char
+						-- search = {
+							-- forward = false,
+							-- wrap = false,
+							-- multi_window = true,
+							-- mode = function(pattern)
+								-- -- remove leading dot
+								-- if pattern:sub(1, 1) == "." then
+									-- pattern = pattern:sub(2)
+								-- end
+								-- -- return word pattern and proper skip pattern
+								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- end,
+						-- },
+					-- })
+				-- end
+			-- }
 		},
+		config = function()
+		   vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffcb6b", underline = true })
+		end
 	},
 
 	-- ==/ themes /==
-	"chriskempson/base16-vim",
-	"folke/tokyonight.nvim",
-	"franbach/miramare",
-	"kaicataldo/material.vim", -- theme
-	"nvim-tree/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
+	"chriskempson/base16-vim",
+	"franbach/miramare",
+	"kaicataldo/material.vim",
+	"nvim-tree/nvim-web-devicons",
+	"sainnhe/sonokai",
+	"tiagovla/tokyodark.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
 	-- Does not work on gvim outside of terminalm, e.g. neovide, nvim-qt... :(
-	-- (It looks a lot better if instead of this, u run in terminal with set notermguicolors?)
+	-- (and tbh it looks a lot better if instead of this, u run in terminal with set notermguicolors)
 	-- "dylanaraps/wal.vim",
 
 	{
@@ -144,6 +228,7 @@ require("lazy").setup({
 			prefer_startup_root = true,
 		},
 	},
+
 	-- ==/ Highlights/Syntax /==
 	{
 		-- syntax highlighter
@@ -165,8 +250,8 @@ require("lazy").setup({
 					enable = false,
 				},
 				keymaps = {
-					goto_next_usage = "<]-l>",
-					goto_previous_usage = "<[-l>",
+					goto_next_usage = "<]-u>",
+					goto_previous_usage = "<[-u>",
 				}
 			})
 		end,
@@ -196,6 +281,7 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
+
 	-- shows follow-up hotkey options in status bar
 	-- {
 	--	   "folke/which-key.nvim",
@@ -212,7 +298,6 @@ require("lazy").setup({
 
 	-- "mg979/vim-visual-multi", -- Multiple cursors
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
-	"svermeulen/vim-extended-ft", -- f and t searches go through lines, ignore case, can be repeated with ; and ,
 	"chentoast/marks.nvim", -- show marks in sign column
 	{
 
@@ -234,7 +319,9 @@ require("lazy").setup({
 			},
 		},
 	},
-
+	{
+		"tpope/vim-abolish",
+	},
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -317,17 +404,11 @@ require("lazy").setup({
 		dependencies = { "nvim-treesitter" },
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
-	-- {
-		-- -- Visible indents
-		-- "lukas-reineke/indent-blankline.nvim",
-		-- -- main = "indent_blankline",
-		-- config = function()
-			-- require("indent_blankline").setup({
-				-- use_treesitter = true,
-				-- show_current_context = true,
-			-- })
-		-- end,
-	-- },
+	{
+		"lukas-reineke/indent-blankline.nvim",
+		main = "ibl",
+		opts = {},
+	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
 	"RRethy/vim-illuminate", -- Highlight hovered vairables (lsp compatible)
@@ -337,19 +418,13 @@ require("lazy").setup({
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
 	{
 		-- resize splits when focusing them
-		"beauwilliams/focus.nvim",
-		config = function()
-			require("focus").setup()
-		end,
+		"nvim-focus/focus.nvim",
+		commit = "1e2752aa3233497a17640e6474dbd6b35aaeeb26",
+		opts = {
+			excluded_filetypes = {'TelescopePrompt'},
+		},
 	},
 
-	{
-		-- Center buffer to center of screen (or monitor, for me)
-		"shortcuts/no-neck-pain.nvim",
-		-- opts = {
-			--
-		-- },
-	},
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
 	{
@@ -417,6 +492,18 @@ require("lazy").setup({
 					colorscheme = {
 						enable_preview = true,
 					},
+					lsp_references = {
+						include_declaration = false,
+						-- just show path only, on selector
+						-- we have a preview window
+						show_line = false,
+					},
+					lsp_workspace_symbols = {
+						fname_width = 80,
+					},
+					lsp_dynamic_workspace_symbols = {
+						fname_width = 80,
+					},
 				},
 				extensions = {
 					fzf = {
@@ -430,15 +517,15 @@ require("lazy").setup({
 		end,
 	},
 
-	-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
-	-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
-	-- if you don't mind not using telescope, you can always still use
-	-- { "junegunn/fzf", build = ":call fzf#install()" }
 	{
+		-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
+		-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
+		-- if you don't mind not using telescope, you can always still use
+		-- { "junegunn/fzf", build = ":call fzf#install()" }
 		"nvim-telescope/telescope-fzf-native.nvim",
 		build = function()
 			if vim.fn.has("win32") == 1 then
-				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release && cmake --build build --config Release && cmake --install build --prefix build"
+				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G \"Visual Studio 17 2022\" && cmake --build build --config Release && cmake --install build --prefix build"
 			else
 				return "make"
 			end
@@ -466,8 +553,8 @@ require("lazy").setup({
 		dependencies = { "williamboman/mason.nvim" },
 	},
 
-	-- Autocompletion framework
 	{
+		-- Autocompletion framework
 		"hrsh7th/nvim-cmp",
 		dependencies = { "saecki/crates.nvim" },
 	},
@@ -479,11 +566,22 @@ require("lazy").setup({
 		-- Auto-complete document symbols
 		"hrsh7th/cmp-nvim-lsp-document-symbol",
 		-- cmp Snippet completion
-		"saadparwaiz1/cmp_luasnip",
+		{
+			"saadparwaiz1/cmp_luasnip",
+			config = function()
+				require("luasnip.loaders.from_snipmate").lazy_load()
+			end,
+		},
+		-- {
+			-- Various language snippets for luasnip
+			-- I just copied them myself cause I wanted to edit the rust ones
+			-- "honza/vim-snippets",
+			-- dependencies = { "saadparwaiz1/cmp_luasnip" },
+		-- },
 		-- cmp Path completion
 		"hrsh7th/cmp-path",
 		"hrsh7th/cmp-buffer",
-		-- vim : cmdline
+		-- vim ':' cmdline
 		"hrsh7th/cmp-cmdline",
 
 		-- AI-Completion
@@ -508,9 +606,12 @@ require("lazy").setup({
 
 		dependencies = { "hrsh7th/nvim-cmp" },
 	},
-
-	-- Snippet engine
-	"L3MON4D3/LuaSnip",
+	{
+		-- Snippet engine
+		"L3MON4D3/LuaSnip",
+		-- follow latest release.
+		version = "v2.*",
+	},
 
 	-- Icons for cmp
 	"onsails/lspkind.nvim",
@@ -521,16 +622,25 @@ require("lazy").setup({
 	-- Debugging
 	"mfussenegger/nvim-dap",
 
+	-- Crates.io
+	{
+		"saecki/crates.nvim",
+		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
+		config = function()
+			require('crates').setup({
+				src = {
+					cmp = {
+						enabled = true,
+					},
+				},
+			})
+		end,
+	},
+
 	-- Adds extra functionality over rust analyzer
 	{
 		"simrat39/rust-tools.nvim",
 		dependencies = { "mfussenegger/nvim-dap" },
-	},
-
-	-- Very cool crates.io completion commands
-	{
-		"saecki/crates.nvim",
-		dependencies = { "nvim-lua/plenary.nvim" },
 	},
 
 	-- Lsp progress in statusline
@@ -541,7 +651,7 @@ require("lazy").setup({
 	"folke/trouble.nvim", -- pretty lsp info/diagnostics window
 
 	-- ==/ Silly /==
-	-- "Eandrju/cellular-automaton.nvim",
+	"Eandrju/cellular-automaton.nvim",
 
 	{
 		"tamton-aquib/duck.nvim",
@@ -559,26 +669,16 @@ require("lazy").setup({
 		end,
 	},
 
-	-- {
-		-- "Weissle/easy-action",
-		-- dependencies = {
-			-- {
-				-- "kevinhwang91/promise-async",
-				-- module = { "async" },
-			-- },
-		-- },
-	-- },
-	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing to me?
+	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing?
+	-- though it doesn't seem to sort them the same idk needs testing
 	"yegappan/mru", -- most recently used files so i can undo a close
 
 	-- ==/ Off /==
 	-- Don't rly use it
 	-- "ciaranm/detectindent", -- adds :DetectIndent, sets shiftwidth, expandtab and tabstop based on existing use
 
-	-- Cool but I just use :telescope commands?
-	-- "LinArcX/telescope-command-palette.nvim", -- Define custom things for the pretty search menu
-
 	-- -- Allows for the creations of 'submodes'
+	-- rly like the idea, don't have uses for it
 	-- use 'https://github.com/Iron-E/nvim-libmodal'
 
 	-- Very laggy

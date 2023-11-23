@@ -21,6 +21,9 @@ local api = vim.api
 	<space>d to delete whitespace and maybe merge from line down?
 
 	dsw - delete surrounding wrapper - will `dw`, check if there's a (/{/[ etc under cursor, then `ds(` it - fast remove Some(...)
+
+	custom hop searches for frequently used edits:
+	e.g. place caret in the {:|?}, ?}|" or item|) in a println/log::debug!("{:?}", item)
 ]]
 
 --// Environment specific options //--
@@ -102,15 +105,21 @@ opt.clipboard:append({ "unnamed,unnamedplus" })
 opt.nrformats:remove({ "octal" })
 opt.whichwrap = "<>"
 
--- opt.guifont = "JetBrainsMono_Nerd_Font:h12"
--- opt.guifont = "FiraCode_Nerd_Font_Mono:h12"
-opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h13"
+-- font names are weird, you can set guifont=* to list them
+-- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
+-- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
+opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h14"
 
--- g.neovide_remember_window_size  = false
-g.neovide_refresh_rate = 140
+-- g.neovide_remember_window_size = false
+g.neovide_refresh_rate = 144
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
+
+--- Starts a new undo block.
+function SetUndoBreakpoint()
+	vim.o.undolevels = vim.o.undolevels
+end
 
 require("config.functions")
 require("config.lsp")
@@ -130,3 +139,4 @@ function Hasmodule(module)
 
 	return pcall(requiref, module)
 end
+

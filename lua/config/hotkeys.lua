@@ -2,6 +2,7 @@ local g = vim.g
 local keymap = vim.keymap
 local nvim_tree = require("nvim-tree.api")
 local telescope = require("telescope.builtin")
+local luasnip = require("luasnip")
 
 -- :h map-modes
 -- :h nvim_set_keymap
@@ -22,7 +23,8 @@ local modes = {
 -- vim.g.maplocalleader = " "
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "j", "gj", { desc = "Navigate down by visual line instead of text line." })
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "k", "gk", { desc = "Navigate up by visual line instead of text line." })
-keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT}, "<C-s>", ":update<CR>", { silent = true, desc = "Ctrl+s to save." })
+keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "<C-s>", ":update<CR>", { silent = true, desc = "Ctrl+s to save." })
+keymap.set({ modes.NORMAL }, "<leader>=", "m`va{==````", { desc = "Autoformat around current {} scope" })
 
 keymap.set(modes.NORMAL, "<leader><esc>", ":noh<CR>", { silent = true, desc = "Clear search highlighting" })
 keymap.set(modes.NORMAL, "<Leader>w", ":set list!<CR>", { desc = "Show whitespace."})
@@ -154,7 +156,7 @@ end)
 -- true)
 
 -- == spellcheck-mode ==
-keymap.set(modes.NORMAL, "<Leader>ss", ":set spell!<CR>", { silent = true })
+keymap.set(modes.NORMAL, "<Leader>sc", ":set spell!<CR>", { silent = true })
 --toggle suggestions
 keymap.set(modes.NORMAL, "<Leader>s", "z=", { silent = true })
 keymap.set(modes.NORMAL, "<Leader><C-s>", "z=", { silent = true })
@@ -166,3 +168,20 @@ keymap.set(modes.NORMAL, "<Leader>sH", "[S", { silent = true })
 keymap.set(modes.NORMAL, "<Leader>sa", "zg", { silent = true })
 -- ==/ spellcheck mode /==
 
+-- keymap.set(modes.INSERT, "<Tab>", function() luasnip.expand_or_jump() end, {silent = true, noremap = false})
+-- keymap.set(modes.INSERT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+--
+-- keymap.set(modes.SELECT, "<Tab>", function() luasnip.jump(1) end, {silent = true})
+-- keymap.set(modes.SELECT, "<S-Tab>", function() luasnip.jump(-1) end, {silent = true})
+
+-- keymap.set({modes.INSERT, modes.SELECT}, "<C>", function()
+	-- if luasnip.choice_active() then
+		-- luasnip.change_choice(1)
+	-- end
+-- end, {silent = true})
+
+
+-- keymap.set({modes.INSERT, modes.SELECT, modes.NORMAL}, "<leader>p", function()
+	-- -- print(vim.inspect(require("cmp").get_active_entry()))
+	-- print(vim.inspect(require("cmp").get_active_entry() == nil))
+-- end)
