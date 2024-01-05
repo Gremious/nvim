@@ -12,7 +12,6 @@ local api = vim.api
 	Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 
 	a lil rust thing to auto insert #[derive(|)]? Also maybe Snippets to
-
 	surround in Option<>/Result<> (for types not values)
 	surround with .tap(|&element|), pipe whole chain?
 

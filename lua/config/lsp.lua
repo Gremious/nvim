@@ -2,8 +2,6 @@ local lspkind = require("lspkind")
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 local lsp_status = require("lsp-status")
-local cmp = require("cmp")
-local luasnip = require("luasnip")
 
 -- Set completeopt to have a better completion experience
 -- :help completeopt
@@ -16,153 +14,11 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 vim.opt.shortmess:append({ c = true })
 
 mason_lspconfig.setup({
-	-- "codelldb"
-	--
-	-- "pyright"
-	-- "stylua"
-	-- "bash-language-server bashls"
-	-- "css-lsp cssls"
-	-- "dhall-lsp dhall_lsp_server"
-	-- "fixjson"
-	-- "json-lsp jsonls"
-	-- "jsonlint"
-	-- "rust-analyzer rust_analyzer"
-	-- "vim-language-server vimls"
 	ensure_installed = { "lua_ls", "rust_analyzer", "bashls", "efm" },
 })
 
-mason.setup({
-	-- ui = {
-		-- icons = {
-			-- server_installed = "✓",
-			-- server_pending = "➜",
-			-- server_uninstalled = "✗",
-		-- },
-	-- },
-})
-
--- Setup Completion
--- See https://github.com/hrsh7th/nvim-cmp#basic-configuration
-local has_words_before = function()
-  unpack = unpack or table.unpack
-  local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-  return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-cmp.setup({
-	snippet = {
-		expand = function(args)
-			luasnip.lsp_expand(args.body)
-		end,
-	},
-	formatting = {
-		format = lspkind.cmp_format({
-			mode = "symbol_text",
-			menu = {
-				nvim_lsp = "[LSP]",
-				nvim_lsp_signature_help = "[Signature]",
-				nvim_lsp_document_symbol = "[Symbol]",
-				luasnip = "[LuaSnip]",
-				buffer = "[Buffer]",
-				path = "[Path]",
-				cmp_tabnine = "[T9]",
-				crates = "[crates.io]",
-			},
-		}),
-	},
-	completion = {
-		-- don't preselct entries (so it doesn't start at the middle)
-		completeopt = "noselect",
-	},
-
-	-- ignore preselect requests from language servers (go does this mostly so idc rn I think)
-	-- preselect = cmp.PreselectMode.None,
-
-	mapping = {
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
-		["<C-f>"] = cmp.mapping.scroll_docs(4),
-		["<C-Space>"] = cmp.mapping.complete(),
-
-		-- ["<C-e>"] = cmp.mapping.close(),
-		["<Esc>"] = function(default)
-			vim.cmd('stopinsert')
-			default()
-		end,
-
-		-- ["<CR>"] = cmp.mapping.confirm({
-			-- behavior = cmp.ConfirmBehavior.Insert,
-			-- select = false,
-		-- }),
-
-		["<S-Tab>"] = cmp.mapping.select_prev_item(),
-		["<Tab>"] = cmp.mapping.select_next_item(),
-
-		-- ["<Tab>"] = cmp.mapping.select_next_item(),
-		-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
---
-		["<CR>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				if cmp.get_selected_entry() ~= nil then
-					cmp.confirm({
-						behavior = cmp.ConfirmBehavior.Replace,
-						select = false,
-					})
-				elseif luasnip.locally_jumpable(1) then
-					SetUndoBreakpoint()
-					luasnip.jump(1)
-				else
-					fallback()
-				end
-			elseif luasnip.locally_jumpable(1) then
-				SetUndoBreakpoint()
-				luasnip.jump(1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
---
-		-- ["<S-CR>"] = cmp.mapping(function(fallback)
-			-- if cmp.visible() then
-				-- cmp.select_prev_item()
-			-- elseif luasnip.jumpable(-1) then
-				-- SetUndoBreakpoint()
-				-- luasnip.jump(-1)
-			-- else
-				-- fallback()
-			-- end
-		-- end, { "i", "s" }),
-	},
-
-	-- Installed sources
-	sources = {
-		{ name = "nvim_lsp" },
-		{ name = "nvim_lsp_signature_help" },
-		{ name = "nvim_lsp_document_symbol" },
-		{ name = "luasnip" },
-		{ name = "path" },
-		{ name = "buffer" },
-		{ name = "crates" },
-		{ name = "cmp_tabnine" },
-	},
-})
-
-cmp.setup.cmdline(':', {
-	mapping = cmp.mapping.preset.cmdline(),
-	sources = cmp.config.sources(
-		{
-			{ name = 'path' }
-		},
-		{
-			{
-				name = 'cmdline',
-				option = {
-					ignore_cmds = { 'Man', '!' }
-				}
-			}
-		}
-	)
-})
-
 lsp_status.register_progress()
+
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 vim.tbl_extend("keep", capabilities, lsp_status.capabilities)
 
@@ -213,6 +69,10 @@ end
 -- " 300ms of no cursor movement to trigger CursorHold
 -- set updatetime=300
 vim.opt.updatetime = 1000
+
+-- have a fixed column for the diagnostics to appear in
+-- this removes the jitter when warnings/errors flow in
+vim.wo.signcolumn = "yes"
 
 -- Configure LSP through rust-tools.nvim plugin.
 -- rust-tools will configure and enable certain LSP features for us.
@@ -322,6 +182,3 @@ mason_lspconfig.setup_handlers({
 	end
 })
 
--- have a fixed column for the diagnostics to appear in
--- this removes the jitter when warnings/errors flow in
-vim.wo.signcolumn = "yes"

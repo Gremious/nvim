@@ -46,56 +46,6 @@ local function filereadable(path)
 	return vim.fn.filereadable(path) == 1
 end
 
--- local session = require("projections.session")
--- local switcher = require("projections.switcher")
---
--- nvim_create_autocmd({ "VimLeavePre" }, {
---     desc = "Autostore session on VimExit",
---
---     callback = function()
---         session.store(vim.loop.cwd())
---     end,
--- })
---
--- -- -- if vim was started with arguments, do nothing
--- -- -- if in some project's root, attempt to restore that project's session
--- -- -- if not, restore last session
--- -- -- if no sessions, do nothing
--- -- nvim_create_autocmd({ "vimenter" }, {
--- --     desc = "restore last session automatically.",
--- --
--- --     callback = function()
--- --         if vim.fn.argc() ~= 0 then return end
--- --
--- --         if session.info(vim.loop.cwd()) == nil then
--- --             session.restore_latest()
--- --         else
--- --             session.restore(vim.loop.cwd())
--- --         end
--- --     end
--- -- })
---
--- nvim_create_autocmd({ "VimEnter" }, {
---     desc = "Switch to project if vim was started in a project dir.",
---
---     callback = function()
---         if vim.fn.argc() == 0 then
---             switcher.switch(vim.loop.cwd())
---         end
---     end,
--- })
---
--- -- Haven't had problems with md files yet?
--- -- nvim_create_autocmd({ "BufRead, BufNewFile" },
--- --		{
--- --			group = group_filetypes,
--- --			pattern = "*.md",
--- --			callback = function()
--- --				vim.opt.filetype = "markdown"
--- --			end
--- --		}
--- -- )
-
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
 	pattern = "*.tpl",
 	desc = "Highlight tpl files as c++.",
@@ -127,9 +77,9 @@ nvim_create_autocmd({ "BufWritePre" }, {
 	end,
 })
 
-nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
+nvim_create_autocmd({ "VimEnter" }, {
 	pattern = "*",
-	desc = "Allow for a _project.vim file, which will override vim setting per project.",
+	desc = "Allow for _project.vim file, which will override vim setting per project.",
 
 	callback = function(args)
 		local file = args.match
@@ -145,12 +95,3 @@ nvim_create_autocmd({ "BufEnter", "VimEnter" }, {
 	end,
 })
 
--- " exclude quickfix buffers from :bnext and :bprev
--- augroup qf
---	   autocmd FileType qf set nobuflisted
--- augroup END
---
--- " exclude terminal from :bnext and :bprev
--- " augroup term
--- "	 autocmd TermOpen * setlocal nobuflisted
--- " augroup END

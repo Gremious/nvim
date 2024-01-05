@@ -51,6 +51,12 @@ require("lazy").setup({
 		},
 		keys = {
 			{
+				-- rebind the search feature to a different keystroke
+				"//", mode = { "n", "x", "o" },
+				function() require("flash").jump() end,
+				desc = "Flash"
+			},
+			{
 				"<Leader>ss",
 				mode = {"n", "x", "o"},
 				function()
@@ -194,7 +200,6 @@ require("lazy").setup({
 				enable = false
 			},
 			hijack_unnamed_buffer_when_opening = true,
-
 			actions = {
 				open_file = {
 					quit_on_open = true,
@@ -223,8 +228,10 @@ require("lazy").setup({
 				enable = true,
 				update_root = false,
 			},
+
 			-- changes the tree root directory on `dirchanged` and refreshes the tree.
 			sync_root_with_cwd = false,
+
 			-- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
 			respect_buf_cwd = true,
 
@@ -566,8 +573,130 @@ require("lazy").setup({
 	{
 		-- Autocompletion framework
 		"hrsh7th/nvim-cmp",
-		dependencies = { "saecki/crates.nvim" },
-	},
+		dependencies = {
+			"L3MON4D3/LuaSnip",
+			"onsails/lspkind.nvim",
+		},
+		config = function()
+			local cmp = require("cmp")
+			local luasnip = require("luasnip")
+			local lspkind = require("lspkind")
+
+			cmp.setup({
+				snippet = {
+					expand = function(args)
+						luasnip.lsp_expand(args.body)
+					end,
+				},
+				formatting = {
+					format = lspkind.cmp_format({
+						mode = "symbol_text",
+						menu = {
+							nvim_lsp = "[LSP]",
+							nvim_lsp_signature_help = "[Signature]",
+							nvim_lsp_document_symbol = "[Symbol]",
+							luasnip = "[LuaSnip]",
+							buffer = "[Buffer]",
+							path = "[Path]",
+							cmp_tabnine = "[T9]",
+							crates = "[crates.io]",
+						},
+					}),
+				},
+				completion = {
+					-- don't preselct entries (so it doesn't start at the middle)
+					completeopt = "noselect",
+				},
+
+				-- ignore preselect requests from language servers (go does this mostly so idc rn I think)
+				-- preselect = cmp.PreselectMode.None,
+
+				mapping = {
+					["<C-d>"] = cmp.mapping.scroll_docs(-4),
+					["<C-f>"] = cmp.mapping.scroll_docs(4),
+					["<C-Space>"] = cmp.mapping.complete(),
+
+					-- ["<C-e>"] = cmp.mapping.close(),
+					["<Esc>"] = function(default)
+						vim.cmd('stopinsert')
+						default()
+					end,
+
+					-- ["<CR>"] = cmp.mapping.confirm({
+						-- behavior = cmp.ConfirmBehavior.Insert,
+						-- select = false,
+						-- }),
+
+						["<S-Tab>"] = cmp.mapping.select_prev_item(),
+						["<Tab>"] = cmp.mapping.select_next_item(),
+
+						-- ["<Tab>"] = cmp.mapping.select_next_item(),
+						-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+						--
+						["<CR>"] = cmp.mapping(function(fallback)
+							if cmp.visible() then
+								if cmp.get_selected_entry() ~= nil then
+									cmp.confirm({
+										behavior = cmp.ConfirmBehavior.Replace,
+										select = false,
+									})
+								elseif luasnip.locally_jumpable(1) then
+									SetUndoBreakpoint()
+									luasnip.jump(1)
+								else
+									fallback()
+								end
+							elseif luasnip.locally_jumpable(1) then
+								SetUndoBreakpoint()
+								luasnip.jump(1)
+							else
+								fallback()
+							end
+						end, { "i", "s" }),
+						--
+						-- ["<S-CR>"] = cmp.mapping(function(fallback)
+							-- if cmp.visible() then
+							-- cmp.select_prev_item()
+							-- elseif luasnip.jumpable(-1) then
+							-- SetUndoBreakpoint()
+							-- luasnip.jump(-1)
+							-- else
+							-- fallback()
+							-- end
+							-- end, { "i", "s" }),
+						},
+
+						-- Installed sources
+						sources = {
+							{ name = "nvim_lsp" },
+							{ name = "nvim_lsp_signature_help" },
+							{ name = "nvim_lsp_document_symbol" },
+							{ name = "luasnip" },
+							{ name = "path" },
+							{ name = "buffer" },
+							{ name = "crates" },
+							{ name = "cmp_tabnine" },
+						},
+					})
+
+					cmp.setup.cmdline(':', {
+						mapping = cmp.mapping.preset.cmdline(),
+						sources = cmp.config.sources(
+						{
+							{ name = 'path' }
+						},
+						{
+							{
+								name = 'cmdline',
+								option = {
+									ignore_cmds = { 'Man', '!' }
+								}
+							}
+						}
+						)
+					})
+				end,
+			},
 	{
 		-- cmp LSP completion
 		"hrsh7th/cmp-nvim-lsp",
@@ -619,6 +748,7 @@ require("lazy").setup({
 	"github/copilot.vim",
 	{
 		-- Snippet engine
+		--
 		"L3MON4D3/LuaSnip",
 		-- follow latest release.
 		version = "v2.*",

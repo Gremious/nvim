@@ -2,7 +2,6 @@ local g = vim.g
 local keymap = vim.keymap
 local nvim_tree = require("nvim-tree.api")
 local telescope = require("telescope.builtin")
-local luasnip = require("luasnip")
 
 -- :h map-modes
 -- :h nvim_set_keymap
@@ -68,6 +67,10 @@ keymap.set(modes.NORMAL, "<C-Right>", ":BufferLineMoveNext<CR>", { silent = true
 keymap.set(modes.NORMAL, "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<leader>p", ":BufferLineTogglePin<CR>")
 keymap.set(modes.NORMAL, "<leader>P", ":BufferLinePick<CR>")
+
+keymap.set(modes.NORMAL, "<leader>bq", ":BD<CR>")
+keymap.set(modes.NORMAL, "<leader>wq", ":q<CR>")
+keymap.set(modes.NORMAL, "<leader>bp", ":BD<CR>")
 
 keymap.set(modes.NORMAL, "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<A-Left>", ":tabprev<CR>", { silent = true })
