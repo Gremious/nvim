@@ -31,18 +31,21 @@ keymap.set(modes.NORMAL, "<Leader>w", ":set list!<CR>", { desc = "Show whitespac
 
 keymap.set(modes.NORMAL, "<Leader>u", ":GundoToggle<CR>")
 
-vim.keymap.set(modes.NORMAL, "<Leader>rg", function()
+vim.keymap.set(modes.NORMAL, "<Leader>fg", function()
 	telescope.live_grep({ use_regex = true })
 end)
-vim.keymap.set(modes.NORMAL, "<Leader>f", function()
+vim.keymap.set(modes.NORMAL, "<Leader>ff", function()
 	-- fzf native only sorts best scores and has some filters (e.g. 'word),
 	-- grep actually does the search
 	telescope.grep_string({ search = "", use_regex = true })
 end)
-vim.keymap.set(modes.NORMAL, "<Leader>F", function()
+vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
 	telescope.find_files()
 end)
-vim.keymap.set(modes.NORMAL, "<Leader>S", function()
+vim.keymap.set(modes.NORMAL, "<Leader>fs", function()
+	telescope.lsp_document_symbols()
+end)
+vim.keymap.set(modes.NORMAL, "<Leader>fS", function()
 	telescope.lsp_dynamic_workspace_symbols()
 end)
 vim.keymap.set(modes.NORMAL, "<Leader>?", function()
