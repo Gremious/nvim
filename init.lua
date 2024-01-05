@@ -3,6 +3,11 @@ local g = vim.g
 local api = vim.api
 
 --[[
+-- TODO:
+-- Figure out spaces/tab options (plugin?)
+-- forrmatting efm server? rustutp? switch rust tools to new thing
+-- move all things to insttall file, maybe organize it better?
+-- remove hop search plss
 	TODO:
 	Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
 

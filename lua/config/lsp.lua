@@ -28,7 +28,7 @@ mason_lspconfig.setup({
 	-- "jsonlint"
 	-- "rust-analyzer rust_analyzer"
 	-- "vim-language-server vimls"
-	ensure_installed = { "lua_ls", "rust_analyzer", "bashls" },
+	ensure_installed = { "lua_ls", "rust_analyzer", "bashls", "efm" },
 })
 
 mason.setup({
@@ -69,17 +69,36 @@ cmp.setup({
 			},
 		}),
 	},
+	completion = {
+		-- don't preselct entries (so it doesn't start at the middle)
+		completeopt = "noselect",
+	},
+
+	-- ignore preselect requests from language servers (go does this mostly so idc rn I think)
+	-- preselect = cmp.PreselectMode.None,
+
 	mapping = {
 		["<C-d>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-Space>"] = cmp.mapping.complete(),
 
-		["<C-e>"] = cmp.mapping.close(),
-		-- ["<Esc>"] = cmp.mapping.close(),
+		-- ["<C-e>"] = cmp.mapping.close(),
+		["<Esc>"] = function(default)
+			vim.cmd('stopinsert')
+			default()
+		end,
 
-		["<Tab>"] = cmp.mapping.select_next_item(),
+		-- ["<CR>"] = cmp.mapping.confirm({
+			-- behavior = cmp.ConfirmBehavior.Insert,
+			-- select = false,
+		-- }),
+
 		["<S-Tab>"] = cmp.mapping.select_prev_item(),
+		["<Tab>"] = cmp.mapping.select_next_item(),
 
+		-- ["<Tab>"] = cmp.mapping.select_next_item(),
+		-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
+--
 		["<CR>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				if cmp.get_selected_entry() ~= nil then
@@ -99,19 +118,18 @@ cmp.setup({
 			else
 				fallback()
 			end
-
 		end, { "i", "s" }),
-
-		["<S-CR>"] = cmp.mapping(function(fallback)
-			if cmp.visible() then
-				cmp.select_prev_item()
-			elseif luasnip.jumpable(-1) then
-				SetUndoBreakpoint()
-				luasnip.jump(-1)
-			else
-				fallback()
-			end
-		end, { "i", "s" }),
+--
+		-- ["<S-CR>"] = cmp.mapping(function(fallback)
+			-- if cmp.visible() then
+				-- cmp.select_prev_item()
+			-- elseif luasnip.jumpable(-1) then
+				-- SetUndoBreakpoint()
+				-- luasnip.jump(-1)
+			-- else
+				-- fallback()
+			-- end
+		-- end, { "i", "s" }),
 	},
 
 	-- Installed sources
@@ -237,11 +255,18 @@ local rust_tools_rust_server = {
 			-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
 			-- https://github.com/neovim/nvim-lspconfig/issues/1735
 			-- it's in init.vim as a real env variable
-				server = {
-					extraEnv = {
-						CARGO_TARGET_DIR = "target/rust-analyzer-check"
-					}
+			server = {
+				extraEnv = {
+					CARGO_TARGET_DIR = "target/rust-analyzer-check"
 				}
+			},
+
+			-- Doesn't seem to really work...
+			rustfmt = {
+				rangeFormatting = {
+					enable = true,
+				},
+			},
 		},
 	},
 }
@@ -278,6 +303,23 @@ mason_lspconfig.setup_handlers({
 			capabilities = capabilities,
 		})
 	end,
+
+	["efm"] = function()
+		require("lspconfig").efm.setup {
+			init_options = {
+				documentFormatting = true,
+				documentRangeFormatting = true,
+			},
+			settings = {
+				rootMarkers = {".git/"},
+				languages = {
+					rust = {
+						{ formatCommand = "rustfmt", formatStdin = true }
+					}
+				}
+			}
+		}
+	end
 })
 
 -- have a fixed column for the diagnostics to appear in
