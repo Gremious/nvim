@@ -616,6 +616,7 @@ require("lazy").setup({
 
 		dependencies = { "hrsh7th/nvim-cmp" },
 	},
+	"github/copilot.vim",
 	{
 		-- Snippet engine
 		"L3MON4D3/LuaSnip",
