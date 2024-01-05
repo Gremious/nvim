@@ -186,6 +186,10 @@ require("lazy").setup({
 		"kyazdani42/nvim-tree.lua",
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		opts = {
+			filters = {
+				git_ignored = false,
+				dotfiles = false,
+			},
 			filesystem_watchers = {
 				enable = false
 			},
@@ -405,9 +409,15 @@ require("lazy").setup({
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
 	{
-		"lukas-reineke/indent-blankline.nvim",
-		main = "ibl",
-		opts = {},
+		"shellRaining/hlchunk.nvim",
+		event = { "UIEnter" },
+		config = function()
+			require("hlchunk").setup({
+				blank = {
+					enable = false,
+				}
+			})
+		end
 	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
