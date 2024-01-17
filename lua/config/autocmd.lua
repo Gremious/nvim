@@ -95,3 +95,38 @@ nvim_create_autocmd({ "VimEnter" }, {
 	end,
 })
 
+local root_names = { '.git', 'Makefile' }
+
+-- Cache to use for speed up (at cost of possibly outdated results)
+local root_cache = {}
+
+nvim_create_autocmd({ "BufEnter" }, {
+	desc = "Roots on directory change.",
+
+	callback = function()
+		-- Get directory path to start search from
+		local path = vim.api.nvim_buf_get_name(0)
+		if path == '' then return end
+		path = vim.fs.dirname(path)
+
+		-- Try cache and resort to searching upward for root directory
+		-- local root = root_cache[path]
+		-- if root == nil then
+			-- local root_files = vim.fs.find(root_names, {
+				-- path = path,
+				-- upward = true,
+				-- stop = vim.loop.os_homedir(),
+				-- limit = math.huge,
+			-- })
+			-- print(vim.inspect(root_files))
+			-- local root_file = root_files[#root_files]
+			-- if root_file == nil then return end
+			-- root = vim.fs.dirname(root_file)
+			-- root_cache[path] = root
+		-- end
+--
+		-- vim.cmd(":tch " .. root)
+		-- Set current directory
+		-- vim.fn.chdir(root)
+	end
+})

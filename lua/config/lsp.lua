@@ -1,6 +1,3 @@
-local lspkind = require("lspkind")
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
 local lsp_status = require("lsp-status")
 
 -- Set completeopt to have a better completion experience
@@ -13,10 +10,6 @@ vim.o.completeopt = "menuone,noinsert,noselect"
 -- Avoid showing extra messages when using completion
 vim.opt.shortmess:append({ c = true })
 
-mason_lspconfig.setup({
-	ensure_installed = { "lua_ls", "rust_analyzer", "bashls", "efm" },
-})
-
 lsp_status.register_progress()
 
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -26,12 +19,12 @@ local function on_attach(client, buffer)
 	local keymap = vim.keymap
 	local keymap_opts = { buffer = buffer, silent = true }
 
-	if client.name == "rust_analyzer" then
-		keymap.set("n", "<leader>h", ":RustHoverActions<cr>", keymap_opts)
-		keymap.set("n", "<leader>gp", ":RustParentModule<cr>", keymap_opts)
-	else
+	-- if client.name == "rust_analyzer" then
+		-- keymap.set("n", "<leader>h", ":RustHoverActions<cr>", keymap_opts)
+		-- keymap.set("n", "<leader>gp", ":RustParentModule<cr>", keymap_opts)
+	-- else
 		keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
-	end
+	-- end
 
 	-- Code navigation and shortcuts
 	keymap.set("n", "<leader>m", vim.diagnostic.open_float, keymap_opts)
@@ -74,64 +67,40 @@ vim.opt.updatetime = 1000
 -- this removes the jitter when warnings/errors flow in
 vim.wo.signcolumn = "yes"
 
--- Configure LSP through rust-tools.nvim plugin.
--- rust-tools will configure and enable certain LSP features for us.
--- See https://github.com/simrat39/rust-tools.nvim#configuration
-local rust_tools_config = {
-	-- executor = require("rust-tools.executors").quickfix,
-
-	inlay_hints = {
-		auto = true,
-		parameter_hints_prefix = "<-",
-		other_hints_prefix = "->",
-	},
+vim.g.rustaceanvim = {
 	server = {
-		standalone = false,
-	},
-	dap = function()
-		local install_root_dir = vim.fn.stdpath "data" .. "/mason"
-		local extension_path = install_root_dir .. "/packages/codelldb/extension/"
-		local codelldb_path = extension_path .. "adapter/codelldb"
-		local liblldb_path = extension_path .. "lldb/lib/liblldb.so"
+		on_attach = on_attach,
+		settings = {
+			-- List of all options:
+			-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
+			["rust-analyzer"] = {
+				check = {
+					command = "cranky",
+					-- extraArgs = { "--all", "--", "-W", "clippy::all" },
+				},
 
-		return {
-			adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
-		}
-	end,
-}
+				-- rust-analyzer.server.extraEnv
+				-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
+				-- https://github.com/neovim/nvim-lspconfig/issues/1735
+				-- it's in init.vim as a real env variable
+				server = {
+					extraEnv = {
+						CARGO_TARGET_DIR = "target/rust-analyzer-check"
+					}
+				},
 
-local rust_tools_rust_server = {
-	on_attach = on_attach,
-	settings = {
-		-- List of all options:
-		-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
-		["rust-analyzer"] = {
-			check = {
-				command = "cranky",
-				-- extraArgs = { "--all", "--", "-W", "clippy::all" },
-			},
-
-			-- rust-analyzer.server.extraEnv
-			-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
-			-- https://github.com/neovim/nvim-lspconfig/issues/1735
-			-- it's in init.vim as a real env variable
-			server = {
-				extraEnv = {
-					CARGO_TARGET_DIR = "target/rust-analyzer-check"
-				}
-			},
-
-			-- Doesn't seem to really work...
-			rustfmt = {
-				rangeFormatting = {
-					enable = true,
+				rustfmt = {
+					rangeFormatting = {
+						enable = true,
+					},
 				},
 			},
 		},
 	},
 }
 
-mason_lspconfig.setup_handlers({
+
+require("mason-lspconfig").setup_handlers({
 	-- The first entry (without a key) will be the default handler
 	-- and will be called for each installed server that doesn't have a dedicated handler.
 	function(server_name)
@@ -153,17 +122,6 @@ mason_lspconfig.setup_handlers({
 		})
 	end,
 
-	["rust_analyzer"] = function()
-		require("rust-tools").setup({
-			-- rust_tools specific settings
-			tools = rust_tools_config,
-			-- on_attach is actually bound rust-tools server
-			server = rust_tools_rust_server,
-			-- I use lsp-status which adds itself to the capabilities table
-			capabilities = capabilities,
-		})
-	end,
-
 	["efm"] = function()
 		require("lspconfig").efm.setup {
 			init_options = {
@@ -181,4 +139,3 @@ mason_lspconfig.setup_handlers({
 		}
 	end
 })
-

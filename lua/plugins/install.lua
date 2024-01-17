@@ -174,6 +174,7 @@ require("lazy").setup({
 	},
 
 	-- ==/ themes /==
+	-- TODO: would be cool to have live telesacope swithcer, and there's a plugin for per project themes
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
 	"chriskempson/base16-vim",
@@ -331,6 +332,7 @@ require("lazy").setup({
 		},
 	},
 	{
+		-- TODO: set this up, it prevents u from typoing sepErated lol
 		"tpope/vim-abolish",
 	},
 	{
@@ -342,6 +344,7 @@ require("lazy").setup({
 				options = {
 					-- TODO: Custom insert fn: if current buff pinned, insert at leftmost (relative) else, after current
 					-- Waiting on pinned status to be exposed
+					-- https://github.com/akinsho/bufferline.nvim/issues/736
 					sort_by = "insert_after_current",
 					show_close_icon = false,
 					show_buffer_close_icons = false,
@@ -353,7 +356,7 @@ require("lazy").setup({
 						style = "icon",
 					},
 					-- separator_style = "slant" | "thick" | "thin" | { 'any', 'any' },
-					-- separator_style = "thick",
+					separator_style = "thin",
 
 					diagnostics = "nvim_lsp",
 					diagnostics_update_in_insert = true,
@@ -374,10 +377,9 @@ require("lazy").setup({
 			})
 		end
 	},
-	-- Scrope buffers to vim tabs, :bnext and :bprev are workspaces basically
+	-- Scopes/hides buffers to vim tabs, :bnext and :bprev are now workspaces basically
 	{
 		"tiagovla/scope.nvim",
-		-- lazy = false,
 		opts = { restore_state = false },
 	},
 	-- Don't close the whole tab/window on :bd - use :BD instead
@@ -554,9 +556,29 @@ require("lazy").setup({
 	},
 
 	-- ==/ LSP /==
-	-- https://github.com/sharksforarms/neovim-rust/
-
-	"neovim/nvim-lspconfig",
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = { "lua_ls", "bashls", "efm" },
+				-- dsiable rust, rustacean handles it
+				-- servers = {
+					-- rust_analyzer = {},
+				-- },
+				-- setup = {
+					-- rust_analyzer = function()
+						-- return true
+					-- end,
+				-- },
+			})
+		end,
+	},
+	-- Setup rust
+	{
+		'mrcjkb/rustaceanvim',
+		version = '^3', -- Recommended
+		ft = { 'rust' },
+	},
 	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
@@ -569,6 +591,7 @@ require("lazy").setup({
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },
 	},
+
 
 	{
 		-- Autocompletion framework
@@ -757,11 +780,26 @@ require("lazy").setup({
 	-- Icons for cmp
 	"onsails/lspkind.nvim",
 
-	-- Formatter (e.g. rustfmt)
-	"mhartington/formatter.nvim",
-
 	-- Debugging
-	"mfussenegger/nvim-dap",
+	{
+		"mfussenegger/nvim-dap",
+		config = function()
+			local codelldb_path = vim.fn.stdpath("data") .. "/mason/packages/codelldb/extension/adapter/codelldb"
+
+			require("dap").adapters.lldb = {
+				type = 'server',
+				host = '127.0.0.1',
+				port = 13000,
+				executable = {
+					command = codelldb_path ,
+					args = {"--port", "13000"},
+
+					-- on windows you may have to uncomment this:
+					-- detached = false,
+				},
+			}
+		end,
+	},
 
 	-- Crates.io
 	{
@@ -776,12 +814,6 @@ require("lazy").setup({
 				},
 			})
 		end,
-	},
-
-	-- Adds extra functionality over rust analyzer
-	{
-		"simrat39/rust-tools.nvim",
-		dependencies = { "mfussenegger/nvim-dap" },
 	},
 
 	-- Lsp progress in statusline
