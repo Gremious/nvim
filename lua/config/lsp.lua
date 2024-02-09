@@ -122,20 +122,20 @@ require("mason-lspconfig").setup_handlers({
 		})
 	end,
 
-	["efm"] = function()
-		require("lspconfig").efm.setup {
-			init_options = {
-				documentFormatting = true,
-				documentRangeFormatting = true,
-			},
-			settings = {
-				rootMarkers = {".git/"},
-				languages = {
-					rust = {
-						{ formatCommand = "rustfmt", formatStdin = true }
-					}
-				}
-			}
-		}
-	end
+	-- ["efm"] = function()
+		-- require("lspconfig").efm.setup {
+			-- init_options = {
+				-- documentFormatting = true,
+				-- documentRangeFormatting = true,
+			-- },
+			-- settings = {
+				-- rootMarkers = {".git/"},
+				-- languages = {
+					-- rust = {
+						-- { formatCommand = "rustfmt", formatStdin = true }
+					-- }
+				-- }
+			-- }
+		-- }
+	-- end
 })

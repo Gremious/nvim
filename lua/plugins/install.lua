@@ -16,7 +16,12 @@ require("lazy").setup({
 		opts = {
 			modes = {
 				search = {
-					enabled = false,
+					multi_window = false,
+				},
+				modes = {
+					search = {
+						enabled = false,
+					},
 				},
 				-- dynamic configuration for ftFT motions
 				char = {
@@ -50,12 +55,12 @@ require("lazy").setup({
 			},
 		},
 		keys = {
-			{
-				-- rebind the search feature to a different keystroke
-				"//", mode = { "n", "x", "o" },
-				function() require("flash").jump() end,
-				desc = "Flash"
-			},
+			-- {
+				-- -- rebind the search feature to a different keystroke
+				-- "//", mode = { "n", "x", "o" },
+				-- function() require("flash").jump() end,
+				-- desc = "Flash"
+			-- },
 			{
 				"<Leader>ss",
 				mode = {"n", "x", "o"},
@@ -248,8 +253,16 @@ require("lazy").setup({
 		build = ":TSUpdate",
 		config = function()
 			require("nvim-treesitter.configs").setup({
-				ensure_installed = "all",
-				-- ensure_installed = { "rust", "markdown", "lua", "vimdoc", "yaml" },
+				-- ensure_installed = "all",
+				ensure_installed = {
+					"rust",
+					"markdown",
+					"lua",
+					"vimdoc",
+					"yaml",
+					"css",
+					"html",
+				},
 				highlight = {
 					enable = true,
 				},
@@ -307,6 +320,18 @@ require("lazy").setup({
 	--	   -- })
 	--	   end,
 	-- },
+	{
+		"johmsalas/text-case.nvim",
+		dependencies = { "nvim-telescope/telescope.nvim" },
+		config = function()
+			require("textcase").setup({})
+			require("telescope").load_extension("textcase")
+		end,
+		keys = {
+			"gc", -- Default invocation prefix
+			{ "gc.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
+		},
+	},
 
 	-- "mg979/vim-visual-multi", -- Multiple cursors
 	"tpope/vim-repeat", -- remaps . in a way that plugins can tap into it
@@ -343,7 +368,6 @@ require("lazy").setup({
 			require("bufferline").setup({
 				options = {
 					-- TODO: Custom insert fn: if current buff pinned, insert at leftmost (relative) else, after current
-					-- Waiting on pinned status to be exposed
 					-- https://github.com/akinsho/bufferline.nvim/issues/736
 					sort_by = "insert_after_current",
 					show_close_icon = false,

@@ -113,8 +113,12 @@ opt.whichwrap = "<>"
 -- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
 opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h14"
 
--- g.neovide_remember_window_size = false
-g.neovide_refresh_rate = 144
+if vim.g.neovide then
+	-- g.neovide_remember_window_size = false
+	-- vim.g.neovide_scroll_animation_length = 0.15
+	-- vim.g.neovide_scroll_animation_far_lines = 9999
+	vim.g.neovide_refresh_rate = 144
+end
 
 opt.ignorecase = true -- remove case check in search
 opt.smartcase = true -- only care about case in search if there are upper-case letters, needs ignorecase
