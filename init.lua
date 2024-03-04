@@ -9,6 +9,10 @@ local api = vim.api
 -- move all things to insttall file, maybe organize it better?
 	TODO:
 	Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
+	Actually bufferline now merged a pr that enabels renaming of tabpages so check that out
+	-
+	Also, would be cool to write a autocmd that replaces the current tab if it wasn't written in?
+	Like default vim behaviour. Idk how nice that would really be.
 
 	a lil rust thing to auto insert #[derive(|)]? Also maybe Snippets to
 	surround in Option<>/Result<> (for types not values)

@@ -582,10 +582,13 @@ require("lazy").setup({
 	-- ==/ LSP /==
 	{
 		"neovim/nvim-lspconfig",
+		-- opts = {
+			-- inlay_hints = { enabled = true },
+		-- },
 		config = function()
 			require("mason-lspconfig").setup({
-				ensure_installed = { "lua_ls", "bashls", "efm" },
-				-- dsiable rust, rustacean handles it
+				ensure_installed = { "rust_analyzer", "lua_ls", "bashls", "vimls" },
+				-- disable mason rust if you use rustacean with rustup
 				-- servers = {
 					-- rust_analyzer = {},
 				-- },
@@ -597,6 +600,16 @@ require("lazy").setup({
 			})
 		end,
 	},
+
+	{
+		"lvimuser/lsp-inlayhints.nvim",
+
+		config = function()
+			require("lsp-inlayhints").setup()
+			vim.cmd('highlight! link LspInlayHint Comment')
+		end,
+	},
+
 	-- Setup rust
 	{
 		'mrcjkb/rustaceanvim',
