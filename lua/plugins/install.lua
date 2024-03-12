@@ -232,7 +232,7 @@ require("lazy").setup({
 			-- update the focused file on `bufenter`, un-collapses the folders recursively until it finds the file.
 			update_focused_file = {
 				enable = true,
-				update_root = false,
+				update_root = true,
 			},
 
 			-- changes the tree root directory on `dirchanged` and refreshes the tree.
@@ -280,9 +280,13 @@ require("lazy").setup({
 				}
 			})
 		end,
+		dependencies = {
+			-- additional parser
+			{ "nushell/tree-sitter-nu" },
+		},
 	},
 	"nvim-treesitter/playground", -- treesitter debug
-	{ "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
+	-- { "fladson/vim-kitty", branch = "main" }, -- kitty config highlighting
 	"imsnif/kdl.vim", -- kdl highlighting
 	"vmchale/dhall-vim", -- dhall highlighting
 	"ron-rs/ron.vim", -- ron highlighting
