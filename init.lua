@@ -3,6 +3,7 @@ local g = vim.g
 local api = vim.api
 
 --[[
+--TODO: Disable highlght on super long lines, lags to hell on e.g. massive single line json
 -- TODO:
 -- Figure out spaces/tab options (plugin?)
 -- forrmatting efm server? rustutp? switch rust tools to new thing
