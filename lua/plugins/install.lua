@@ -613,7 +613,7 @@ require("lazy").setup({
 	-- Setup rust
 	{
 		'mrcjkb/rustaceanvim',
-		version = '^3', -- Recommended
+		version = '^4', -- Recommended
 		ft = { 'rust' },
 	},
 	{
@@ -622,8 +622,53 @@ require("lazy").setup({
 		config = function()
 			-- lazy doesn't seem to do this one auto
 			require("mason").setup()
-		end,
-	},
+			-- require("mason").setup()
+			-- require("mason-lspconfig").setup()
+			--
+			-- require("mason-lspconfig").setup_handlers({
+				-- -- The first entry (without a key) will be the default handler
+				-- -- and will be called for each installed server that doesn't have a dedicated handler.
+				-- function(server_name)
+					-- require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
+					-- end,
+					--
+					-- -- ["rust_analyzer"] = function()
+						-- -- end,
+						--
+						-- ["lua_ls"] = function()
+							-- require("lspconfig").lua_ls.setup({
+								-- on_attach = on_attach,
+								-- capabilities = capabilities,
+								-- settings = {
+									-- Lua = {
+										-- diagnostics = {
+											-- -- Get the language server to recognize the `vim` global
+											-- globals = { "vim" },
+											-- },
+											-- },
+											-- },
+											-- })
+											-- end,
+											--
+											-- -- ["efm"] = function()
+												-- -- require("lspconfig").efm.setup {
+													-- -- init_options = {
+														-- -- documentFormatting = true,
+														-- -- documentRangeFormatting = true,
+														-- -- },
+														-- -- settings = {
+															-- -- rootMarkers = {".git/"},
+															-- -- languages = {
+																-- -- rust = {
+																	-- -- { formatCommand = "rustfmt", formatStdin = true }
+																	-- -- }
+																	-- -- }
+																	-- -- }
+																	-- -- }
+																	-- -- end
+																	-- })
+																end,
+															},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = { "williamboman/mason.nvim" },

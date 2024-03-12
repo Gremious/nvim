@@ -65,16 +65,16 @@ local function on_attach(client, bufnr)
 end
 
 vim.g.rustaceanvim = {
-	server = {
-		cmd = function()
-			local mason_registry = require('mason-registry')
-			local package = mason_registry.get_package('rust-analyzer')
-			local install_dir = package:get_install_path()
-			-- find out where the binary is in the install dir, and append it to the install dir
-			local ra_bin = install_dir .. '/' .. 'rust-analyzer.exe' -- this may need tweaking
-			return { ra_bin } -- you can add additional args like `'--logfile', '/path/to/logfile'` to the list
-		end,
-	},
+	-- server = {
+		-- cmd = function()
+			-- local mason_registry = require('mason-registry')
+			-- local package = mason_registry.get_package('rust-analyzer')
+			-- local install_dir = package:get_install_path()
+			-- -- find out where the binary is in the install dir, and append it to the install dir
+			-- local ra_bin = install_dir .. '/' .. 'rust-analyzer.exe' -- this may need tweaking
+			-- return { ra_bin } -- you can add additional args like `'--logfile', '/path/to/logfile'` to the list
+		-- end,
+	-- },
 
 	tools = {
 		code_actions = {
@@ -138,43 +138,3 @@ vim.g.rustaceanvim = {
 	},
 }
 
-
-require("mason-lspconfig").setup_handlers({
-	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have a dedicated handler.
-	function(server_name)
-		require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
-	end,
-
-	["lua_ls"] = function()
-		require("lspconfig").lua_ls.setup({
-			on_attach = on_attach,
-			capabilities = capabilities,
-			settings = {
-				Lua = {
-					diagnostics = {
-						-- Get the language server to recognize the `vim` global
-						globals = { "vim" },
-					},
-				},
-			},
-		})
-	end,
-
-	-- ["efm"] = function()
-		-- require("lspconfig").efm.setup {
-			-- init_options = {
-				-- documentFormatting = true,
-				-- documentRangeFormatting = true,
-			-- },
-			-- settings = {
-				-- rootMarkers = {".git/"},
-				-- languages = {
-					-- rust = {
-						-- { formatCommand = "rustfmt", formatStdin = true }
-					-- }
-				-- }
-			-- }
-		-- }
-	-- end
-})
