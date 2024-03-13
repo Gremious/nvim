@@ -589,20 +589,6 @@ require("lazy").setup({
 		-- opts = {
 			-- inlay_hints = { enabled = true },
 		-- },
-		config = function()
-			require("mason-lspconfig").setup({
-				ensure_installed = { "rust_analyzer", "lua_ls", "bashls", "vimls" },
-				-- disable mason rust if you use rustacean with rustup
-				-- servers = {
-					-- rust_analyzer = {},
-				-- },
-				-- setup = {
-					-- rust_analyzer = function()
-						-- return true
-					-- end,
-				-- },
-			})
-		end,
 	},
 
 	{
@@ -616,66 +602,83 @@ require("lazy").setup({
 
 	-- Setup rust
 	{
-		'mrcjkb/rustaceanvim',
-		version = '^4', -- Recommended
-		ft = { 'rust' },
-	},
-	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
 		config = function()
 			-- lazy doesn't seem to do this one auto
 			require("mason").setup()
-			-- require("mason").setup()
-			-- require("mason-lspconfig").setup()
-			--
+		end,
+	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = { "williamboman/mason.nvim" },
+		config = function()
+			require("mason-lspconfig").setup({
+				ensure_installed = { "rust_analyzer", "lua_ls", "bashls", "vimls" },
+
+				-- Don't hook up rust-analyzer via mason-lspconfig
+				-- It's hooked up via rustacean.
+				-- mason-lspconfig is for all the other lsps
+				servers = {
+					rust_analyzer = {},
+				},
+				setup = {
+					rust_analyzer = function()
+						return true
+					end,
+				},
+			})
+
+
 			-- require("mason-lspconfig").setup_handlers({
 				-- -- The first entry (without a key) will be the default handler
 				-- -- and will be called for each installed server that doesn't have a dedicated handler.
 				-- function(server_name)
 					-- require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
-					-- end,
-					--
-					-- -- ["rust_analyzer"] = function()
-						-- -- end,
-						--
-						-- ["lua_ls"] = function()
-							-- require("lspconfig").lua_ls.setup({
-								-- on_attach = on_attach,
-								-- capabilities = capabilities,
-								-- settings = {
-									-- Lua = {
-										-- diagnostics = {
-											-- -- Get the language server to recognize the `vim` global
-											-- globals = { "vim" },
-											-- },
-											-- },
-											-- },
-											-- })
-											-- end,
-											--
-											-- -- ["efm"] = function()
-												-- -- require("lspconfig").efm.setup {
-													-- -- init_options = {
-														-- -- documentFormatting = true,
-														-- -- documentRangeFormatting = true,
-														-- -- },
-														-- -- settings = {
-															-- -- rootMarkers = {".git/"},
-															-- -- languages = {
-																-- -- rust = {
-																	-- -- { formatCommand = "rustfmt", formatStdin = true }
-																	-- -- }
-																	-- -- }
-																	-- -- }
-																	-- -- }
-																	-- -- end
-																	-- })
-																end,
-															},
+				-- end,
+--
+				-- ["lua_ls"] = function()
+					-- require("lspconfig").lua_ls.setup({
+						-- on_attach = on_attach,
+						-- capabilities = capabilities,
+						-- settings = {
+							-- Lua = {
+								-- diagnostics = {
+									-- -- Get the language server to recognize the `vim` global
+									-- globals = { "vim" },
+								-- },
+							-- },
+						-- },
+					-- })
+				-- end,
+--
+				-- -- ["efm"] = function()
+					-- -- require("lspconfig").efm.setup {
+						-- -- init_options = {
+							-- -- documentFormatting = true,
+							-- -- documentRangeFormatting = true,
+						-- -- },
+						-- -- settings = {
+							-- -- rootMarkers = {".git/"},
+							-- -- languages = {
+								-- -- rust = {
+									-- -- { formatCommand = "rustfmt", formatStdin = true }
+								-- -- }
+							-- -- }
+						-- -- }
+					-- -- }
+				-- end
+			-- })
+		end,
+	},
 	{
-		"williamboman/mason-lspconfig.nvim",
+		'mrcjkb/rustaceanvim',
+		version = '^4', -- Recommended
+		ft = { 'rust' },
 		dependencies = { "williamboman/mason.nvim" },
+		-- config = function()
+			-- print("hello rustacnea")
+		-- end
 	},
 
 
