@@ -84,10 +84,10 @@ vim.g.rustaceanvim = {
 			-- List of all options:
 			-- https://github.com/rust-analyzer/rust-analyzer/blob/master/docs/user/generated_config.adoc
 			["rust-analyzer"] = {
-				check = {
-					command = "cranky",
-					-- extraArgs = { "--all", "--", "-W", "clippy::all" },
-				},
+				-- check = {
+					-- command = "clippy",
+					-- -- extraArgs = { "--all", "--", "-W", "clippy::all" },
+				-- },
 
 				-- rust-analyzer.server.extraEnv
 				-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
