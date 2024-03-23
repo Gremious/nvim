@@ -481,6 +481,7 @@ require("lazy").setup({
 			vim.g.cycle_no_mappings = true
 			vim.g.cycle_phased_search = true
 			vim.fn["cycle#add_groups"]({
+				{ "greater", "equal", "less" },
 				{ "true", "false" },
 				{ "yes", "no" },
 				{ "on", "off" },
