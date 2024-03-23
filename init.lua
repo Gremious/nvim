@@ -3,6 +3,10 @@ local g = vim.g
 local api = vim.api
 
 --[[
+--TODO: Don't comment out empyt lines, and just configure commenter better
+--
+--TODO: 1. Full file path in statusline
+--		2. On item hover, full crtate module path in statusline
 --TODO: Disable highlght on super long lines, lags to hell on e.g. massive single line json
 -- TODO:
 -- Figure out spaces/tab options (plugin?)
