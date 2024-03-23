@@ -64,6 +64,9 @@ require("config.lazy-bootstrap")
 require("plugins")
 require("config.theme")
 
+g.loaded_netrw = 1
+g.loaded_netrwPlugin = 1
+
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
 
@@ -120,7 +123,7 @@ opt.whichwrap = "<>"
 -- font names are weird, you can set guifont=* to list them
 -- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
 -- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
-opt.guifont = "FiraCode_NF,Segoe_UI_Emoji:h14"
+opt.guifont = "FiraCode Nerd Font,Segoe_UI_Emoji:h14"
 
 if vim.g.neovide then
 	-- g.neovide_remember_window_size = false

@@ -195,55 +195,75 @@ require("lazy").setup({
 	-- "dylanaraps/wal.vim",
 
 	{
-		"kyazdani42/nvim-tree.lua",
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		opts = {
-			filters = {
-				git_ignored = false,
-				dotfiles = false,
-			},
-			filesystem_watchers = {
-				enable = false
-			},
-			hijack_unnamed_buffer_when_opening = true,
-			actions = {
-				open_file = {
-					quit_on_open = true,
-					window_picker = {
-						enable = false,
+		"nvim-tree/nvim-tree.lua",
+		lazy = false,
+		config = function()
+			-- nvim-tree recomends explicitly not lazy loading,
+			-- and lazy.nvim does not call setup automatically when lazy = false
+			require("nvim-tree").setup({
+				filters = {
+					git_ignored = false,
+					dotfiles = false,
+				},
+				actions = {
+					open_file = {
+						quit_on_open = true,
+						window_picker = {
+							enable = false,
+						},
 					},
 				},
-			},
-			view = {
-				width = 40,
-				adaptive_size = true,
-			},
-			diagnostics = {
-				enable = true,
-				show_on_dirs = true,
-				show_on_open_dirs = false,
-				debounce_delay = 50,
-				severity = {
-					min = vim.diagnostic.severity.WARN,
-					max = vim.diagnostic.severity.ERROR,
+				view = {
+					-- Table means "dynamic"
+					width = {},
+					number = true,
+					relativenumber = true,
 				},
-			},
+				diagnostics = {
+					enable = true,
+					show_on_dirs = true,
+					show_on_open_dirs = false,
+					severity = {
+						min = vim.diagnostic.severity.WARN,
+						max = vim.diagnostic.severity.ERROR,
+					},
+				},
+				filesystem_watchers = {
+					enable = false
+				},
+				hijack_unnamed_buffer_when_opening = true,
+				renderer = {
+					highlight_git = "all",
+					-- highlight_modified = "all",
+					icons = {
+						glyphs = {
+							git = {
+								unstaged = "📝",
+								staged = "✔️",
+								unmerged = "",
+								renamed = "🔄️",
+								untracked = "🆕",
+								deleted = "❌",
+								ignored = "◌",
+							}
+						},
+					},
+				},
+			})
+		end,
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		-- opts = {
+	},
 
-			-- update the focused file on `bufenter`, un-collapses the folders recursively until it finds the file.
-			update_focused_file = {
-				enable = true,
-				update_root = true,
-			},
-
-			-- changes the tree root directory on `dirchanged` and refreshes the tree.
-			sync_root_with_cwd = false,
-
-			-- will change cwd of nvim-tree to that of new buffer's when opening nvim-tree.
-			respect_buf_cwd = true,
-
-			-- prefer startup root directory when updating root directory of the tree.
-			prefer_startup_root = true,
+	{
+		"antosha417/nvim-lsp-file-operations",
+		dependencies = {
+			"nvim-lua/plenary.nvim",
+			"nvim-tree/nvim-tree.lua",
 		},
+		config = function()
+			require("lsp-file-operations").setup()
+		end,
 	},
 
 	-- ==/ Highlights/Syntax /==
