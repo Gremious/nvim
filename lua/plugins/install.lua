@@ -190,9 +190,8 @@ require("lazy").setup({
 	"tiagovla/tokyodark.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
-	-- Does not work on gvim outside of terminalm, e.g. neovide, nvim-qt... :(
-	-- (and tbh it looks a lot better if instead of this, u run in terminal with set notermguicolors)
-	-- "dylanaraps/wal.vim",
+	-- Actually funcitonal pywal
+	"sonjiku/yawnc.nvim",
 
 	{
 		"nvim-tree/nvim-tree.lua",
@@ -505,7 +504,6 @@ require("lazy").setup({
 			vim.g.cycle_no_mappings = true
 			vim.g.cycle_phased_search = true
 			vim.fn["cycle#add_groups"]({
-				{ "greater", "equal", "less" },
 				{ "true", "false" },
 				{ "yes", "no" },
 				{ "on", "off" },
@@ -532,6 +530,8 @@ require("lazy").setup({
 				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
 				{ "let ", "let mut " },
 				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
+				{ "greater", "equal", "less" },
+				{ "column", "row" },
 				{ "that", "which" },
 				{ "trace", "debug", "info", "warn", "error" },
 				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
