@@ -931,6 +931,17 @@ require("lazy").setup({
 	-- "nvim-lua/popup.nvim",
 
 	"folke/trouble.nvim", -- pretty lsp info/diagnostics window
+	{
+		"olimorris/persisted.nvim",
+		lazy = false,
+		config = function()
+			require("persisted").setup({
+				autoload = true,
+			})
+			require("telescope").load_extension("persisted")
+		end,
+		dependencies = { "nvim-telescope/telescope.nvim" },
+	},
 
 	-- ==/ Silly /==
 	"Eandrju/cellular-automaton.nvim",
