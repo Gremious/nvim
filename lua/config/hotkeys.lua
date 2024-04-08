@@ -65,12 +65,13 @@ keymap.set(modes.NORMAL, "<right>", ":BufferLineCycleNext<CR>", { silent = true 
 keymap.set(modes.NORMAL, "<left>", ":BufferLineCyclePrev<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<C-Right>", ":BufferLineMoveNext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<C-Left>", ":BufferLineMovePrev<CR>", { silent = true })
-keymap.set(modes.NORMAL, "<leader>p", ":BufferLineTogglePin<CR>")
+keymap.set(modes.NORMAL, "<leader>bp", ":BufferLineTogglePin<CR>")
 keymap.set(modes.NORMAL, "<leader>P", ":BufferLinePick<CR>")
 
 keymap.set(modes.NORMAL, "<leader>bq", ":BD<CR>")
+-- pop
+keymap.set(modes.NORMAL, "<leader>p", ":BD<CR>")
 keymap.set(modes.NORMAL, "<leader>wq", ":q<CR>")
-keymap.set(modes.NORMAL, "<leader>bp", ":BD<CR>")
 
 keymap.set(modes.NORMAL, "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<A-Left>", ":tabprev<CR>", { silent = true })
@@ -84,8 +85,8 @@ end)
 
 keymap.set(modes.NORMAL, "<leader>gh", ":GitGutterPreviewHunk<cr>")
 keymap.set(modes.NORMAL, "<leader>gu", ":GitGutterUndoHunk<cr>")
-keymap.set(modes.NORMAL, "]<leader>g", ":GitGutterNextHunk<cr>")
-keymap.set(modes.NORMAL, "[<leader>g", ":GitGutterPrevHunk<cr>")
+keymap.set(modes.NORMAL, "]g", ":GitGutterNextHunk<cr>")
+keymap.set(modes.NORMAL, "[g", ":GitGutterPrevHunk<cr>")
 
 -- keymap.set({ modes.NORMAL, modes.VISUAL }, "<Leader>hh", require("hop").hint_anywhere)
 -- keymap.set({ modes.NORMAL, modes.VISUAL }, "<Leader>hp", require("hop").hint_patterns)
