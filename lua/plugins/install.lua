@@ -528,6 +528,9 @@ require("lazy").setup({
 				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
 				{ "let ", "let mut " },
 				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
+				{ "that", "which" },
+				{ "trace", "debug", "info", "warn", "error" },
+				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
 			})
 		end,
 	},
