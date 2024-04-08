@@ -190,6 +190,7 @@ require("lazy").setup({
 	"tiagovla/tokyodark.nvim",
 	{ "catppuccin/nvim", name = "catppuccin" },
 	{ "embark-theme/vim", name = "embark" },
+	{ "rose-pine/neovim", name = "rose-pine" },
 	-- Actually funcitonal pywal
 	"sonjiku/yawnc.nvim",
 
@@ -310,7 +311,13 @@ require("lazy").setup({
 	"vmchale/dhall-vim", -- dhall highlighting
 	"ron-rs/ron.vim", -- ron highlighting
 	"GutenYe/json5.vim", -- json5 highlighting
-	"HiPhish/rainbow-delimiters.nvim", -- rainbow brackets
+	{
+		-- rainbow brackets
+		"HiPhish/rainbow-delimiters.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		}
+	},
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
 	{
 		-- Highlights TODO/INFO/etc.
@@ -319,6 +326,9 @@ require("lazy").setup({
 			keywords = {
 				TODO = { icon = " ", color = "warning" },
 			},
+		},
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
 		},
 	},
 
@@ -477,7 +487,10 @@ require("lazy").setup({
 					enable = false,
 				}
 			})
-		end
+		end,
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		},
 	},
 	"tpope/vim-fugitive", -- git
 	"airblade/vim-gitgutter", -- git in gutter
@@ -951,7 +964,12 @@ require("lazy").setup({
 	},
 
 	-- ==/ Silly /==
-	"Eandrju/cellular-automaton.nvim",
+	{
+		"Eandrju/cellular-automaton.nvim",
+		dependencies = {
+			"nvim-treesitter/nvim-treesitter",
+		}
+	},
 
 	{
 		"tamton-aquib/duck.nvim",
