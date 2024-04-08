@@ -348,13 +348,17 @@ require("lazy").setup({
 		"johmsalas/text-case.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		config = function()
-			require("textcase").setup({})
+			require("textcase").setup({
+				prefix = "<leader>tc"
+			})
 			require("telescope").load_extension("textcase")
 		end,
 		keys = {
-			"gc", -- Default invocation prefix
-			{ "gc.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
+			"<leader>tc",
+			--Prefix for the default builting keymaps
+			{ "<leader>tc.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
 		},
+		-- lazy = false,
 	},
 
 	-- "mg979/vim-visual-multi", -- Multiple cursors
