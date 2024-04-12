@@ -92,6 +92,23 @@ require("lazy").setup({
 					require("flash").jump({ pattern = pattern() })
 				end
 			},
+			-- {
+--
+				-- "<Leader>sd",
+				-- mode = {"n", "x", "o"},
+				-- function()
+					-- local function pattern()
+						-- ---@param diag Diagnostic
+						-- return vim.tbl_map(function(diag)
+							-- return {
+								-- pos = { diag.lnum + 1, diag.col },
+								-- end_pos = { diag.end_lnum + 1, diag.end_col - 1 },
+							-- }
+						-- end, vim.diagnostic.get(vim.api.nvim_win_get_buf(win)).pos)
+					-- end
+					-- require("flash").jump({ pattern = pattern() })
+				-- end
+			-- },
 			{
 				"s",
 				mode = { "n", "x", "o" },
