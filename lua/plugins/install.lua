@@ -313,6 +313,8 @@ require("lazy").setup({
 	"GutenYe/json5.vim", -- json5 highlighting
 	"HiPhish/rainbow-delimiters.nvim", -- rainbow brackets
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
+	"nickel-lang/vim-nickel",
+
 	{
 		-- Highlights TODO/INFO/etc.
 		"folke/todo-comments.nvim",
