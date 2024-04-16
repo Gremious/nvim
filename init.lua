@@ -86,7 +86,7 @@ opt.softtabstop = 4
 opt.expandtab = false
 opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 
--- opt.backup = true
+opt.backup = true
 opt.history = 1000 -- longer command history
 opt.undolevels = 1000 -- more undo levels
 opt.undofile = true -- persistent undo between sessions
