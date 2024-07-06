@@ -124,10 +124,14 @@ opt.clipboard:append({ "unnamed,unnamedplus" })
 opt.nrformats:remove({ "octal" })
 opt.whichwrap = "<>"
 
--- font names are weird, you can set guifont=* to list them
--- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
--- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
-opt.guifont = "FiraCode Nerd Font,Segoe_UI_Emoji:h14"
+if vim.fn.has("win32") == 1 then
+	-- font names are weird, you can set guifont=* to list them but only on win/mac
+	-- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
+	-- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
+	opt.guifont = "FiraCode Nerd Font,Segoe_UI_Emoji:h14"
+else
+	opt.guifont = "FiraCode Nerd Font,Noto Color Emoji:h14"
+end
 
 if vim.g.neovide then
 	g.neovide_remember_window_size = false

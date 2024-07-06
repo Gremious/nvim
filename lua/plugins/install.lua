@@ -637,17 +637,18 @@ require("lazy").setup({
 		-- if you don't mind not using telescope, you can always still use
 		-- { "junegunn/fzf", build = ":call fzf#install()" }
 		"nvim-telescope/telescope-fzf-native.nvim",
-		build = function()
-			if vim.fn.has("win32") == 1 then
-				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G \"Visual Studio 17 2022\" && cmake --build build --config Release && cmake --install build --prefix build"
-			else
-				return "make"
-			end
-		end,
-		dependencies = { "nvim-telescope/telescope.nvim" },
-		config = function()
-			require("telescope").load_extension("fzf")
-		end,
+		build = "make"
+		-- build = function()
+			-- if vim.fn.has("win32") == 1 then
+				-- return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G \"Visual Studio 17 2022\" && cmake --build build --config Release && cmake --install build --prefix build"
+			-- else
+				-- return "make"
+			-- end
+		-- end,
+		-- dependencies = { "nvim-telescope/telescope.nvim" },
+		-- config = function()
+			-- require("telescope").load_extension("fzf")
+		-- end,
 	},
 
 	-- ==/ LSP /==
