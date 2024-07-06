@@ -218,6 +218,9 @@ require("lazy").setup({
 			-- nvim-tree recomends explicitly not lazy loading,
 			-- and lazy.nvim does not call setup automatically when lazy = false
 			require("nvim-tree").setup({
+				update_focused_file = {
+					enable = true,
+				},
 				filters = {
 					git_ignored = false,
 					dotfiles = false,
@@ -244,9 +247,6 @@ require("lazy").setup({
 						min = vim.diagnostic.severity.WARN,
 						max = vim.diagnostic.severity.ERROR,
 					},
-				},
-				filesystem_watchers = {
-					enable = false
 				},
 				hijack_unnamed_buffer_when_opening = true,
 				renderer = {
@@ -401,6 +401,12 @@ require("lazy").setup({
 		opts = {
 			extensions = { "nvim-tree", "fugitive", "nvim-dap-ui", "quickfix" },
 			sections = {
+				lualine_c = {
+					{
+						'filename',
+						path = 1
+					}
+				},
 				lualine_x = {
 					function()
 						return require("lsp-status").status()
@@ -567,6 +573,7 @@ require("lazy").setup({
 				{ "that", "which" },
 				{ "trace", "debug", "info", "warn", "error" },
 				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
+				{ "Google", "YouTube", "Twitch", "Facebook", "TikTok" }
 			})
 		end,
 	},
@@ -582,6 +589,7 @@ require("lazy").setup({
 	{
 		"nvim-telescope/telescope.nvim",
 		dependencies = { "nvim-lua/plenary.nvim" },
+
 		config = function()
 			require("telescope").setup({
 				defaults = {
@@ -623,7 +631,6 @@ require("lazy").setup({
 			})
 		end,
 	},
-
 	{
 		-- (The actual CLI fzf on your system does not hook into vim plugins, and although you could, it'd be way slower)
 		-- So, you have to build this from scratch. You need clang and MS C++ Visual Studio Build Toolds
@@ -793,37 +800,37 @@ require("lazy").setup({
 						default()
 					end,
 
-					-- ["<CR>"] = cmp.mapping.confirm({
-						-- behavior = cmp.ConfirmBehavior.Insert,
-						-- select = false,
-						-- }),
+					["<CR>"] = cmp.mapping.confirm({
+						behavior = cmp.ConfirmBehavior.Insert,
+						select = false,
+					}),
 
-						["<S-Tab>"] = cmp.mapping.select_prev_item(),
-						["<Tab>"] = cmp.mapping.select_next_item(),
-
-						-- ["<Tab>"] = cmp.mapping.select_next_item(),
 						-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
-						--
-						["<CR>"] = cmp.mapping(function(fallback)
-							if cmp.visible() then
-								if cmp.get_selected_entry() ~= nil then
-									cmp.confirm({
-										behavior = cmp.ConfirmBehavior.Replace,
-										select = false,
-									})
-								elseif luasnip.locally_jumpable(1) then
-									SetUndoBreakpoint()
-									luasnip.jump(1)
-								else
-									fallback()
-								end
-							elseif luasnip.locally_jumpable(1) then
-								SetUndoBreakpoint()
-								luasnip.jump(1)
-							else
-								fallback()
-							end
-						end, { "i", "s" }),
+						-- ["<Tab>"] = cmp.mapping.select_next_item(),
+--
+						["<Tab>"] = cmp.mapping.select_next_item(),
+						["<S-Tab>"] = cmp.mapping.select_prev_item(),
+
+						-- ["<CR>"] = cmp.mapping(function(fallback)
+							-- if cmp.visible() then
+								-- if cmp.get_selected_entry() ~= nil then
+									-- cmp.confirm({
+										-- behavior = cmp.ConfirmBehavior.Replace,
+										-- select = false,
+									-- })
+								-- elseif luasnip.locally_jumpable(1) then
+									-- SetUndoBreakpoint()
+									-- luasnip.jump(1)
+								-- else
+									-- fallback()
+								-- end
+							-- elseif luasnip.locally_jumpable(1) then
+								-- SetUndoBreakpoint()
+								-- luasnip.jump(1)
+							-- else
+								-- fallback()
+							-- end
+						-- end, { "i", "s" }),
 						--
 						-- ["<S-CR>"] = cmp.mapping(function(fallback)
 							-- if cmp.visible() then

@@ -2,6 +2,14 @@ local api, cmd = vim.api, vim.cmd
 local env = vim.env
 local telescope = require("telescope.builtin")
 
+local num_args = {
+	NONE = "0",
+	ANY = "*",
+	EXACTLY_ONE = "1",
+	ZERO_OR_ONE = "?",
+	AT_LEAST_ONE = "+",
+}
+
 local function create_command(name, fn)
 	api.nvim_create_user_command(name, fn, {})
 end
@@ -22,11 +30,13 @@ end)
 -- Replicate :Rg command with telescope
 api.nvim_create_user_command("Rg", function(args)
 	telescope.grep_string({ search = args.fargs[1], use_regex = true })
-end, { nargs = "?" })
+end, { nargs = num_args.ZERO_OR_ONE })
 
-create_command("RG", function()
+create_command("RG", function(args)
+	-- cmd_args = args.fargs;
+	-- { search_dirs = { cmd_args[1] } }
 	telescope.live_grep()
-end)
+end, { nargs = num_args.ZERO_OR_ONE })
 
 -- Copy filepath to clipboard
 create_command("Cc", function()

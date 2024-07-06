@@ -3,6 +3,9 @@ local g = vim.g
 local api = vim.api
 
 --[[
+--TODO:
+-- indentexpr for custom indent rules to not put 3 spaces after a dot newline break in parentheses... (default vim behaviour???)
+--
 --TODO: Don't comment out empyt lines, and just configure commenter better
 --
 --TODO: 1. Full file path in statusline
@@ -48,6 +51,7 @@ if vim.fn.has("win32") == 1 then
 	-- Default to unix, but auto-detect if file is in dos already.
 	-- If you don't add "dos" - it will error every time you open vim help
 	opt.fileformats = "unix,dos"
+	opt.backupdir = vim.env.CONFIG .. "\\backup"
 else
 	-- The FHS 3 compliant place on linux.
 	-- Might wanna own those dirs or something though.
@@ -64,20 +68,20 @@ require("config.lazy-bootstrap")
 require("plugins")
 require("config.theme")
 
-g.loaded_netrw = 1
-g.loaded_netrwPlugin = 1
+-- g.loaded_netrw = 1
+-- g.loaded_netrwPlugin = 1
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
+
+opt.fileencoding = "utf-8"
 
 -- rust-analyzer.server.extraEnv
 -- neovim doesn"t have custom client-side code to honor this setting, it doesn"t actually work
 -- https://github.com/neovim/nvim-lspconfig/issues/1735
 vim.env.CARGO_TARGET_DIR = "target/rust-analyzer-check"
+
 g.rust_recommended_style = false
-
-opt.fileencoding = "utf-8"
-
 -- opt.autoindent = true
 -- opt.smartindent = true
 opt.tabstop = 4
@@ -126,10 +130,10 @@ opt.whichwrap = "<>"
 opt.guifont = "FiraCode Nerd Font,Segoe_UI_Emoji:h14"
 
 if vim.g.neovide then
-	-- g.neovide_remember_window_size = false
-	-- vim.g.neovide_scroll_animation_length = 0.15
-	-- vim.g.neovide_scroll_animation_far_lines = 9999
-	vim.g.neovide_refresh_rate = 144
+	g.neovide_remember_window_size = false
+	vim.g.neovide_scroll_animation_length = 0.15
+	vim.g.neovide_scroll_animation_far_lines = 9999
+	-- vim.g.neovide_refresh_rate = 144
 end
 
 opt.ignorecase = true -- remove case check in search
@@ -163,3 +167,16 @@ vim.keymap.set("i", "<M-CR>", 'copilot#Accept("<CR>")', { silent = true, expr = 
 vim.g.copilot_no_tab_map = true
 -- vim.keymap.set("i", "<c-[>", '<Plug>(copilot-previous)', { silent = true, expr = true, noremap = false })
 -- vim.keymap.set("i", "<c-]>", '<Plug>(copilot-next)', { silent = true, expr = true, noremap = false })
+
+vim.cmd [[
+	hi link @lsp.type.builtinType.rust Type
+	hi link @lsp.type.selfKeyword.rust Constant
+	hi link @lsp.type.namespace @namespace
+	hi link @lsp.type.macro Macro
+	hi link @lsp.type.variable.rust @lsp
+	hi link @variable.rust Identifier
+	hi link @variable.parameter.rust Identifier
+	hi link @lsp.type.parameter.rust @lsp
+	hi link @module.rust @lsp
+	hi link @variable.member.rust Identifier
+]]
