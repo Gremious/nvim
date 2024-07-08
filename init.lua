@@ -13,7 +13,6 @@ local api = vim.api
 --TODO: Disable highlght on super long lines, lags to hell on e.g. massive single line json
 -- TODO:
 -- Figure out spaces/tab options (plugin?)
--- forrmatting efm server? rustutp? switch rust tools to new thing
 -- move all things to insttall file, maybe organize it better?
 	TODO:
 	Make a script on tabnew to rename the tabs from 1/2/3... to working dir? https://github.com/tiagovla/scope.nvim/issues/3
@@ -53,9 +52,9 @@ if vim.fn.has("win32") == 1 then
 	opt.fileformats = "unix,dos"
 	opt.backupdir = vim.env.CONFIG .. "\\backup"
 else
-	-- The FHS 3 compliant place on linux.
+	-- The FHS 3 compliant place on linux, explicitly for editors too
+	-- https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s08.html#varliblteditorgtEditorBackupFilesAn
 	-- Might wanna own those dirs or something though.
-	-- Perthaps there are local user-folder alternatives?
 	opt.backupdir = "/var/lib/nvim/backup"
 	opt.directory = "/var/lib/nvim/swap"
 	opt.undodir = "/var/lib/nvim/undo"

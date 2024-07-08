@@ -289,6 +289,10 @@ require("lazy").setup({
 		"nvim-treesitter/nvim-treesitter",
 		build = ":TSUpdate",
 		config = function()
+			-- To customize the syntax highlighting of a capture, simply define or link a highlight group of the same name:
+			-- -- Highlight the @foo.bar capture group with the "Identifier" highlight group
+			-- vim.api.nvim_set_hl(0, "@foo.bar", { link = "Identifier" })
+
 			require("nvim-treesitter.configs").setup({
 				-- ensure_installed = "all",
 				ensure_installed = {
@@ -299,6 +303,8 @@ require("lazy").setup({
 					"yaml",
 					"css",
 					"html",
+					"cpp",
+					"javascript",
 				},
 				highlight = {
 					enable = true,
@@ -476,7 +482,6 @@ require("lazy").setup({
 		config = function()
 			vim.g.NERDCreateDefaultMappings = true
 			vim.g.NERDSpaceDelims = true
-			vim.g.NERDCommentEmptyLines = true
 			vim.g.NERDTrimTrailingWhitespace = true
 		end,
 	},
