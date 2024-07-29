@@ -1026,6 +1026,7 @@ require("lazy").setup({
 		config = function()
 			require("persisted").setup({
 				autoload = true,
+				ignored_dirs = { "~" },
 			})
 			require("telescope").load_extension("persisted")
 		end,
