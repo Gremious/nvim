@@ -21,6 +21,19 @@ local modes = {
 	TERMINAL = "t",
 }
 
+-- Trouble nvim is very buggy.
+keymap.set(modes.NORMAL, "<CR>", function()
+	if vim.bo.buftype == "quickfix" then
+		return "<CR>:bd#<CR>"
+	else
+		return "<CR>"
+	end
+end, {
+	expr = true,
+	silent = true,
+	desc = "In quickfix list, replace the current buffer on enter instead of opening a new one.",
+})
+
 -- vim.g.maplocalleader = " "
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "j", "gj", { desc = "Navigate down by visual line instead of text line." })
 keymap.set({ modes.NORMAL, modes.VISUAL_AND_SELECT }, "k", "gk", { desc = "Navigate up by visual line instead of text line." })
