@@ -1,4 +1,6 @@
 local g = vim.g
+-- Don't use nvim_set_keymap, it is the early interface and is not recommended
+-- vim.keymap.set calls it with the appropriate arguments
 local keymap = vim.keymap
 local nvim_tree = require("nvim-tree.api")
 local telescope = require("telescope.builtin")

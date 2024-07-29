@@ -133,7 +133,7 @@ else
 end
 
 if vim.g.neovide then
-	g.neovide_remember_window_size = false
+	g.neovide_remember_window_size = true
 	vim.g.neovide_scroll_animation_length = 0.15
 	vim.g.neovide_scroll_animation_far_lines = 9999
 	-- vim.g.neovide_refresh_rate = 144

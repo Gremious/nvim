@@ -24,7 +24,7 @@ create_command("Config", function()
 end)
 
 create_command("ConfigSearch", function()
-	require("telescope.builtin").find_files({ cwd = vim.fn.stdpath("config") })
+	telescope.find_files({ cwd = vim.fn.stdpath("config") })
 end)
 
 -- Replicate :Rg command with telescope
