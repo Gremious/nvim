@@ -250,10 +250,10 @@ require("lazy").setup({
 
 	{
 		"nvim-tree/nvim-tree.lua",
+		-- nvim-tree recomends explicitly not lazy loading,
+		-- and lazy.nvim does not call setup automatically when lazy = false
 		lazy = false,
 		config = function()
-			-- nvim-tree recomends explicitly not lazy loading,
-			-- and lazy.nvim does not call setup automatically when lazy = false
 			require("nvim-tree").setup({
 				update_focused_file = {
 					enable = true,
@@ -285,7 +285,8 @@ require("lazy").setup({
 						max = vim.diagnostic.severity.ERROR,
 					},
 				},
-				hijack_unnamed_buffer_when_opening = true,
+				-- https://github.com/nvim-tree/nvim-tree.lua/issues/2851
+				-- hijack_unnamed_buffer_when_opening = true,
 				renderer = {
 					highlight_git = "all",
 					-- highlight_modified = "all",
@@ -501,7 +502,7 @@ require("lazy").setup({
 					end,
 
 					-- enforce_regular_tabs = false | true,
-					-- always_show_bufferline = true,
+					always_show_bufferline = true,
 				},
 			})
 		end
@@ -566,14 +567,14 @@ require("lazy").setup({
 	"wellle/targets.vim",
 	-- use 'RishabhRD/popfix' -- Floating pop-ups library
 	-- use 'RishabhRD/nvim-lsputils' -- Floating pop up for lsp stuff
-	{
-		-- resize splits when focusing them
-		"nvim-focus/focus.nvim",
-		commit = "1e2752aa3233497a17640e6474dbd6b35aaeeb26",
-		opts = {
-			excluded_filetypes = {'TelescopePrompt'},
-		},
-	},
+	-- {
+		-- -- resize splits when focusing them
+		-- "nvim-focus/focus.nvim",
+		-- commit = "1e2752aa3233497a17640e6474dbd6b35aaeeb26",
+		-- opts = {
+			-- excluded_filetypes = {'TelescopePrompt'},
+		-- },
+	-- },
 
 	-- Smart comma/semicolon insert
 	"lfilho/cosco.vim",
