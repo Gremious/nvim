@@ -765,11 +765,28 @@ require("lazy").setup({
 				-- end
 			end
 
+			local border = {
+				{"╭", "FloatBorder"},
+				{"─", "FloatBorder"},
+				{"╮", "FloatBorder"},
+				{"│", "FloatBorder"},
+				{"╯", "FloatBorder"},
+				{"─", "FloatBorder"},
+				{"╰", "FloatBorder"},
+				{"│", "FloatBorder"},
+			}
+			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+				opts = opts or {}
+				opts.border = opts.border or border
+				return orig_util_open_floating_preview(contents, syntax, opts, ...)
+			end
+
 			require("mason-lspconfig").setup_handlers({
 				-- The first entry (without a key) will be the default handler
 				-- and will be called for each installed server that doesn't have a dedicated handler.
 				function(server_name)
-					require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
+					require("lspconfig")[server_name].setup({ on_attach = on_attach })
 				end,
 
 				["rust_analyzer"] = function()
