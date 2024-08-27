@@ -2,7 +2,7 @@ local g = vim.g
 -- Don't use nvim_set_keymap, it is the early interface and is not recommended
 -- vim.keymap.set calls it with the appropriate arguments
 local keymap = vim.keymap
-local nvim_tree = require("nvim-tree.api")
+-- local nvim_tree = require("nvim-tree.api")
 local telescope = require("telescope.builtin")
 
 -- :h map-modes
@@ -91,9 +91,9 @@ keymap.set(modes.NORMAL, "<leader>wq", ":q<CR>")
 keymap.set(modes.NORMAL, "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<A-Left>", ":tabprev<CR>", { silent = true })
 
-vim.keymap.set(modes.NORMAL, "<Leader><tab>", function()
-	nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
-end)
+-- vim.keymap.set(modes.NORMAL, "<Leader><tab>", function()
+	-- nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
+-- end)
 -- TODO Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
 -- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
 -- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })

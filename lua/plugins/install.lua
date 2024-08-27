@@ -248,73 +248,73 @@ require("lazy").setup({
 	-- Actually funcitonal pywal
 	"sonjiku/yawnc.nvim",
 
-	{
-		"nvim-tree/nvim-tree.lua",
-		-- nvim-tree recomends explicitly not lazy loading,
-		-- and lazy.nvim does not call setup automatically when lazy = false
-		lazy = false,
-		config = function()
-			require("nvim-tree").setup({
-				update_focused_file = {
-					enable = true,
-				},
-				filters = {
-					git_ignored = false,
-					dotfiles = false,
-				},
-				actions = {
-					open_file = {
-						quit_on_open = true,
-						window_picker = {
-							enable = false,
-						},
-					},
-				},
-				view = {
-					-- Table means "dynamic"
-					width = {},
-					number = true,
-					relativenumber = true,
-				},
-				diagnostics = {
-					enable = true,
-					show_on_dirs = true,
-					show_on_open_dirs = false,
-					severity = {
-						min = vim.diagnostic.severity.WARN,
-						max = vim.diagnostic.severity.ERROR,
-					},
-				},
-				-- https://github.com/nvim-tree/nvim-tree.lua/issues/2851
-				-- hijack_unnamed_buffer_when_opening = true,
-				renderer = {
-					highlight_git = "all",
-					-- highlight_modified = "all",
-					icons = {
-						glyphs = {
-							git = {
-								unstaged = "📝",
-								staged = "✔️",
-								unmerged = "",
-								renamed = "🔄️",
-								untracked = "🆕",
-								deleted = "❌",
-								ignored = "◌",
-							}
-						},
-					},
-				},
-			})
-		end,
-		dependencies = { "nvim-tree/nvim-web-devicons" },
-		-- opts = {
-	},
+	-- {
+		-- "nvim-tree/nvim-tree.lua",
+		-- -- nvim-tree recomends explicitly not lazy loading,
+		-- -- and lazy.nvim does not call setup automatically when lazy = false
+		-- lazy = false,
+		-- config = function()
+			-- require("nvim-tree").setup({
+				-- update_focused_file = {
+					-- enable = true,
+				-- },
+				-- filters = {
+					-- git_ignored = false,
+					-- dotfiles = false,
+				-- },
+				-- actions = {
+					-- open_file = {
+						-- quit_on_open = true,
+						-- window_picker = {
+							-- enable = false,
+						-- },
+					-- },
+				-- },
+				-- view = {
+					-- -- Table means "dynamic"
+					-- width = {},
+					-- number = true,
+					-- relativenumber = true,
+				-- },
+				-- diagnostics = {
+					-- enable = true,
+					-- show_on_dirs = true,
+					-- show_on_open_dirs = false,
+					-- severity = {
+						-- min = vim.diagnostic.severity.WARN,
+						-- max = vim.diagnostic.severity.ERROR,
+					-- },
+				-- },
+				-- -- https://github.com/nvim-tree/nvim-tree.lua/issues/2851
+				-- -- hijack_unnamed_buffer_when_opening = true,
+				-- renderer = {
+					-- highlight_git = "all",
+					-- -- highlight_modified = "all",
+					-- icons = {
+						-- glyphs = {
+							-- git = {
+								-- unstaged = "📝",
+								-- staged = "✔️",
+								-- unmerged = "",
+								-- renamed = "🔄️",
+								-- untracked = "🆕",
+								-- deleted = "❌",
+								-- ignored = "◌",
+							-- }
+						-- },
+					-- },
+				-- },
+			-- })
+		-- end,
+		-- dependencies = { "nvim-tree/nvim-web-devicons" },
+		-- -- opts = {
+	-- },
 
 	{
 		"antosha417/nvim-lsp-file-operations",
 		dependencies = {
 			"nvim-lua/plenary.nvim",
-			"nvim-tree/nvim-tree.lua",
+			-- "nvim-tree/nvim-tree.lua",
 		},
 		config = function()
 			require("lsp-file-operations").setup()
@@ -380,7 +380,6 @@ require("lazy").setup({
 		}
 	},
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
-	"nickel-lang/vim-nickel",
 
 	{
 		-- Highlights TODO/INFO/etc.
@@ -453,10 +452,10 @@ require("lazy").setup({
 				},
 				lualine_x = {
 					function()
-						return require("lsp-status").status()
+						return require('lsp-progress').progress()
 					end,
-					"encoding",
-					"fileformat",
+					-- "encoding",
+					-- "fileformat",
 					"filetype",
 				},
 			},
@@ -489,7 +488,6 @@ require("lazy").setup({
 					separator_style = "thin",
 
 					diagnostics = "nvim_lsp",
-					diagnostics_update_in_insert = true,
 
 					--- diagnostics_dict is a dictionary from error level ("error", "warning" or "info") to number of errors for each level.
 					diagnostics_indicator = function(_count, _level, diagnostics_dict, _context)
@@ -699,23 +697,6 @@ require("lazy").setup({
 
 	-- ==/ LSP /==
 	{
-		"neovim/nvim-lspconfig",
-		-- opts = {
-			-- inlay_hints = { enabled = true },
-		-- },
-	},
-
-	{
-		"lvimuser/lsp-inlayhints.nvim",
-
-		config = function()
-			require("lsp-inlayhints").setup()
-			vim.cmd('highlight! link LspInlayHint Comment')
-		end,
-	},
-
-	-- Setup rust
-	{
 		"williamboman/mason.nvim",
 		build = ":MasonUpdate", -- :MasonUpdate updates registry contents
 		config = function()
@@ -723,78 +704,133 @@ require("lazy").setup({
 			require("mason").setup()
 		end,
 	},
-	-- {
-		-- "williamboman/mason-lspconfig.nvim",
-		-- dependencies = { "williamboman/mason.nvim" },
-		-- config = function()
-			-- require("mason-lspconfig").setup({
-				-- ensure_installed = { "rust_analyzer", "lua_ls", "bashls", "vimls" },
---
-				-- -- Don't hook up rust-analyzer via mason-lspconfig
-				-- -- It's hooked up via rustacean.
-				-- -- mason-lspconfig is for all the other lsps
-				-- servers = {
-					-- rust_analyzer = {},
-				-- },
-				-- setup = {
-					-- rust_analyzer = function()
-						-- return true
-					-- end,
-				-- },
-			-- })
---
-			-- -- require("mason-lspconfig").setup_handlers({
-				-- -- -- The first entry (without a key) will be the default handler
-				-- -- -- and will be called for each installed server that doesn't have a dedicated handler.
-				-- -- function(server_name)
-					-- -- require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
-				-- -- end,
--- --
-				-- -- ["lua_ls"] = function()
-					-- -- require("lspconfig").lua_ls.setup({
-						-- -- on_attach = on_attach,
-						-- -- capabilities = capabilities,
-						-- -- settings = {
-							-- -- Lua = {
-								-- -- diagnostics = {
-									-- -- -- Get the language server to recognize the `vim` global
-									-- -- globals = { "vim" },
-								-- -- },
-							-- -- },
-						-- -- },
-					-- -- })
-				-- -- end,
--- --
-				-- -- -- ["efm"] = function()
-					-- -- -- require("lspconfig").efm.setup {
-						-- -- -- init_options = {
-							-- -- -- documentFormatting = true,
-							-- -- -- documentRangeFormatting = true,
-						-- -- -- },
-						-- -- -- settings = {
-							-- -- -- rootMarkers = {".git/"},
-							-- -- -- languages = {
-								-- -- -- rust = {
-									-- -- -- { formatCommand = "rustfmt", formatStdin = true }
-								-- -- -- }
-							-- -- -- }
-						-- -- -- }
-					-- -- -- }
-				-- -- end
-			-- -- })
-		-- end,
-	-- },
 	{
-		'mrcjkb/rustaceanvim',
-		version = '^4', -- Recommended
-		ft = { 'rust' },
-		dependencies = { "williamboman/mason.nvim" },
-		-- config = function()
-			-- print("hello rustacnea")
-		-- end
+		"neovim/nvim-lspconfig",
 	},
+	{
+		"williamboman/mason-lspconfig.nvim",
+		dependencies = {
+			"williamboman/mason.nvim",
+			"neovim/nvim-lspconfig",
+		},
+		config = function()
+			require("mason-lspconfig").setup();
+			vim.lsp.inlay_hint.enable(true)
 
+			local function on_attach(client, bufnr)
+				local keymap = vim.keymap
+				local keymap_opts = { buffer = bufnr, silent = true }
 
+				if client.name == "rust_analyzer" then
+					keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
+					-- keymap.set("n", "<leader>h", function() vim.cmd.RustLsp { 'hover', 'actions' } end, keymap_opts)
+					keymap.set("n", "<leader>gp", function() vim.cmd.RustLsp('parentModule') end, keymap_opts)
+					keymap.set("n", "<a-CR>", function() vim.cmd.RustLsp('codeAction') end, keymap_opts)
+				else
+					keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
+					keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
+				end
+
+				-- Code navigation and shortcuts
+				keymap.set("n", "<leader>m", vim.diagnostic.open_float, keymap_opts)
+				keymap.set("n", "<leader>M", function() vim.cmd.RustLsp('renderDiagnostic') end, keymap_opts)
+				keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
+				keymap.set("n", "gD", vim.lsp.buf.implementation, keymap_opts)
+				keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
+				keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", keymap_opts)
+				keymap.set("n", "g0", vim.lsp.buf.document_symbol, keymap_opts)
+				keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, keymap_opts)
+				keymap.set("n", "<a-p>", vim.lsp.buf.signature_help, keymap_opts)
+				keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
+				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, keymap_opts)
+
+				-- Show diagnostic popup on cursor hover
+				-- Nice but also annoying cause it overwrites actual popups
+				-- local diag_float_grp = vim.api.nvim_create_augroup("DiagnosticFloat", { clear = true })
+				-- vim.api.nvim_create_autocmd("CursorHold", {
+					-- callback = function()
+						-- vim.diagnostic.open_float(nil, { focusable = false })
+					-- end,
+					-- group = diag_float_grp,
+				-- })
+
+				-- Goto previous/next diagnostic warning/error
+				keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
+				keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
+
+				-- on_attach(client)
+				-- require("lsp-inlayhints").on_attach(client, bufnr)
+				-- if client.server_capabilities.inlayHintProvider then
+					-- vim.lsp.inlay_hint.enable(bufnr, true)
+				-- end
+			end
+
+			require("mason-lspconfig").setup_handlers({
+				-- The first entry (without a key) will be the default handler
+				-- and will be called for each installed server that doesn't have a dedicated handler.
+				function(server_name)
+					require("lspconfig")[server_name].setup({ on_attach = on_attach, capabilities = capabilities })
+				end,
+
+				["rust_analyzer"] = function()
+					require('lspconfig').rust_analyzer.setup {
+						on_attach = on_attach,
+						settings = {
+							["rust-analyzer"] = {
+							-- check = {
+								-- command = "clippy",
+								-- -- extraArgs = { "--all", "--", "-W", "clippy::all" },
+								-- },
+
+								-- rust-analyzer.server.extraEnv
+								-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
+								-- https://github.com/neovim/nvim-lspconfig/issues/1735
+								-- it's in init.vim as a real env variable
+								server = {
+									extraEnv = {
+										CARGO_TARGET_DIR = "target/rust-analyzer-check"
+									}
+								},
+
+								imports = {
+									granularity = { enforce = true },
+								},
+
+								rustfmt = {
+									enableRangeFormatting = true,
+									rangeFormatting = {
+										enable = true,
+									},
+								},
+
+								inlayHints = {
+									bindingModeHints = { enable = true },
+									closureReturnTypeHints = { enable = true },
+									closingBraceHints = { minLines = 0 },
+									lifetimeElisionHints = { useParameterNames = true, enable = "skip_trivial" },
+								},
+							},
+						},
+					}
+				end,
+
+				["lua_ls"] = function()
+					require("lspconfig").lua_ls.setup({
+						on_attach = on_attach,
+						capabilities = capabilities,
+						settings = {
+							Lua = {
+								diagnostics = {
+									-- Get the language server to recognize the `vim` global
+									globals = { "vim" },
+								},
+							},
+						},
+					})
+				end,
+			})
+		end,
+	},
 	{
 		-- Autocompletion framework
 		"hrsh7th/nvim-cmp",
@@ -1009,7 +1045,7 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
 		config = function()
 			require('crates').setup({
-				src = {
+				completion = {
 					cmp = {
 						enabled = true,
 					},
@@ -1019,7 +1055,21 @@ require("lazy").setup({
 	},
 
 	-- Lsp progress in statusline
-	"nvim-lua/lsp-status.nvim",
+	{
+		'linrongbin16/lsp-progress.nvim',
+		dependencies = {
+			"nvim-lualine/lualine.nvim",
+		},
+		config = function()
+			require('lsp-progress').setup()
+			vim.api.nvim_create_augroup("lualine_augroup", { clear = true })
+			vim.api.nvim_create_autocmd("User", {
+				group = "lualine_augroup",
+				pattern = "LspProgressStatusUpdated",
+				callback = require("lualine").refresh,
+			})
+		end
+	},
 	-- "j-hui/fidget.nvim",
 	-- "nvim-lua/popup.nvim",
 
