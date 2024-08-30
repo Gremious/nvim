@@ -2,6 +2,17 @@ local opt = vim.opt
 local g = vim.g
 local api = vim.api
 
+local function get_git_root()
+    local dot_git_path = vim.fn.finddir(".git", ".;")
+    return vim.fn.fnamemodify(dot_git_path, ":h")
+end
+vim.api.nvim_create_user_command("CdGitRoot", function()
+    vim.api.nvim_set_current_dir(get_git_root())
+end, {})
+vim.api.nvim_create_user_command("TcdGitRoot", function()
+	vim.cmd(string.format(":tcd %s", get_git_root()))
+end, {})
+
 --[[
 --TODO:
 -- indentexpr for custom indent rules to not put 3 spaces after a dot newline break in parentheses... (default vim behaviour???)
