@@ -50,7 +50,8 @@ if vim.fn.has("win32") == 1 then
 	-- Default to unix, but auto-detect if file is in dos already.
 	-- If you don't add "dos" - it will error every time you open vim help
 	opt.fileformats = "unix,dos"
-	opt.backupdir = vim.env.CONFIG .. "\\backup"
+	-- opt.backupdir = vim.env.CONFIG .. "\\backup"
+	opt.backupdir = "C:\\Users\\Gremious\\.cache\\nvim\\backup"
 else
 	-- The FHS 3 compliant place on linux, explicitly for editors too
 	-- https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s08.html#varliblteditorgtEditorBackupFilesAn
@@ -89,7 +90,7 @@ opt.softtabstop = 4
 opt.expandtab = false
 opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
 
-opt.backup = true
+-- opt.backup = true
 opt.history = 1000 -- longer command history
 opt.undolevels = 1000 -- more undo levels
 opt.undofile = true -- persistent undo between sessions
@@ -148,7 +149,6 @@ function SetUndoBreakpoint()
 end
 
 require("config.functions")
-require("config.lsp")
 require("config.commands")
 require("config.hotkeys")
 require("config.autocmd")

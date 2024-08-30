@@ -704,9 +704,7 @@ require("lazy").setup({
 			require("mason").setup()
 		end,
 	},
-	{
-		"neovim/nvim-lspconfig",
-	},
+	"neovim/nvim-lspconfig",
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
@@ -715,21 +713,18 @@ require("lazy").setup({
 		},
 		config = function()
 			require("mason-lspconfig").setup();
-			vim.lsp.inlay_hint.enable(true)
+			-- have a fixed column for the diagnostics to appear in
+			-- this removes the jitter when warnings/errors flow in
+			vim.wo.signcolumn = "yes"
+			vim.lsp.inlay_hint.enable(false)
 
 			local function on_attach(client, bufnr)
 				local keymap = vim.keymap
 				local keymap_opts = { buffer = bufnr, silent = true }
 
-				if client.name == "rust_analyzer" then
-					keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
-					-- keymap.set("n", "<leader>h", function() vim.cmd.RustLsp { 'hover', 'actions' } end, keymap_opts)
-					keymap.set("n", "<leader>gp", function() vim.cmd.RustLsp('parentModule') end, keymap_opts)
-					keymap.set("n", "<a-CR>", function() vim.cmd.RustLsp('codeAction') end, keymap_opts)
-				else
-					keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
-					keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
-				end
+				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
+				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
+				keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
 
 				-- Code navigation and shortcuts
 				keymap.set("n", "<leader>m", vim.diagnostic.open_float, keymap_opts)
@@ -743,6 +738,7 @@ require("lazy").setup({
 				keymap.set("n", "<a-p>", vim.lsp.buf.signature_help, keymap_opts)
 				keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, keymap_opts)
+				keymap.set("n", "<leader>t", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, keymap_opts)
 
 				-- Show diagnostic popup on cursor hover
 				-- Nice but also annoying cause it overwrites actual popups
@@ -753,16 +749,15 @@ require("lazy").setup({
 					-- end,
 					-- group = diag_float_grp,
 				-- })
+				-- " Set updatetime for CursorHold
+				-- " 300ms of no cursor movement to trigger CursorHold
+				-- set updatetime=300
+				-- vim.opt.updatetime = 1000
+				--
 
 				-- Goto previous/next diagnostic warning/error
 				keymap.set("n", "]d", vim.diagnostic.goto_next, keymap_opts)
 				keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
-
-				-- on_attach(client)
-				-- require("lsp-inlayhints").on_attach(client, bufnr)
-				-- if client.server_capabilities.inlayHintProvider then
-					-- vim.lsp.inlay_hint.enable(bufnr, true)
-				-- end
 			end
 
 			local border = {
@@ -823,8 +818,10 @@ require("lazy").setup({
 								inlayHints = {
 									bindingModeHints = { enable = true },
 									closureReturnTypeHints = { enable = true },
-									closingBraceHints = { minLines = 0 },
 									lifetimeElisionHints = { useParameterNames = true, enable = "skip_trivial" },
+									closingBraceHints = { minLines = 0 },
+									parameterHints = { enable = false },
+									maxLength = 999,
 								},
 							},
 						},
@@ -859,6 +856,16 @@ require("lazy").setup({
 			local cmp = require("cmp")
 			local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
+
+			-- Set completeopt to have a better completion experience
+			-- :help completeopt
+			-- menuone: popup even when there's only one match
+			-- noinsert: Do not insert text until a selection is made
+			-- noselect: Do not auto-select, nvim-cmp plugin will handle this for us.
+			vim.o.completeopt = "menuone,noinsert,noselect"
+
+			-- Avoid showing extra messages when using completion
+			vim.opt.shortmess:append({ c = true })
 
 			cmp.setup({
 				snippet = {
