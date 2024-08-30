@@ -3,22 +3,7 @@ local g = vim.g
 -- vim.keymap.set calls it with the appropriate arguments
 local keymap = vim.keymap
 local telescope = require("telescope.builtin")
-
--- :h map-modes
--- :h nvim_set_keymap
-local modes = {
-	MAP = "",
-	NORMAL = "n",
-	VISUAL_AND_SELECT = "v",
-	SELECT = "s",
-	VISUAL = "x",
-	OPERATOR_PENDING = "o",
-	INSERT_AND_COMMAND = "!",
-	INSERT = "i",
-	INSERT_COMMAN_AND_LANG = "l",
-	COMMAND = "c",
-	TERMINAL = "t",
-}
+local modes = require("consts").modes
 
 -- Trouble nvim is very buggy.
 keymap.set(modes.NORMAL, "<CR>", function()
