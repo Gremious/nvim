@@ -651,6 +651,7 @@ require("lazy").setup({
 							["<esc>"] = require("telescope.actions").close,
 							["<C-Down>"] = require("telescope.actions").cycle_history_next,
 							["<C-Up>"] = require("telescope.actions").cycle_history_prev,
+							["<C-r>"] = require("telescope.actions").to_fuzzy_refine
 						},
 					},
 				},
@@ -839,7 +840,6 @@ require("lazy").setup({
 				["lua_ls"] = function()
 					require("lspconfig").lua_ls.setup({
 						on_attach = on_attach,
-						capabilities = capabilities,
 						settings = {
 							Lua = {
 								diagnostics = {
@@ -1112,7 +1112,6 @@ require("lazy").setup({
 		config = function()
 			require("persisted").setup({
 				autoload = true,
-				ignored_dirs = { "~" },
 			})
 			require("telescope").load_extension("persisted")
 		end,
