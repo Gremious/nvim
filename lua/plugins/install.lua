@@ -1,3 +1,5 @@
+local modes = require("consts").modes
+
 require("lazy").setup({
 	"michaelb/do-nothing.vim", -- !! Important
 	"nvim-lua/plenary.nvim", -- lib other plugins use
@@ -9,228 +11,228 @@ require("lazy").setup({
 		"stevearc/dressing.nvim",
 	},
 
-	{
-		"folke/flash.nvim",
-		event = "VeryLazy",
-		---@type Flash.Config
-		opts = {
-			modes = {
-				search = {
-					multi_window = false,
-				},
-				modes = {
-					search = {
-						enabled = false,
-					},
-				},
-				-- dynamic configuration for ftFT motions
-				char = {
-					-- hide after jump when not using jump labels
-					autohide = true,
-					-- set to `false` to use the current line only
-					multi_line = true,
-					-- by default all keymaps are enabled, but you can disable some of them,
-					-- by removing them from the list.
-					-- If you rather use another key, you can map them
-					-- to something else, e.g., { [";"] = "L", [","] = H }
-					keys = { "f", "F", "t", "T", ";", "," },
-					---@alias Flash.CharActions table<string, "next" | "prev" | "right" | "left">
-					-- The direction for `prev` and `next` is determined by the motion.
-					-- `left` and `right` are always left and right.
-					char_actions = function(motion)
-						return {
-							[";"] = "right", -- set to `right` to always go right
-							[","] = "left", -- set to `left` to always go left
-							-- clever-f style
-							[motion:lower()] = "right",
-							[motion:upper()] = "left",
-						}
-					end,
-					jump = { register = false },
-				},
-			},
-			jump = {
-				nohlsearch = true,
-				-- autojump = true,
-			},
-		},
-		keys = {
-			-- {
-				-- -- rebind the search feature to a different keystroke
-				-- "//", mode = { "n", "x", "o" },
-				-- function() require("flash").jump() end,
-				-- desc = "Flash"
+	-- {
+		-- "folke/flash.nvim",
+		-- event = "VeryLazy",
+		-- ---@type Flash.Config
+		-- opts = {
+			-- modes = {
+				-- search = {
+					-- multi_window = false,
+				-- },
+				-- modes = {
+					-- search = {
+						-- enabled = false,
+					-- },
+				-- },
+				-- -- dynamic configuration for ftFT motions
+				-- char = {
+					-- -- hide after jump when not using jump labels
+					-- autohide = true,
+					-- -- set to `false` to use the current line only
+					-- multi_line = true,
+					-- -- by default all keymaps are enabled, but you can disable some of them,
+					-- -- by removing them from the list.
+					-- -- If you rather use another key, you can map them
+					-- -- to something else, e.g., { [";"] = "L", [","] = H }
+					-- keys = { "f", "F", "t", "T", ";", "," },
+					-- ---@alias Flash.CharActions table<string, "next" | "prev" | "right" | "left">
+					-- -- The direction for `prev` and `next` is determined by the motion.
+					-- -- `left` and `right` are always left and right.
+					-- char_actions = function(motion)
+						-- return {
+							-- [";"] = "right", -- set to `right` to always go right
+							-- [","] = "left", -- set to `left` to always go left
+							-- -- clever-f style
+							-- [motion:lower()] = "right",
+							-- [motion:upper()] = "left",
+						-- }
+					-- end,
+					-- jump = { register = false },
+				-- },
 			-- },
-			{
-				"<Leader>ss",
-				mode = {"n", "x", "o"},
-				function()
-					local function pattern()
-						local current_line = vim.api.nvim_get_current_line()
-						local curr_column = vim.api.nvim_win_get_cursor(0)[2]
-						local line_after_cursor = current_line:sub(curr_column + 1);
-						local char_under_cursor = current_line:sub(curr_column + 1, curr_column + 1)
-
-						-- if is whitespace
-						if string.match(char_under_cursor, "%s") then
-							local next_non_blank_at = line_after_cursor:match("^%s*"):len()
-							local next_non_blank = line_after_cursor:sub(next_non_blank_at+1, next_non_blank_at+1)
-
-							-- is non-alphanumeric
-							if next_non_blank:match("%W") then
-								return next_non_blank
-							else
-								return vim.fn.expand("<cword>")
-							end
-						elseif char_under_cursor:match("%W") then
-							return char_under_cursor
-						else
-							return vim.fn.expand("<cword>")
-						end
-					end
-
-					require("flash").jump({ pattern = pattern() })
-				end
-			},
+			-- jump = {
+				-- nohlsearch = true,
+				-- -- autojump = true,
+			-- },
+		-- },
+		-- keys = {
+			-- -- {
+				-- -- -- rebind the search feature to a different keystroke
+				-- -- "//", mode = { "n", "x", "o" },
+				-- -- function() require("flash").jump() end,
+				-- -- desc = "Flash"
+			-- -- },
 			-- {
---
-				-- "<Leader>sd",
+				-- "<Leader>ss",
 				-- mode = {"n", "x", "o"},
 				-- function()
 					-- local function pattern()
-						-- ---@param diag Diagnostic
-						-- return vim.tbl_map(function(diag)
-							-- return {
-								-- pos = { diag.lnum + 1, diag.col },
-								-- end_pos = { diag.end_lnum + 1, diag.end_col - 1 },
-							-- }
-						-- end, vim.diagnostic.get(vim.api.nvim_win_get_buf(win)).pos)
+						-- local current_line = vim.api.nvim_get_current_line()
+						-- local curr_column = vim.api.nvim_win_get_cursor(0)[2]
+						-- local line_after_cursor = current_line:sub(curr_column + 1);
+						-- local char_under_cursor = current_line:sub(curr_column + 1, curr_column + 1)
+
+						-- -- if is whitespace
+						-- if string.match(char_under_cursor, "%s") then
+							-- local next_non_blank_at = line_after_cursor:match("^%s*"):len()
+							-- local next_non_blank = line_after_cursor:sub(next_non_blank_at+1, next_non_blank_at+1)
+
+							-- -- is non-alphanumeric
+							-- if next_non_blank:match("%W") then
+								-- return next_non_blank
+							-- else
+								-- return vim.fn.expand("<cword>")
+							-- end
+						-- elseif char_under_cursor:match("%W") then
+							-- return char_under_cursor
+						-- else
+							-- return vim.fn.expand("<cword>")
+						-- end
 					-- end
+
 					-- require("flash").jump({ pattern = pattern() })
 				-- end
 			-- },
-			{
-				"s",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump({
-						search = { forward = true, wrap = false, multi_window = true },
-					})
-				end,
-				desc = "Flash forwards only.",
-			},
-			{
-				"S",
-				mode = { "n", "x", "o" },
-				function()
-					require("flash").jump({
-						search = { forward = false, wrap = false, multi_window = true },
-					})
-				end,
-				desc = "Flash backwards only",
-			},
+			-- -- {
+-- --
+				-- -- "<Leader>sd",
+				-- -- mode = {"n", "x", "o"},
+				-- -- function()
+					-- -- local function pattern()
+						-- -- ---@param diag Diagnostic
+						-- -- return vim.tbl_map(function(diag)
+							-- -- return {
+								-- -- pos = { diag.lnum + 1, diag.col },
+								-- -- end_pos = { diag.end_lnum + 1, diag.end_col - 1 },
+							-- -- }
+						-- -- end, vim.diagnostic.get(vim.api.nvim_win_get_buf(win)).pos)
+					-- -- end
+					-- -- require("flash").jump({ pattern = pattern() })
+				-- -- end
+			-- -- },
 			-- {
-				-- "ts",
-				-- mode = { "n", "o", "x" },
+				-- "s",
+				-- mode = { "n", "x", "o" },
 				-- function()
-					-- require("flash").treesitter()
+					-- require("flash").jump({
+						-- search = { forward = true, wrap = false, multi_window = true },
+					-- })
 				-- end,
-				-- desc = "Flash Treesitter",
+				-- desc = "Flash forwards only.",
 			-- },
-			{
-				"<leader>r",
-				mode = "o",
-				function()
-					require("flash").remote()
-				end,
-				desc = "Remote Flash",
-			},
 			-- {
-				-- "hw",
-				-- mode = {"n"},
+				-- "S",
+				-- mode = { "n", "x", "o" },
 				-- function()
 					-- require("flash").jump({
-						-- pattern = ".", -- initialize pattern with any char
-						-- search = {
-							-- forward = true,
-							-- wrap = false,
-							-- multi_window = true,
-							-- mode = function(pattern)
-								-- -- remove leading dot
-								-- if pattern:sub(1, 1) == "." then
-									-- pattern = pattern:sub(2)
-								-- end
-								-- -- return word pattern and proper skip pattern
-								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
-							-- end,
-						-- },
+						-- search = { forward = false, wrap = false, multi_window = true },
 					-- })
-				-- end
+				-- end,
+				-- desc = "Flash backwards only",
 			-- },
+			-- -- {
+				-- -- "ts",
+				-- -- mode = { "n", "o", "x" },
+				-- -- function()
+					-- -- require("flash").treesitter()
+				-- -- end,
+				-- -- desc = "Flash Treesitter",
+			-- -- },
 			-- {
-				-- "hW",
-				-- mode = {"n"},
+				-- "<leader>r",
+				-- mode = "o",
 				-- function()
-					-- require("flash").jump({
-						-- pattern = ".", -- initialize pattern with any char
-						-- search = {
-							-- forward = false,
-							-- wrap = false,
-							-- multi_window = true,
-							-- mode = function(pattern)
-								-- -- remove leading dot
-								-- if pattern:sub(1, 1) == "." then
-									-- pattern = pattern:sub(2)
-								-- end
-								-- -- return word pattern and proper skip pattern
-								-- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
-							-- end,
-						-- },
-					-- })
-				-- end
-			-- }
-		},
-		config = function()
-		   vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffcb6b", underline = true })
-		end
-	},
-	{
-		"folke/trouble.nvim",
-		opts = {}, -- for default options, refer to the configuration section for custom setup.
-		cmd = "Trouble",
-		keys = {
-			{
-				"<leader>xx",
-				"<cmd>Trouble diagnostics toggle<cr>",
-				desc = "Diagnostics (Trouble)",
-			},
-			-- {
-				-- "<leader>xX",
-				-- "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
-				-- desc = "Buffer Diagnostics (Trouble)",
+					-- require("flash").remote()
+				-- end,
+				-- desc = "Remote Flash",
 			-- },
+			-- -- {
+				-- -- "hw",
+				-- -- mode = {"n"},
+				-- -- function()
+					-- -- require("flash").jump({
+						-- -- pattern = ".", -- initialize pattern with any char
+						-- -- search = {
+							-- -- forward = true,
+							-- -- wrap = false,
+							-- -- multi_window = true,
+							-- -- mode = function(pattern)
+								-- -- -- remove leading dot
+								-- -- if pattern:sub(1, 1) == "." then
+									-- -- pattern = pattern:sub(2)
+								-- -- end
+								-- -- -- return word pattern and proper skip pattern
+								-- -- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- -- end,
+						-- -- },
+					-- -- })
+				-- -- end
+			-- -- },
+			-- -- {
+				-- -- "hW",
+				-- -- mode = {"n"},
+				-- -- function()
+					-- -- require("flash").jump({
+						-- -- pattern = ".", -- initialize pattern with any char
+						-- -- search = {
+							-- -- forward = false,
+							-- -- wrap = false,
+							-- -- multi_window = true,
+							-- -- mode = function(pattern)
+								-- -- -- remove leading dot
+								-- -- if pattern:sub(1, 1) == "." then
+									-- -- pattern = pattern:sub(2)
+								-- -- end
+								-- -- -- return word pattern and proper skip pattern
+								-- -- return ([[\<%s\w*\>]]):format(pattern), ([[\<%s]]):format(pattern)
+							-- -- end,
+						-- -- },
+					-- -- })
+				-- -- end
+			-- -- }
+		-- },
+		-- config = function()
+		   -- vim.api.nvim_set_hl(0, "FlashLabel", { fg = "#ffcb6b", underline = true })
+		-- end
+	-- },
+	-- {
+		-- "folke/trouble.nvim",
+		-- opts = {}, -- for default options, refer to the configuration section for custom setup.
+		-- cmd = "Trouble",
+		-- keys = {
 			-- {
-				-- "<leader>cs",
-				-- "<cmd>Trouble symbols toggle focus=false<cr>",
-				-- desc = "Symbols (Trouble)",
+				-- "<leader>xx",
+				-- "<cmd>Trouble diagnostics toggle<cr>",
+				-- desc = "Diagnostics (Trouble)",
 			-- },
+			-- -- {
+				-- -- "<leader>xX",
+				-- -- "<cmd>Trouble diagnostics toggle filter.buf=0<cr>",
+				-- -- desc = "Buffer Diagnostics (Trouble)",
+			-- -- },
+			-- -- {
+				-- -- "<leader>cs",
+				-- -- "<cmd>Trouble symbols toggle focus=false<cr>",
+				-- -- desc = "Symbols (Trouble)",
+			-- -- },
+			-- -- {
+				-- -- "<leader>cl",
+				-- -- "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
+				-- -- desc = "LSP Definitions / references / ... (Trouble)",
+			-- -- },
+			-- -- {
+				-- -- "<leader>xL",
+				-- -- "<cmd>Trouble loclist toggle<cr>",
+				-- -- desc = "Location List (Trouble)",
+			-- -- },
 			-- {
-				-- "<leader>cl",
-				-- "<cmd>Trouble lsp toggle focus=false win.position=right<cr>",
-				-- desc = "LSP Definitions / references / ... (Trouble)",
+				-- "<leader>xQ",
+				-- "<cmd>Trouble qflist toggle<cr>",
+				-- desc = "Quickfix List (Trouble)",
 			-- },
-			-- {
-				-- "<leader>xL",
-				-- "<cmd>Trouble loclist toggle<cr>",
-				-- desc = "Location List (Trouble)",
-			-- },
-			{
-				"<leader>xQ",
-				"<cmd>Trouble qflist toggle<cr>",
-				desc = "Quickfix List (Trouble)",
-			},
-		},
-	},
+		-- },
+	-- },
 
 	-- ==/ themes /==
 	-- TODO: would be cool to have live telesacope swithcer, and there's a plugin for per project themes
@@ -317,16 +319,16 @@ require("lazy").setup({
 		-- dependencies = { "nvim-tree/nvim-web-devicons" },
 	-- },
 
-	{
-		"antosha417/nvim-lsp-file-operations",
-		dependencies = {
-			"nvim-lua/plenary.nvim",
+	-- {
+		-- "antosha417/nvim-lsp-file-operations",
+		-- dependencies = {
+			-- "nvim-lua/plenary.nvim",
 			-- "nvim-tree/nvim-tree.lua",
-		},
-		config = function()
-			require("lsp-file-operations").setup()
-		end,
-	},
+		-- },
+		-- config = function()
+			-- require("lsp-file-operations").setup()
+		-- end,
+	-- },
 
 	-- ==/ Highlights/Syntax /==
 	{
@@ -339,38 +341,16 @@ require("lazy").setup({
 			-- vim.api.nvim_set_hl(0, "@foo.bar", { link = "Identifier" })
 
 			require("nvim-treesitter.configs").setup({
+				highlight = { enable = true },
 				-- ensure_installed = "all",
-				ensure_installed = {
-					"rust",
-					"markdown",
-					"lua",
-					"vimdoc",
-					"yaml",
-					"css",
-					"html",
-					"cpp",
-					"javascript",
-				},
-				highlight = {
-					enable = true,
-				},
-				rainbow = {
-					enable = true,
-					extended_mode = true,
-					max_file_lines = 4000,
-				},
-				indent = {
-					enable = false,
-				},
-				keymaps = {
-					goto_next_usage = "<]-u>",
-					goto_previous_usage = "<[-u>",
-				}
+				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html" },
+				auto_install = true,
+				indent = { enable = false },
 			})
 		end,
 		dependencies = {
 			-- additional parser
-			{ "nushell/tree-sitter-nu" },
+			{ "nushell/tree-sitter-nu", build = ":TSUpdate nu" },
 		},
 	},
 	"nvim-treesitter/playground", -- treesitter debug
@@ -468,10 +448,10 @@ require("lazy").setup({
 			},
 		},
 	},
-	{
-		-- TODO: set this up, it prevents u from typoing sepErated lol
-		"tpope/vim-abolish",
-	},
+	-- {
+		-- -- TODO: set this up, it prevents u from typoing sepErated lol
+		-- "tpope/vim-abolish",
+	-- },
 	{
 		"akinsho/bufferline.nvim",
 		dependencies = "nvim-tree/nvim-web-devicons",
@@ -553,7 +533,7 @@ require("lazy").setup({
 	"godlygeek/tabular", -- Tab/Spaces aligner
 	{
 		"shellRaining/hlchunk.nvim",
-		event = { "UIEnter" },
+		event = { "BufReadPre", "BufNewFile" },
 		config = function()
 			require("hlchunk").setup({
 				blank = {
@@ -582,7 +562,7 @@ require("lazy").setup({
 	-- },
 
 	-- Smart comma/semicolon insert
-	"lfilho/cosco.vim",
+	-- "lfilho/cosco.vim",
 	{
 		-- C-a/x cycle throgh bools/etc.
 		"bootleq/vim-cycle",
@@ -639,8 +619,22 @@ require("lazy").setup({
 		dependencies = { "nvim-lua/plenary.nvim" },
 
 		config = function()
+			local tbuiltin = require("telescope.builtin")
+
 			require("telescope").setup({
 				defaults = {
+					vimgrep_arguments = {
+						-- Default:
+						"rg",
+						"--color=never",
+						"--no-heading",
+						"--with-filename",
+						"--line-number",
+						"--column",
+						"--smart-case",
+						-- Extra: don't respect .gitignore, we only use .ignore instead
+						"--no-ignore-vcs"
+					},
 					layout_strategy = "vertical",
 					layout_config = {
 						height = 0.95,
@@ -681,6 +675,30 @@ require("lazy").setup({
 					},
 				},
 			})
+
+			vim.keymap.set(modes.NORMAL, "<Leader>fg", function()
+				tbuiltin.live_grep({ use_regex = true })
+			end)
+			vim.keymap.set(modes.NORMAL, "<Leader>ff", function()
+				-- fzf native only sorts best scores and has some filters (e.g. 'word),
+				-- grep actually does the search
+				tbuiltin.grep_string({ search = "", use_regex = true })
+			end)
+			vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
+				tbuiltin.find_files({ find_command = { "fd", "--type", "f", "--color", "never", "--no-ignore-vcs" } })
+			end)
+			vim.keymap.set(modes.NORMAL, "<Leader>fs", function()
+				tbuiltin.lsp_document_symbols()
+			end)
+			vim.keymap.set(modes.NORMAL, "<Leader>fS", function()
+				tbuiltin.lsp_dynamic_workspace_symbols()
+			end)
+			vim.keymap.set(modes.NORMAL, "<Leader>?", function()
+				tbuiltin.resume()
+			end)
+			vim.keymap.set(modes.NORMAL, "<leader>:", function()
+				tbuiltin.commands()
+			end)
 		end,
 	},
 	{
@@ -712,7 +730,29 @@ require("lazy").setup({
 			require("mason").setup()
 		end,
 	},
-	"neovim/nvim-lspconfig",
+	{
+		"neovim/nvim-lspconfig",
+		config = function()
+			-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
+			local border = {
+				{"╭", "FloatBorder"},
+				{"─", "FloatBorder"},
+				{"╮", "FloatBorder"},
+				{"│", "FloatBorder"},
+				{"╯", "FloatBorder"},
+				{"─", "FloatBorder"},
+				{"╰", "FloatBorder"},
+				{"│", "FloatBorder"},
+			}
+			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+				print("floating preview fn")
+				opts = opts or {}
+				opts.border = opts.border or border
+				return orig_util_open_floating_preview(contents, syntax, opts, ...)
+			end
+		end
+	},
 	{
 		"williamboman/mason-lspconfig.nvim",
 		dependencies = {
@@ -768,24 +808,6 @@ require("lazy").setup({
 				keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 			end
 
-			-- https://github.com/neovim/nvim-lspconfig/wiki/UI-Customization
-			local border = {
-				{"╭", "FloatBorder"},
-				{"─", "FloatBorder"},
-				{"╮", "FloatBorder"},
-				{"│", "FloatBorder"},
-				{"╯", "FloatBorder"},
-				{"─", "FloatBorder"},
-				{"╰", "FloatBorder"},
-				{"│", "FloatBorder"},
-			}
-			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
-			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
-				opts = opts or {}
-				opts.border = opts.border or border
-				return orig_util_open_floating_preview(contents, syntax, opts, ...)
-			end
-
 			require("mason-lspconfig").setup_handlers({
 				-- The first entry (without a key) will be the default handler
 				-- and will be called for each installed server that doesn't have a dedicated handler.
@@ -796,6 +818,9 @@ require("lazy").setup({
 				["rust_analyzer"] = function()
 					require('lspconfig').rust_analyzer.setup {
 						on_attach = on_attach,
+						root_dir = function(filename, bufnr) return vim.loop.cwd() end,
+						cmd_env = { CARGO_TARGET_DIR = "target/rust-analyzer-check" },
+
 						settings = {
 							["rust-analyzer"] = {
 							-- check = {
@@ -807,11 +832,11 @@ require("lazy").setup({
 								-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
 								-- https://github.com/neovim/nvim-lspconfig/issues/1735
 								-- it's in init.vim as a real env variable
-								server = {
-									extraEnv = {
-										CARGO_TARGET_DIR = "target/rust-analyzer-check"
-									}
-								},
+								-- server = {
+									-- extraEnv = {
+										-- CARGO_TARGET_DIR = "target/rust-analyzer-check"
+									-- }
+								-- },
 
 								imports = {
 									granularity = { enforce = true },
@@ -857,12 +882,12 @@ require("lazy").setup({
 		-- Autocompletion framework
 		"hrsh7th/nvim-cmp",
 		dependencies = {
-			"L3MON4D3/LuaSnip",
+			-- "L3MON4D3/LuaSnip",
 			"onsails/lspkind.nvim",
 		},
 		config = function()
 			local cmp = require("cmp")
-			local luasnip = require("luasnip")
+			-- local luasnip = require("luasnip")
 			local lspkind = require("lspkind")
 
 			-- Set completeopt to have a better completion experience
@@ -876,11 +901,11 @@ require("lazy").setup({
 			vim.opt.shortmess:append({ c = true })
 
 			cmp.setup({
-				snippet = {
-					expand = function(args)
-						luasnip.lsp_expand(args.body)
-					end,
-				},
+				-- snippet = {
+					-- expand = function(args)
+						-- luasnip.lsp_expand(args.body)
+					-- end,
+				-- },
 				formatting = {
 					format = lspkind.cmp_format({
 						mode = "symbol_text",
@@ -888,7 +913,7 @@ require("lazy").setup({
 							nvim_lsp = "[LSP]",
 							nvim_lsp_signature_help = "[Signature]",
 							nvim_lsp_document_symbol = "[Symbol]",
-							luasnip = "[LuaSnip]",
+							-- luasnip = "[LuaSnip]",
 							buffer = "[Buffer]",
 							path = "[Path]",
 							cmp_tabnine = "[T9]",
@@ -964,7 +989,7 @@ require("lazy").setup({
 							{ name = "nvim_lsp" },
 							{ name = "nvim_lsp_signature_help" },
 							{ name = "nvim_lsp_document_symbol" },
-							{ name = "luasnip" },
+							-- { name = "luasnip" },
 							{ name = "path" },
 							{ name = "buffer" },
 							{ name = "crates" },
@@ -998,12 +1023,12 @@ require("lazy").setup({
 		-- Auto-complete document symbols
 		"hrsh7th/cmp-nvim-lsp-document-symbol",
 		-- cmp Snippet completion
-		{
-			"saadparwaiz1/cmp_luasnip",
-			config = function()
-				require("luasnip.loaders.from_snipmate").lazy_load()
-			end,
-		},
+		-- {
+			-- "saadparwaiz1/cmp_luasnip",
+			-- config = function()
+				-- require("luasnip.loaders.from_snipmate").lazy_load()
+			-- end,
+		-- },
 		-- {
 			-- Various language snippets for luasnip
 			-- I just copied them myself cause I wanted to edit the rust ones
@@ -1039,13 +1064,13 @@ require("lazy").setup({
 		dependencies = { "hrsh7th/nvim-cmp" },
 	},
 	"github/copilot.vim",
-	{
-		-- Snippet engine
-		--
-		"L3MON4D3/LuaSnip",
-		-- follow latest release.
-		version = "v2.*",
-	},
+	-- {
+		-- -- Snippet engine
+		-- --
+		-- "L3MON4D3/LuaSnip",
+		-- -- follow latest release.
+		-- version = "v2.*",
+	-- },
 
 	-- Icons for cmp
 	"onsails/lspkind.nvim",
@@ -1105,7 +1130,6 @@ require("lazy").setup({
 	-- "j-hui/fidget.nvim",
 	-- "nvim-lua/popup.nvim",
 
-	"folke/trouble.nvim", -- pretty lsp info/diagnostics window
 	{
 		"olimorris/persisted.nvim",
 		lazy = false,
@@ -1118,33 +1142,33 @@ require("lazy").setup({
 		dependencies = { "nvim-telescope/telescope.nvim" },
 	},
 
-	-- ==/ Silly /==
-	{
-		"Eandrju/cellular-automaton.nvim",
-		dependencies = {
-			"nvim-treesitter/nvim-treesitter",
-		}
-	},
-
-	{
-		"tamton-aquib/duck.nvim",
-		config = function()
-			-- Quite a mellow cat
-			vim.keymap.set("n", "<leader>dc", function()
-				require("duck").hatch("🐈", 0.75)
-			end, {})
-			vim.keymap.set("n", "<leader>dn", function()
-				require("duck").hatch()
-			end, {})
-			vim.keymap.set("n", "<leader>dk", function()
-				require("duck").cook()
-			end, {})
-		end,
-	},
-
 	-- TODO: Telescope provides this, maybe use that instead. Perhaps without a preview cause confusing?
 	-- though it doesn't seem to sort them the same idk needs testing
 	"yegappan/mru", -- most recently used files so i can undo a close
+
+	-- ==/ Silly /==
+	-- {
+		-- "Eandrju/cellular-automaton.nvim",
+		-- dependencies = {
+			-- "nvim-treesitter/nvim-treesitter",
+		-- }
+	-- },
+
+	-- {
+		-- "tamton-aquib/duck.nvim",
+		-- config = function()
+			-- -- Quite a mellow cat
+			-- vim.keymap.set("n", "<leader>dc", function()
+				-- require("duck").hatch("🐈", 0.75)
+			-- end, {})
+			-- vim.keymap.set("n", "<leader>dn", function()
+				-- require("duck").hatch()
+			-- end, {})
+			-- vim.keymap.set("n", "<leader>dk", function()
+				-- require("duck").cook()
+			-- end, {})
+		-- end,
+	-- },
 
 	-- ==/ Off /==
 	-- Don't rly use it
