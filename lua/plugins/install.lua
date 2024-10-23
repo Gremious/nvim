@@ -596,6 +596,7 @@ require("lazy").setup({
 				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
 				{ "let ", "let mut " },
 				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
+				{ { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }, "hard_case" },
 				{ "greater", "equal", "less" },
 				{ "column", "row" },
 				{ "that", "which" },

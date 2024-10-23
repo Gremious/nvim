@@ -81,7 +81,7 @@ require("config.theme")
 
 -- g.loaded_netrw = 1
 -- g.loaded_netrwPlugin = 1
-g.netrw_browse_split = 0
+-- g.netrw_browse_split = 0
 
 opt.sessionoptions:append("localoptions") -- Save localoptions to session file
 opt.sessionoptions:append("winpos") -- Save winpos to session file
