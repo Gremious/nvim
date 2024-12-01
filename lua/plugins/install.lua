@@ -11,6 +11,39 @@ require("lazy").setup({
 		"stevearc/dressing.nvim",
 	},
 
+	{
+		"folke/flash.nvim",
+		event = "VeryLazy",
+		---@type Flash.Config
+		opts = {},
+		-- stylua: ignore
+		keys = {
+			{
+				"s",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump({
+						search = { forward = true, wrap = false, multi_window = true },
+					})
+				end,
+				desc = "Flash forwards only.",
+			},
+			{
+				"S",
+				mode = { "n", "x", "o" },
+				function()
+					require("flash").jump({
+						search = { forward = false, wrap = false, multi_window = true },
+					})
+				end,
+				desc = "Flash backwards only",
+			},
+			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+			{ "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+			{ "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+		},
+
+	},
 	-- {
 		-- "folke/flash.nvim",
 		-- event = "VeryLazy",
@@ -601,7 +634,10 @@ require("lazy").setup({
 				{ "that", "which" },
 				{ "trace", "debug", "info", "warn", "error" },
 				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
-				{ "Google", "YouTube", "Twitch", "Facebook", "TikTok" }
+				{ "Google", "YouTube", "Twitch", "Facebook", "TikTok" },
+				{ "small", "medium", "large" },
+				{ "top", "bottom" },
+				{ "left", "right" },
 			})
 		end,
 	},
@@ -814,6 +850,13 @@ require("lazy").setup({
 				function(server_name)
 					require("lspconfig")[server_name].setup({ on_attach = on_attach })
 				end,
+
+				-- ["gdscript"] = function()
+					-- require('lspconfig').gdscript.setup({
+						-- on_attach = on_attach,
+						-- filetypes = { "gd", "gdscript", "gdscript3" },
+					-- })
+				-- end,
 
 				["rust_analyzer"] = function()
 					require('lspconfig').rust_analyzer.setup {
@@ -1093,6 +1136,22 @@ require("lazy").setup({
 					-- detached = false,
 				},
 			}
+
+			-- require("dap").adapters.godot = {
+				-- type = "server",
+				-- host = '127.0.0.1',
+				-- port = 6006,
+			-- }
+
+			-- require("dap").configurations.gdscript = {
+				-- {
+					-- type = "godot",
+					-- request = "launch",
+					-- name = "Launch scene",
+					-- project = "${workspaceFolder}",
+					-- launch_scene = true,
+				-- }
+			-- }
 		end,
 	},
 
@@ -1135,7 +1194,8 @@ require("lazy").setup({
 		lazy = false,
 		config = function()
 			require("persisted").setup({
-				autoload = true,
+				-- allowed_dirs = {},
+				ignored_dirs = { "/tmp" },
 			})
 			require("telescope").load_extension("persisted")
 		end,
