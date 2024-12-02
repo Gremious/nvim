@@ -1147,6 +1147,9 @@ require("lazy").setup({
 	-- though it doesn't seem to sort them the same idk needs testing
 	"yegappan/mru", -- most recently used files so i can undo a close
 
+	-- Auto disables treesitter and various other things on huge files
+    'pteroctopus/faster.nvim',
+
 	-- ==/ Silly /==
 	-- {
 		-- "Eandrju/cellular-automaton.nvim",
