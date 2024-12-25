@@ -719,10 +719,19 @@ require("lazy").setup({
 			vim.keymap.set(modes.NORMAL, "<Leader>ff", function()
 				-- fzf native only sorts best scores and has some filters (e.g. 'word),
 				-- grep actually does the search
-				tbuiltin.grep_string({ search = "", use_regex = true })
+				tbuiltin.grep_string({
+					-- normally it would do `require("telescope.utils").buffer_dir()`
+					-- but I want current tab dir cause i use :tcd/tab workspaces
+					cwd = vim.fn.getcwd(),
+					search = "",
+					use_regex = true,
+				})
 			end)
 			vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
-				tbuiltin.find_files({ find_command = { "fd", "--type", "f", "--color", "never", "--no-ignore-vcs" } })
+				tbuiltin.find_files({
+					cwd = vim.fn.getcwd(),
+					find_command = { "fd", "--type", "f", "--color", "never", "--no-ignore-vcs" },
+				})
 			end)
 			vim.keymap.set(modes.NORMAL, "<Leader>fs", function()
 				tbuiltin.lsp_document_symbols()
