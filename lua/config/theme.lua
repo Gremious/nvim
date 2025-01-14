@@ -39,7 +39,7 @@ local function miramare()
 	vim.cmd("colorscheme miramare")
 end
 
-material()
+-- material()
 
 --  Update  hl group:  may not work here, try in the end of an init.lua
 -- local current_def = vim.api.nvim_get_hl(0, { name = "Comment" })
