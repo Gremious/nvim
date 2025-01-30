@@ -273,7 +273,14 @@ require("lazy").setup({
 	"Yazeed1s/oh-lucy.nvim",
 	"chriskempson/base16-vim",
 	"franbach/miramare",
-	"kaicataldo/material.vim",
+	{
+		"kaicataldo/material.vim",
+		config = function()
+			vim.g.material_theme_style = "ocean"
+			vim.g.material_terminal_italics = true
+			vim.cmd("colorscheme material")
+		end,
+	},
 	"nvim-tree/nvim-web-devicons",
 	"sainnhe/sonokai",
 	"tiagovla/tokyodark.nvim",
@@ -375,7 +382,7 @@ require("lazy").setup({
 			-- vim.api.nvim_set_hl(0, "@foo.bar", { link = "Identifier" })
 
 			require("nvim-treesitter.configs").setup({
-				highlight = { enable = true },
+				highlight = { enable = false },
 				-- ensure_installed = "all",
 				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html" },
 				auto_install = true,
@@ -398,7 +405,25 @@ require("lazy").setup({
 		"HiPhish/rainbow-delimiters.nvim",
 		dependencies = {
 			"nvim-treesitter/nvim-treesitter",
-		}
+			-- For whatever reason, this plugin resets it's hl groups
+			-- on color scheme load
+			-- so we depend on theme here and then can set the hl groups
+			-- (or i guess our theme can depend on this and set them)
+			"kaicataldo/material.vim",
+		},
+		event = { "BufReadPost", "BufNewFile", "BufWritePre", "VeryLazy" },
+		config = function()
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterRed", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterOrange", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterYellow", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterGreen", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterBlue", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterViolet", { fg = "#FF0000", force = true })
+			-- vim.api.nvim_set_hl(0, "RainbowDelimiterCyan", { fg = "#FF0000", force = true })
+		end,
+	},
+	{
+
 	},
 	"machakann/vim-highlightedyank", -- on yank, highlights yanked text for a second
 
