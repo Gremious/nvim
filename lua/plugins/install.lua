@@ -283,74 +283,75 @@ require("lazy").setup({
 	-- Actually funcitonal pywal
 	"sonjiku/yawnc.nvim",
 
-	-- {
-		-- "nvim-tree/nvim-tree.lua",
-		-- -- -- nvim-tree recomends explicitly not lazy loading,
-		-- -- -- and lazy.nvim does not call setup automatically when lazy = false
-		-- lazy = false,
-		-- config = function()
-			-- local nvim_tree = require("nvim-tree.api")
-			-- vim.keymap.set("n", "<Leader><tab>", function()
-				-- nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
-			-- end)
-			-- -- TODO Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
-			-- -- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
-			-- -- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
+	{
+		"nvim-tree/nvim-tree.lua",
+		-- -- nvim-tree recomends explicitly not lazy loading,
+		-- -- and lazy.nvim does not call setup automatically when lazy = false
+		lazy = false,
+		config = function()
+			local nvim_tree = require("nvim-tree.api")
 
-			-- require("nvim-tree").setup({
-				-- -- update_focused_file = {
-					-- -- enable = true,
-				-- -- },
-				-- filters = {
-					-- git_ignored = false,
-					-- dotfiles = false,
+			vim.keymap.set("n", "<Leader><tab>", function()
+				nvim_tree.tree.toggle({ find_file = true, focus = true, update_root = false })
+			end)
+			-- TODO Make fn, try find file, if you did - find file toggle. If not - find file toggle but in current dir .
+			-- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle <cr>", { silent = true })
+			-- keymap.set(modes.NORMAL, "<leader><tab>", ":NvimTreeFindFileToggle . <cr>", { silent = true })
+
+			require("nvim-tree").setup({
+				-- update_focused_file = {
+					-- enable = true,
 				-- },
-				-- actions = {
-					-- open_file = {
-						-- quit_on_open = true,
-						-- window_picker = {
-							-- enable = false,
-						-- },
+				filters = {
+					git_ignored = false,
+					dotfiles = false,
+				},
+				actions = {
+					open_file = {
+						quit_on_open = true,
+						window_picker = {
+							enable = false,
+						},
+					},
+				},
+				-- view = {
+					-- -- Table means "dynamic"
+					-- width = {},
+					-- number = true,
+					-- relativenumber = true,
+				-- },
+				-- diagnostics = {
+					-- enable = true,
+					-- show_on_dirs = true,
+					-- show_on_open_dirs = false,
+					-- severity = {
+						-- min = vim.diagnostic.severity.WARN,
+						-- max = vim.diagnostic.severity.ERROR,
 					-- },
 				-- },
-				-- -- view = {
-					-- -- -- Table means "dynamic"
-					-- -- width = {},
-					-- -- number = true,
-					-- -- relativenumber = true,
-				-- -- },
-				-- -- diagnostics = {
-					-- -- enable = true,
-					-- -- show_on_dirs = true,
-					-- -- show_on_open_dirs = false,
-					-- -- severity = {
-						-- -- min = vim.diagnostic.severity.WARN,
-						-- -- max = vim.diagnostic.severity.ERROR,
-					-- -- },
-				-- -- },
-				-- -- -- https://github.com/nvim-tree/nvim-tree.lua/issues/2851
-				-- -- -- hijack_unnamed_buffer_when_opening = true,
-				-- renderer = {
-					-- highlight_git = "all",
-					-- -- highlight_modified = "all",
-					-- icons = {
-						-- glyphs = {
-							-- git = {
-								-- unstaged = "📝",
-								-- staged = "✔️",
-								-- unmerged = "",
-								-- renamed = "🔄️",
-								-- untracked = "🆕",
-								-- deleted = "❌",
-								-- ignored = "◌",
-							-- }
-						-- },
-					-- },
-				-- },
-			-- })
-		-- end,
-		-- dependencies = { "nvim-tree/nvim-web-devicons" },
-	-- },
+				-- -- https://github.com/nvim-tree/nvim-tree.lua/issues/2851
+				-- -- hijack_unnamed_buffer_when_opening = true,
+				renderer = {
+					highlight_git = "all",
+					-- highlight_modified = "all",
+					icons = {
+						glyphs = {
+							git = {
+								unstaged = "📝",
+								staged = "✔️",
+								unmerged = "",
+								renamed = "🔄️",
+								untracked = "🆕",
+								deleted = "❌",
+								ignored = "◌",
+							}
+						},
+					},
+				},
+			})
+		end,
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+	},
 
 	-- {
 		-- "antosha417/nvim-lsp-file-operations",
@@ -438,6 +439,7 @@ require("lazy").setup({
 	{
 		"johmsalas/text-case.nvim",
 		dependencies = { "nvim-telescope/telescope.nvim" },
+		lazy = false,
 		config = function()
 			require("textcase").setup({
 				prefix = "<leader>tc"
@@ -639,6 +641,7 @@ require("lazy").setup({
 				{ "small", "medium", "large" },
 				{ "top", "bottom" },
 				{ "left", "right" },
+				{ "hide", "show" },
 			})
 		end,
 	},
@@ -867,7 +870,11 @@ require("lazy").setup({
 						-- filetypes = { "gd", "gdscript", "gdscript3" },
 					-- })
 				-- end,
-
+				-- ["ts_ls"] = function()
+					-- require("lspconfig").ts_ls.setup({
+						-- on_attach = on_attach,
+					-- })
+				-- end,
 				["rust_analyzer"] = function()
 					require('lspconfig').rust_analyzer.setup {
 						on_attach = on_attach,
@@ -928,6 +935,16 @@ require("lazy").setup({
 						},
 					})
 				end,
+
+				-- ["phpactor"] = function()
+					-- require("lspconfig").phpactor.setup({
+						-- on_attach = on_attach,
+						-- init_options = {
+							-- ["language_server_phpstan.enabled"] = false,
+							-- ["language_server_psalm.enabled"] = false,
+						-- },
+					-- })
+				-- end,
 			})
 		end,
 	},
@@ -1116,7 +1133,7 @@ require("lazy").setup({
 
 		dependencies = { "hrsh7th/nvim-cmp" },
 	},
-	"github/copilot.vim",
+	-- "github/copilot.vim",
 	-- {
 		-- -- Snippet engine
 		-- --
@@ -1204,8 +1221,17 @@ require("lazy").setup({
 		lazy = false,
 		config = function()
 			require("persisted").setup({
-				-- allowed_dirs = {},
-				ignored_dirs = { "/tmp" },
+				autosave = true,
+				autoload = true,
+				allowed_dirs = {
+					"/home/gremious/Programming",
+					"/home/gremious/.config",
+					"/home/gremious/.dotfiles",
+				},
+				-- ignored_dirs = {
+					-- "/tmp",
+					-- { "/home/gremious", exact = true },
+				-- },
 			})
 			require("telescope").load_extension("persisted")
 		end,

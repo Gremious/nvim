@@ -19,11 +19,11 @@ local function open_config_file(file)
 end
 
 -- Type config -> get config
-create_command("Config", function()
-	open_config_file("init.lua")
-end)
+-- create_command("Config", function()
+	-- open_config_file("init.lua")
+-- end)
 
-create_command("ConfigSearch", function()
+create_command("Config", function()
 	telescope.find_files({ cwd = vim.fn.stdpath("config") })
 end)
 
