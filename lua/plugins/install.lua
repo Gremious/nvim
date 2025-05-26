@@ -382,9 +382,9 @@ require("lazy").setup({
 			-- vim.api.nvim_set_hl(0, "@foo.bar", { link = "Identifier" })
 
 			require("nvim-treesitter.configs").setup({
-				highlight = { enable = false },
+				highlight = { enable = true },
 				-- ensure_installed = "all",
-				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html" },
+				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html", "nu" },
 				auto_install = true,
 				indent = { enable = false },
 			})
@@ -447,6 +447,21 @@ require("lazy").setup({
 			vim.fn["mkdp#util#install"]()
 		end,
 	},
+       {
+           'echasnovski/mini.nvim',
+           version = false,
+           config = function()
+               require('mini.map').setup()
+
+               vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
+               vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
+               -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
+               -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
+               -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
+               -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
+               -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
+           end
+       },
 
 	-- shows follow-up hotkey options in status bar
 	-- {
@@ -566,8 +581,13 @@ require("lazy").setup({
 			vim.g.NERDCreateDefaultMappings = true
 			vim.g.NERDSpaceDelims = true
 			vim.g.NERDTrimTrailingWhitespace = true
-		end,
-	},
+			vim.g.NERDCustomDelimiters = {
+				ZenScript = {
+					left = "//",
+				}
+			}
+			end,
+		},
 	{
 		-- undo tree
 		-- need to run:
@@ -698,7 +718,7 @@ require("lazy").setup({
 						"--column",
 						"--smart-case",
 						-- Extra: don't respect .gitignore, we only use .ignore instead
-						"--no-ignore-vcs"
+						-- "--no-ignore-vcs"
 					},
 					layout_strategy = "vertical",
 					layout_config = {
@@ -710,7 +730,7 @@ require("lazy").setup({
 							["<esc>"] = require("telescope.actions").close,
 							["<C-Down>"] = require("telescope.actions").cycle_history_next,
 							["<C-Up>"] = require("telescope.actions").cycle_history_prev,
-							["<C-r>"] = require("telescope.actions").to_fuzzy_refine
+							["<C-f>"] = require("telescope.actions").to_fuzzy_refine
 						},
 					},
 				},
@@ -758,7 +778,14 @@ require("lazy").setup({
 			vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
 				tbuiltin.find_files({
 					cwd = vim.fn.getcwd(),
-					find_command = { "fd", "--type", "f", "--color", "never", "--no-ignore-vcs" },
+					find_command = {
+                                       "fd",
+                                       "--type",
+                                       "f",
+                                       "--color",
+                                       "never",
+                                       -- "--no-ignore-vcs",
+                                   },
 				})
 			end)
 			vim.keymap.set(modes.NORMAL, "<Leader>fs", function()
@@ -783,11 +810,11 @@ require("lazy").setup({
 		"nvim-telescope/telescope-fzf-native.nvim",
 		-- build = "make"
 		build = function()
-			-- if vim.fn.has("win32") == 1 then
+			if vim.fn.has("win32") == 1 then
 				return "cmake -S. -Bbuild -DCMAKE_BUILD_TYPE=Release -G \"Visual Studio 17 2022\" && cmake --build build --config Release && cmake --install build --prefix build"
-			-- else
-				-- return "make"
-			-- end
+			else
+				return "make"
+			end
 		end,
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		config = function()
@@ -829,11 +856,43 @@ require("lazy").setup({
 	},
 	{
 		"williamboman/mason-lspconfig.nvim",
+		tag = "v1.31.0",
 		dependencies = {
 			"williamboman/mason.nvim",
 			"neovim/nvim-lspconfig",
 		},
 		config = function()
+			vim.diagnostic.config({
+				virtual_text = {
+					current_line = true,
+					format = function(diagnostic)
+						if diagnostic.severity == vim.diagnostic.severity.INFO then return nil end
+						if diagnostic.severity == vim.diagnostic.severity.HINT then return nil end
+
+						return diagnostic.message:gmatch("[^\r\n]+")()
+					end,
+				},
+				float = false,
+				virtual_lines = {
+					current_line = true,
+					format = function(diagnostic)
+						if diagnostic.severity == vim.diagnostic.severity.INFO then return diagnostic.message end
+						if diagnostic.severity == vim.diagnostic.severity.HINT then return diagnostic.message end
+
+						local result = {}
+						for line in diagnostic.message:gmatch("[^\r\n]+") do
+							if line:match("^for further information") then break end
+							if not line:match(" on by default$") then
+								table.insert(result, line)
+							end
+						end
+						table.remove(result, 1)
+						return table.concat(result, "\n")
+					end,
+				},
+				severity_sort = true,
+			});
+
 			require("mason-lspconfig").setup();
 			-- have a fixed column for the diagnostics to appear in
 			-- this removes the jitter when warnings/errors flow in
@@ -853,12 +912,11 @@ require("lazy").setup({
 				keymap.set("n", "<leader>M", function() vim.cmd.RustLsp('renderDiagnostic') end, keymap_opts)
 				keymap.set("n", "gd", vim.lsp.buf.definition, keymap_opts)
 				keymap.set("n", "gD", vim.lsp.buf.implementation, keymap_opts)
-				keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
 				keymap.set("n", "<leader>gr", ":Telescope lsp_references<cr>", keymap_opts)
 				keymap.set("n", "g0", vim.lsp.buf.document_symbol, keymap_opts)
 				keymap.set("n", "gW", vim.lsp.buf.workspace_symbol, keymap_opts)
 				keymap.set("n", "<a-p>", vim.lsp.buf.signature_help, keymap_opts)
-				keymap.set("n", "<leader>D", vim.lsp.buf.type_definition, keymap_opts)
+				keymap.set("n", "<leader>T", vim.lsp.buf.type_definition, keymap_opts)
 				keymap.set("n", "<leader>rn", vim.lsp.buf.rename, keymap_opts)
 				keymap.set("n", "<leader>t", function() vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled()) end, keymap_opts)
 
@@ -1011,7 +1069,7 @@ require("lazy").setup({
 							-- luasnip = "[LuaSnip]",
 							buffer = "[Buffer]",
 							path = "[Path]",
-							cmp_tabnine = "[T9]",
+							-- cmp_tabnine = "[T9]",
 							crates = "[crates.io]",
 						},
 					}),
@@ -1088,7 +1146,7 @@ require("lazy").setup({
 							{ name = "path" },
 							{ name = "buffer" },
 							{ name = "crates" },
-							{ name = "cmp_tabnine" },
+							-- { name = "cmp_tabnine" },
 						},
 					})
 
@@ -1137,26 +1195,26 @@ require("lazy").setup({
 		"hrsh7th/cmp-cmdline",
 
 		-- AI-Completion
-		-- Powershell doesn't work for me in vim so I just use pwsh 7
-		{
-			"tzachar/cmp-tabnine",
-			cond = function()
-				if vim.fn.has("win32") == 1 then
-					return true
-				else
-					return false
-				end
-			end,
-			build = function()
-				if vim.fn.has("win32") == 1 then
-					return "pwsh ./install.ps1"
-				else
-					return "sh ./install.sh"
-				end
-			end,
-		},
+		-- -- Powershell doesn't work for me in vim so I just use pwsh 6
+		-- {
+			-- "tzachar/cmp-tabnine",
+			-- cond = function()
+				-- if vim.fn.has("win32") == 1 then
+					-- return true
+				-- else
+					-- return false
+				-- end
+			-- end,
+			-- build = function()
+				-- if vim.fn.has("win32") == 1 then
+					-- return "pwsh ./install.ps1"
+				-- else
+					-- return "sh ./install.sh"
+				-- end
+			-- end,
+		-- },
 
-		dependencies = { "hrsh7th/nvim-cmp" },
+		-- dependencies = { "hrsh7th/nvim-cmp" },
 	},
 	-- "github/copilot.vim",
 	-- {
@@ -1250,6 +1308,7 @@ require("lazy").setup({
 				autoload = true,
 				allowed_dirs = {
 					"/home/gremious/Programming",
+					"/home/gremious/dev/",
 					"/home/gremious/.config",
 					"/home/gremious/.dotfiles",
 				},
