@@ -140,15 +140,17 @@ if vim.fn.has("win32") == 1 then
 	-- font names are weird, you can set guifont=* to list them but only on win/mac
 	-- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
 	-- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
-	opt.guifont = "FiraCode Nerd Font,Segoe_UI_Emoji:h14"
+	opt.guifont = "FiraCode Nerd Font Mono,Segoe_UI_Emoji:h14"
 else
-	opt.guifont = "FiraCode Nerd Font,Noto Color Emoji:h14"
+	opt.guifont = "FiraCode Nerd Font Mono,Noto Color Emoji:h14"
+	-- opt.guifont = "Adwaita Mono,Noto Color Emoji:h12"
 end
 
 if vim.g.neovide then
 	g.neovide_remember_window_size = true
-	vim.g.neovide_scroll_animation_length = 0.15
+	vim.g.neovide_position_animation_length = 0.15
 	vim.g.neovide_scroll_animation_far_lines = 9999
+	vim.g.neovide_scroll_animation_length = 0.15
 	-- vim.g.neovide_refresh_rate = 144
 end
 
