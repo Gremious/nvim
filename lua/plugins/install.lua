@@ -384,7 +384,18 @@ require("lazy").setup({
 			require("nvim-treesitter.configs").setup({
 				highlight = { enable = true },
 				-- ensure_installed = "all",
-				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html", "nu" },
+				ensure_installed = {
+					"rust",
+					"markdown",
+					"lua",
+					"python",
+					"vimdoc",
+					"yaml",
+					"css",
+					"html",
+					"nu",
+					"gdscript", "godot_resource", "gdshader"
+				},
 				auto_install = true,
 				indent = { enable = false },
 			})
@@ -603,11 +614,23 @@ require("lazy").setup({
 	{
 		-- Open/close brackets, statements, etc
 		"Wansmer/treesj",
-		opts = {
-			use_default_keymaps = false,
-			check_syntax_error = false,
-			max_join_length = 160,
-		},
+		config = function()
+			local tsj_utils = require('treesj.langs.utils');
+
+			require("treesj").setup({
+				opts = {
+					use_default_keymaps = false,
+					check_syntax_error = false,
+					max_join_length = 160,
+				};
+				langs = {
+					slint = tsj_utils.merge_preset(require("treesj.langs.rust"), {});
+					-- slint = {
+						-- object = tsj_utils.set_preset_for_dict(),
+					-- },
+				};
+			});
+		end,
 		dependencies = { "nvim-treesitter" },
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
@@ -687,6 +710,7 @@ require("lazy").setup({
 				{ "top", "bottom" },
 				{ "left", "right" },
 				{ "hide", "show" },
+				{ "red", "green", "blue", "yellow", "purple", "cyan" },
 			})
 		end,
 	},
@@ -894,6 +918,7 @@ require("lazy").setup({
 			});
 
 			require("mason-lspconfig").setup();
+
 			-- have a fixed column for the diagnostics to appear in
 			-- this removes the jitter when warnings/errors flow in
 			vim.wo.signcolumn = "yes"
@@ -903,7 +928,6 @@ require("lazy").setup({
 				local keymap = vim.keymap
 				local keymap_opts = { buffer = bufnr, silent = true }
 
-				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
 				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
 				keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
 
@@ -958,6 +982,12 @@ require("lazy").setup({
 						-- on_attach = on_attach,
 					-- })
 				-- end,
+				-- ["gdscript"] = function()
+					-- require("lspconfig").gdscript.setup {
+						-- on_attach = on_attach,
+					-- }
+				-- end,
+
 				["rust_analyzer"] = function()
 					require('lspconfig').rust_analyzer.setup {
 						on_attach = on_attach,
@@ -1018,6 +1048,9 @@ require("lazy").setup({
 						},
 					})
 				end,
+				-- ["gdtoolkit"] = function()
+					-- require("lspconfig").gdscript.setup({});
+				-- end
 
 				-- ["phpactor"] = function()
 					-- require("lspconfig").phpactor.setup({
@@ -1029,6 +1062,7 @@ require("lazy").setup({
 					-- })
 				-- end,
 			})
+
 		end,
 	},
 	{
@@ -1250,7 +1284,7 @@ require("lazy").setup({
 			-- require("dap").adapters.godot = {
 				-- type = "server",
 				-- host = '127.0.0.1',
-				-- port = 6006,
+				-- port = 6005,
 			-- }
 
 			-- require("dap").configurations.gdscript = {
