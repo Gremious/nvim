@@ -397,7 +397,7 @@ require("lazy").setup({
 					"gdscript", "godot_resource", "gdshader"
 				},
 				auto_install = true,
-				indent = { enable = false },
+				indent = { enable = true },
 			})
 		end,
 		dependencies = {
