@@ -802,14 +802,12 @@ require("lazy").setup({
 			vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
 				tbuiltin.find_files({
 					cwd = vim.fn.getcwd(),
-					find_command = {
-                                       "fd",
-                                       "--type",
-                                       "f",
-                                       "--color",
-                                       "never",
-                                       -- "--no-ignore-vcs",
-                                   },
+					find_command = function()
+						local cmd = "fd";
+						local maybe_debian = vim.uv.fs_stat("/etc/debian_version");
+						if maybe_debian then cmd = "fdfind"; end
+						return { cmd, "--type", "f", "--color", "never", "--no-ignore-vcs" };
+					end,
 				})
 			end)
 			vim.keymap.set(modes.NORMAL, "<Leader>fs", function()
