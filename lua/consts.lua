@@ -41,5 +41,6 @@ local filename_modifiers = {
 }
 
 return {
-	modes = modes
+	modes = modes,
+       filename_modifiers = filename_modifiers,
 }
