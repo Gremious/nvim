@@ -4,6 +4,19 @@ local g = vim.g
 local keymap = vim.keymap
 local telescope = require("telescope.builtin")
 local modes = require("consts").modes
+local positions = require("consts").positions
+
+-- TODO: Math on a visual selection
+-- you can do ctrl-r=1+1<CR> to insert math
+-- however visual line and block have different selections
+keymap.set(modes.VISUAL_AND_SELECT, "<leader>=", function()
+	local sel_start = vim.fn.getpos(positions.CURSOR)
+	local sel_end = vim.fn.getpos(positions.VISUAL_SELECTION_END)
+	local lines = vim.fn.getregion(sel_start, sel_end)
+	print(vim.inspect(lines))
+
+	-- vim.api.nvim_input("<Esc>i<C-r>=<C-v><CR>")
+end)
 
 -- Trouble nvim is very buggy.
 -- keymap.set(modes.NORMAL, "<CR>", function()

@@ -40,7 +40,28 @@ local filename_modifiers = {
 	-- :gs?pat?sub?
 }
 
+--:h getpos
+-- for getpos()
+local positions = {
+	CURSOR = ".",
+	LAST_LINE_IN_CURR_BUFFER = "$",
+	-- 0 is returned for all values
+	MARK = function(mark) return "\'"..mark end,
+	FIRST_VISIBLE_LINE_IN_WINDOW = "w0",
+	LAST_VISIBLE_LINE_IN_WINDOW = "w$",
+	-- When not in Visual mode, returns the cursor
+	-- position.  In Visual mode, returns the other end
+	-- of the Visual area.
+	--
+	-- This one is current/updated instantly unlike LAST_CHARACTER_OF_LAST_VISUAL_AREA
+	VISUAL_SELECTION_END = "v",
+	FIRST_CHARACTER_OF_LAST_VISUAL_AREA = "'<",
+	LAST_CHARACTER_OF_LAST_VISUAL_AREA = "'>",
+	-- TODO: :h mark for sentence/paragraph marks like '( '{
+}
+
 return {
 	modes = modes,
-       filename_modifiers = filename_modifiers,
+	filename_modifiers = filename_modifiers,
+	positions = positions,
 }
