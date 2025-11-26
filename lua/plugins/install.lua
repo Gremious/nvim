@@ -439,30 +439,23 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter",
 		},
 	},
+    
+   -- Map right side small thing pop up code preview
+   {
+       'echasnovski/mini.nvim',
+       version = false,
+       config = function()
+           require('mini.map').setup()
 
-	-- Markdown live preview
-	{
-		"iamcco/markdown-preview.nvim",
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	},
-        -- Map right side small thing pop up code preview
-       {
-           'echasnovski/mini.nvim',
-           version = false,
-           config = function()
-               require('mini.map').setup()
-
-               vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
-               vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
-               -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
-               -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
-               -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
-               -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
-               -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
-           end
-       },
+           vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
+           vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
+           -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
+           -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
+           -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
+           -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
+           -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
+       end
+   },
 
 	-- shows follow-up hotkey options in status bar
 	-- {
@@ -702,6 +695,8 @@ require("lazy").setup({
 	},
 	{
 		"nvim-telescope/telescope.nvim",
+		-- Debian works on 0.1.6 since it uses vim 0.10
+		tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
 
 		config = function()
@@ -821,7 +816,6 @@ require("lazy").setup({
 			require("telescope").load_extension("fzf")
 		end,
 	},
-
 	-- ==/ LSP /==
 	{
 		"williamboman/mason.nvim",
