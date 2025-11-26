@@ -38,8 +38,8 @@ require("lazy").setup({
 				end,
 				desc = "Flash backwards only",
 			},
-			{ "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
-			{ "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+			{ "<leader>r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+			{ "<leader>R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
 			{ "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
 		},
 
@@ -384,18 +384,7 @@ require("lazy").setup({
 			require("nvim-treesitter.configs").setup({
 				highlight = { enable = true },
 				-- ensure_installed = "all",
-				ensure_installed = {
-					"rust",
-					"markdown",
-					"lua",
-					"python",
-					"vimdoc",
-					"yaml",
-					"css",
-					"html",
-					"nu",
-					"gdscript", "godot_resource", "gdshader"
-				},
+				ensure_installed = { "rust", "markdown", "lua", "python", "vimdoc", "yaml", "css", "html", "nu" },
 				auto_install = true,
 				indent = { enable = true },
 			})
@@ -450,28 +439,22 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter",
 		},
 	},
-
-	-- Markdown live preview
-	-- {
-		-- "iamcco/markdown-preview.nvim",
-		-- build = function()
-			-- vim.fn["mkdp#util#install"]()
-		-- end,
-	-- },
+    
+   -- Map right side small thing pop up code preview
    {
-	   'echasnovski/mini.nvim',
-	   version = false,
-	   config = function()
-		   require('mini.map').setup()
+       'echasnovski/mini.nvim',
+       version = false,
+       config = function()
+           require('mini.map').setup()
 
-		   vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
-		   vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
-		   -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
-		   -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
-		   -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
-		   -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
-		   -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
-	   end
+           vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
+           vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
+           -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
+           -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
+           -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
+           -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
+           -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
+       end
    },
 
 	-- shows follow-up hotkey options in status bar
@@ -614,23 +597,11 @@ require("lazy").setup({
 	{
 		-- Open/close brackets, statements, etc
 		"Wansmer/treesj",
-		config = function()
-			local tsj_utils = require('treesj.langs.utils');
-
-			require("treesj").setup({
-				opts = {
-					use_default_keymaps = false,
-					check_syntax_error = false,
-					max_join_length = 160,
-				};
-				langs = {
-					slint = tsj_utils.merge_preset(require("treesj.langs.rust"), {});
-					-- slint = {
-						-- object = tsj_utils.set_preset_for_dict(),
-					-- },
-				};
-			});
-		end,
+		opts = {
+			use_default_keymaps = false,
+			check_syntax_error = false,
+			max_join_length = 160,
+		},
 		dependencies = { "nvim-treesitter" },
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
@@ -710,7 +681,6 @@ require("lazy").setup({
 				{ "top", "bottom" },
 				{ "left", "right" },
 				{ "hide", "show" },
-				{ "red", "green", "blue", "yellow", "purple", "cyan" },
 			})
 		end,
 	},
@@ -799,6 +769,7 @@ require("lazy").setup({
 					cwd = vim.fn.getcwd(),
 					search = "",
 					use_regex = true,
+                                   additional_args = { "--glob=!*.gltf" },
 				})
 			end)
 			vim.keymap.set(modes.NORMAL, "<Leader>fF", function()
@@ -875,58 +846,12 @@ require("lazy").setup({
 				opts.border = opts.border or border
 				return orig_util_open_floating_preview(contents, syntax, opts, ...)
 			end
-		end
-	},
-	{
-		"williamboman/mason-lspconfig.nvim",
-		tag = "v1.31.0",
-		dependencies = {
-			"williamboman/mason.nvim",
-			"neovim/nvim-lspconfig",
-		},
-		config = function()
-			vim.diagnostic.config({
-				virtual_text = {
-					current_line = true,
-					format = function(diagnostic)
-						if diagnostic.severity == vim.diagnostic.severity.INFO then return nil end
-						if diagnostic.severity == vim.diagnostic.severity.HINT then return nil end
-
-						return diagnostic.message:gmatch("[^\r\n]+")()
-					end,
-				},
-				float = false,
-				virtual_lines = {
-					current_line = true,
-					format = function(diagnostic)
-						if diagnostic.severity == vim.diagnostic.severity.INFO then return diagnostic.message end
-						if diagnostic.severity == vim.diagnostic.severity.HINT then return diagnostic.message end
-
-						local result = {}
-						for line in diagnostic.message:gmatch("[^\r\n]+") do
-							if line:match("^for further information") then break end
-							if not line:match(" on by default$") then
-								table.insert(result, line)
-							end
-						end
-						table.remove(result, 1)
-						return table.concat(result, "\n")
-					end,
-				},
-				severity_sort = true,
-			});
-
-			require("mason-lspconfig").setup();
-
-			-- have a fixed column for the diagnostics to appear in
-			-- this removes the jitter when warnings/errors flow in
-			vim.wo.signcolumn = "yes"
-			vim.lsp.inlay_hint.enable(false)
 
 			local function on_attach(client, bufnr)
 				local keymap = vim.keymap
 				local keymap_opts = { buffer = bufnr, silent = true }
 
+				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
 				keymap.set("n", "<leader>h", vim.lsp.buf.hover, keymap_opts)
 				keymap.set("n", "<a-CR>", vim.lsp.buf.code_action, keymap_opts)
 
@@ -963,105 +888,128 @@ require("lazy").setup({
 				keymap.set("n", "[d", vim.diagnostic.goto_prev, keymap_opts)
 			end
 
-			require("mason-lspconfig").setup_handlers({
-				-- The first entry (without a key) will be the default handler
-				-- and will be called for each installed server that doesn't have a dedicated handler.
-				function(server_name)
-					require("lspconfig")[server_name].setup({ on_attach = on_attach })
-				end,
+                        vim.lsp.config("rust_analyzer", {
+                                on_attach = on_attach,
+                                cmd_env = { CARGO_TARGET_DIR = "target/rust-analyzer-check" },
+                                settings = {
+                                        ["rust-analyzer"] = {
+                                        -- check = {
+                                            -- command = "clippy",
+                                            -- -- extraArgs = { "--all", "--", "-W", "clippy::all" },
+                                        -- },
 
-				-- ["gdscript"] = function()
-					-- require('lspconfig').gdscript.setup({
-						-- on_attach = on_attach,
-						-- filetypes = { "gd", "gdscript", "gdscript3" },
-					-- })
-				-- end,
-				-- ["ts_ls"] = function()
-					-- require("lspconfig").ts_ls.setup({
-						-- on_attach = on_attach,
-					-- })
-				-- end,
-				-- ["gdscript"] = function()
-					-- require("lspconfig").gdscript.setup {
-						-- on_attach = on_attach,
-					-- }
-				-- end,
+                                                -- rust-analyzer.server.extraEnv
+                                                -- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
+                                                -- https://github.com/neovim/nvim-lspconfig/issues/1735
+                                                -- it's in init.vim as a real env variable
+                                                -- server = {
+                                                        -- extraEnv = {
+                                                                -- CARGO_TARGET_DIR = "target/rust-analyzer-check"
+                                                        -- }
+                                                -- },
 
-				["rust_analyzer"] = function()
-					require('lspconfig').rust_analyzer.setup {
-						on_attach = on_attach,
-						root_dir = function(filename, bufnr) return vim.loop.cwd() end,
-						cmd_env = { CARGO_TARGET_DIR = "target/rust-analyzer-check" },
+                                                imports = {
+                                                        granularity = { enforce = true },
+                                                },
 
-						settings = {
-							["rust-analyzer"] = {
-							-- check = {
-								-- command = "clippy",
-								-- -- extraArgs = { "--all", "--", "-W", "clippy::all" },
-								-- },
+                                                rustfmt = {
+                                                        enableRangeFormatting = true,
+                                                        rangeFormatting = {
+                                                                enable = true,
+                                                        },
+                                                },
 
-								-- rust-analyzer.server.extraEnv
-								-- neovim doesn"t have custom client-side code to honor this setting, it doesn't actually work
-								-- https://github.com/neovim/nvim-lspconfig/issues/1735
-								-- it's in init.vim as a real env variable
-								-- server = {
-									-- extraEnv = {
-										-- CARGO_TARGET_DIR = "target/rust-analyzer-check"
-									-- }
-								-- },
+                                                inlayHints = {
+                                                        bindingModeHints = { enable = true },
+                                                        closureReturnTypeHints = { enable = true },
+                                                        lifetimeElisionHints = { useParameterNames = true, enable = "skip_trivial" },
+                                                        closingBraceHints = { minLines = 0 },
+                                                        parameterHints = { enable = false },
+                                                        maxLength = 999,
+                                                },
+                                        },
+                                },
+                        })
 
-								imports = {
-									granularity = { enforce = true },
-								},
+                        vim.lsp.config("lua_ls", {
+                                on_attach = on_attach,
+                                settings = {
+                                        Lua = {
+                                                diagnostics = {
+                                                        -- Get the language server to recognize the `vim` global
+                                                        globals = { "vim" },
+                                                },
+                                        },
+                                },
+                        })
+		end
+	},
+	{
+		"mason-org/mason-lspconfig.nvim",
+		dependencies = {
+                    "williamboman/mason.nvim",
+                    "neovim/nvim-lspconfig",
+		},
+		config = function()
+			vim.diagnostic.config({
+				virtual_text = {
+					current_line = true,
+					format = function(diagnostic)
+						if diagnostic.severity == vim.diagnostic.severity.INFO then return nil end
+						if diagnostic.severity == vim.diagnostic.severity.HINT then return nil end
 
-								rustfmt = {
-									enableRangeFormatting = true,
-									rangeFormatting = {
-										enable = true,
-									},
-								},
+						return diagnostic.message:gmatch("[^\r\n]+")()
+					end,
+				},
+				float = false,
+				-- virtual_lines = {
+					-- current_line = true,
+					-- format = function(diagnostic)
+						-- if diagnostic.severity == vim.diagnostic.severity.INFO then return diagnostic.message end
+						-- if diagnostic.severity == vim.diagnostic.severity.HINT then return diagnostic.message end
 
-								inlayHints = {
-									bindingModeHints = { enable = true },
-									closureReturnTypeHints = { enable = true },
-									lifetimeElisionHints = { useParameterNames = true, enable = "skip_trivial" },
-									closingBraceHints = { minLines = 0 },
-									parameterHints = { enable = false },
-									maxLength = 999,
-								},
-							},
-						},
-					}
-				end,
+						-- local result = {}
+						-- for line in diagnostic.message:gmatch("[^\r\n]+") do
+							-- if line:match("^for further information") then break end
+							-- if not line:match(" on by default$") then
+								-- table.insert(result, line)
+							-- end
+						-- end
+						-- table.remove(result, 1)
+						-- return table.concat(result, "\n")
+					-- end,
+				-- },
+				severity_sort = true,
+			});
 
-				["lua_ls"] = function()
-					require("lspconfig").lua_ls.setup({
-						on_attach = on_attach,
-						settings = {
-							Lua = {
-								diagnostics = {
-									-- Get the language server to recognize the `vim` global
-									globals = { "vim" },
-								},
-							},
-						},
-					})
-				end,
-				-- ["gdtoolkit"] = function()
-					-- require("lspconfig").gdscript.setup({});
-				-- end
+			-- have a fixed column for the diagnostics to appear in
+			-- this removes the jitter when warnings/errors flow in
+			vim.wo.signcolumn = "yes"
+			vim.lsp.inlay_hint.enable(false)
+                        -- ["gdscript"] = function()
+                                -- require('lspconfig').gdscript.setup({
+                                        -- on_attach = on_attach,
+                                        -- filetypes = { "gd", "gdscript", "gdscript3" },
+                                -- })
+                        -- end,
+                        -- ["ts_ls"] = function()
+                                -- require("lspconfig").ts_ls.setup({
+                                        -- on_attach = on_attach,
+                                -- })
+                        -- end,
 
-				-- ["phpactor"] = function()
-					-- require("lspconfig").phpactor.setup({
-						-- on_attach = on_attach,
-						-- init_options = {
-							-- ["language_server_phpstan.enabled"] = false,
-							-- ["language_server_psalm.enabled"] = false,
-						-- },
-					-- })
-				-- end,
-			})
-
+                        -- ["phpactor"] = function()
+                                -- require("lspconfig").phpactor.setup({
+                                        -- on_attach = on_attach,
+                                        -- init_options = {
+                                                -- ["language_server_phpstan.enabled"] = false,
+                                                -- ["language_server_psalm.enabled"] = false,
+                                        -- },
+                                -- })
+                        -- end,
+			require("mason-lspconfig").setup({
+                            ensure_installed = { "rust_analyzer", "lua_ls" }
+                        });
 		end,
 	},
 	{
@@ -1103,7 +1051,6 @@ require("lazy").setup({
 							buffer = "[Buffer]",
 							path = "[Path]",
 							-- cmp_tabnine = "[T9]",
-							crates = "[crates.io]",
 						},
 					}),
 				},
@@ -1126,10 +1073,7 @@ require("lazy").setup({
 						default()
 					end,
 
-					["<CR>"] = cmp.mapping.confirm({
-						behavior = cmp.ConfirmBehavior.Insert,
-						select = false,
-					}),
+					["<CR>"] = cmp.mapping.confirm(),
 
 						-- ["<S-Tab>"] = cmp.mapping.select_prev_item(),
 						-- ["<Tab>"] = cmp.mapping.select_next_item(),
@@ -1283,7 +1227,7 @@ require("lazy").setup({
 			-- require("dap").adapters.godot = {
 				-- type = "server",
 				-- host = '127.0.0.1',
-				-- port = 6005,
+				-- port = 6006,
 			-- }
 
 			-- require("dap").configurations.gdscript = {
@@ -1302,22 +1246,13 @@ require("lazy").setup({
 	{
 		"saecki/crates.nvim",
 		dependencies = { "nvim-lua/plenary.nvim", "hrsh7th/nvim-cmp" },
-		config = function()
-			require('crates').setup({
-				completion = {
-					cmp = {
-						enabled = true,
-					},
-				},
-			})
-		end,
 	},
 
 	-- Lsp progress in statusline
 	{
 		'linrongbin16/lsp-progress.nvim',
 		dependencies = {
-			"nvim-lualine/lualine.nvim",
+                    "nvim-lualine/lualine.nvim",
 		},
 		config = function()
 			require('lsp-progress').setup()

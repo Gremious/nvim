@@ -96,11 +96,20 @@ vim.env.CARGO_TARGET_DIR = "target/rust-analyzer-check"
 g.rust_recommended_style = false
 -- opt.autoindent = true
 -- opt.smartindent = true
-opt.tabstop = 4
-opt.shiftwidth = 4
-opt.softtabstop = 4
-opt.expandtab = false
 opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴" --characters to use for whitespace
+
+if vim.fn.hostname() == "gremy-work-linux" then
+        opt.shiftwidth=4
+        opt.smarttab = true
+	opt.expandtab = true
+	opt.tabstop = 8
+	opt.softtabstop = 0
+else
+	opt.expandtab = false
+	opt.tabstop = 4
+	opt.shiftwidth = 4
+	opt.softtabstop = 4
+end
 
 -- opt.backup = true
 opt.history = 1000 -- longer command history
