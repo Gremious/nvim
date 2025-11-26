@@ -278,7 +278,6 @@ require("lazy").setup({
 		config = function()
 			vim.g.material_theme_style = "ocean"
 			vim.g.material_terminal_italics = true
-			vim.cmd("colorscheme material")
 		end,
 	},
 	"nvim-tree/nvim-web-devicons",
@@ -439,7 +438,7 @@ require("lazy").setup({
 			"nvim-treesitter/nvim-treesitter",
 		},
 	},
-    
+
    -- Map right side small thing pop up code preview
    {
        'echasnovski/mini.nvim',

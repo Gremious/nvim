@@ -4,6 +4,29 @@ local g = vim.g
 g.rainbow_active = 1
 opt.termguicolors = true -- 24-bit colors
 
+local function random_theme()
+	local themes = {
+		"unokai",
+		"sonokai",
+		"tokyodark",
+		"rose-pine-main",
+		"slate",
+		"base16-atelier-forest",
+		"base16-apathy",
+		"base16-atlas",
+		"base16-atelier-sulphurpool",
+		"base16-heetch",
+		"base16-hopscotch",
+	}
+
+	local len = 0
+	for _ in pairs(themes) do len = len + 1 end;
+
+	local pick = (vim.fn.rand() % len) + 1;
+
+	vim.cmd("colorscheme " .. themes[pick])
+end
+
 ---@diagnostic disable: unused-local,unused-function
 local function material()
 	g.material_theme_style = "ocean"
@@ -39,6 +62,7 @@ local function miramare()
 	vim.cmd("colorscheme miramare")
 end
 
+random_theme()
 -- material()
 
 --  Update  hl group:  may not work here, try in the end of an init.lua
