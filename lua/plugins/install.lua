@@ -1,3 +1,5 @@
+local g = vim.g
+
 local modes = require("consts").modes
 
 require("lazy").setup({
@@ -269,10 +271,17 @@ require("lazy").setup({
 
 	-- ==/ themes /==
 	-- TODO: would be cool to have live telesacope swithcer, and there's a plugin for per project themes
+	"nvim-tree/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
 	"chriskempson/base16-vim",
-	"franbach/miramare",
+	{
+		"franbach/miramare",
+		config = function()
+			g.miramare_enable_italic = false
+			g.miramare_disable_italic_comment = true
+		end,
+	},
 	{
 		"kaicataldo/material.vim",
 		config = function()
@@ -280,10 +289,29 @@ require("lazy").setup({
 			vim.g.material_terminal_italics = true
 		end,
 	},
-	"nvim-tree/nvim-web-devicons",
-	"sainnhe/sonokai",
+	{
+		"sainnhe/sonokai",
+		config = function()
+			-- g.sonokai_style = "default"
+			-- g.sonokai_style = "atlantis"
+			-- g.sonokai_style = 'andromeda'
+			-- g.sonokai_style = "shusia"
+			g.sonokai_style = "maia"
+			-- g.sonokai_style = "espresso"
+			-- g.sonokai_better_performance = 1
+		end,
+	},
 	"tiagovla/tokyodark.nvim",
-	{ "catppuccin/nvim", name = "catppuccin" },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		config = function()
+			-- g.catppuccin_flavour  = "latte"
+			-- g.catppuccin_flavour  = "frappe"
+			-- g.catppuccin_flavour  = "mocha"
+			g.catppuccin_flavour  = "mocha"
+		end,
+	},
 	{ "embark-theme/vim", name = "embark" },
 	{ "rose-pine/neovim", name = "rose-pine" },
 	-- Actually funcitonal pywal

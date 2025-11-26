@@ -19,7 +19,6 @@ local function open_config_file(file)
 end
 
 -- Type config -> get config
-
 create_command("Config", function()
 	telescope.find_files({ cwd = vim.fn.stdpath("config"), search_dirs = { "./lua" } })
 end)
