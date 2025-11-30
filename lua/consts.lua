@@ -9,7 +9,7 @@ local modes = {
 	OPERATOR_PENDING = "o",
 	INSERT_AND_COMMAND = "!",
 	INSERT = "i",
-	INSERT_COMMAN_AND_LANG = "l",
+	INSERT_AND_COMMAND_AND_LANG = "l",
 	COMMAND = "c",
 	TERMINAL = "t",
 }
@@ -60,8 +60,40 @@ local positions = {
 	-- TODO: :h mark for sentence/paragraph marks like '( '{
 }
 
+-- :h ls
+-- Combining flags means they are "and"ed together, e.g.:
+-- h+	hidden buffers which are modified
+-- a+	active buffers which are modified
+local buffer_flags = {
+    -- +	modified buffers
+    MODIFIED = "+",
+    -- `-`	buffers with 'modifiable' off
+    NON_MODIFIABLE = "-",
+    -- =	readonly buffers
+    READONLY = "=",
+    -- a	active buffers
+    ACTIVE = "a",
+    -- u	unlisted buffers (overrides the "!")
+    UNLISTED = "u",
+    -- h	hidden buffers
+    HIDDEN = "h",
+    -- x	buffers with a read error
+    WITH_READ_ERROR = "x",
+    -- %	current buffer
+    CURRENT = "%",
+    -- #	alternate buffer
+    ALTERNATE = "#",
+    -- R	terminal buffers with a running job
+    WITH_RUNNING_JOB = "R",
+    -- F	terminal buffers with a finished job
+    WITH_FINISHED_JOB = "F",
+    -- t	show time last used and sort buffers
+    SORTED_BY_LAST_TIME_USED = "t",
+}
+
 return {
 	modes = modes,
 	filename_modifiers = filename_modifiers,
 	positions = positions,
+        buffer_flags = buffer_flags,
 }
