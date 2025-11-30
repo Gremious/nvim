@@ -1,3 +1,5 @@
+local g = vim.g
+
 local modes = require("consts").modes
 
 require("lazy").setup({
@@ -269,22 +271,47 @@ require("lazy").setup({
 
 	-- ==/ themes /==
 	-- TODO: would be cool to have live telesacope swithcer, and there's a plugin for per project themes
+	"nvim-tree/nvim-web-devicons",
 	"Yazeed1s/minimal.nvim",
 	"Yazeed1s/oh-lucy.nvim",
 	"chriskempson/base16-vim",
-	"franbach/miramare",
+	{
+		"franbach/miramare",
+		config = function()
+			g.miramare_enable_italic = false
+			g.miramare_disable_italic_comment = true
+		end,
+	},
 	{
 		"kaicataldo/material.vim",
 		config = function()
 			vim.g.material_theme_style = "ocean"
 			vim.g.material_terminal_italics = true
-			vim.cmd("colorscheme material")
 		end,
 	},
-	"nvim-tree/nvim-web-devicons",
-	"sainnhe/sonokai",
+	{
+		"sainnhe/sonokai",
+		config = function()
+			-- g.sonokai_style = "default"
+			-- g.sonokai_style = "atlantis"
+			-- g.sonokai_style = 'andromeda'
+			-- g.sonokai_style = "shusia"
+			g.sonokai_style = "maia"
+			-- g.sonokai_style = "espresso"
+			-- g.sonokai_better_performance = 1
+		end,
+	},
 	"tiagovla/tokyodark.nvim",
-	{ "catppuccin/nvim", name = "catppuccin" },
+	{
+		"catppuccin/nvim",
+		name = "catppuccin",
+		config = function()
+			-- g.catppuccin_flavour  = "latte"
+			-- g.catppuccin_flavour  = "frappe"
+			-- g.catppuccin_flavour  = "mocha"
+			g.catppuccin_flavour  = "mocha"
+		end,
+	},
 	{ "embark-theme/vim", name = "embark" },
 	{ "rose-pine/neovim", name = "rose-pine" },
 	-- Actually funcitonal pywal
@@ -440,29 +467,22 @@ require("lazy").setup({
 		},
 	},
 
-	-- Markdown live preview
-	{
-		"iamcco/markdown-preview.nvim",
-		build = function()
-			vim.fn["mkdp#util#install"]()
-		end,
-	},
-        -- Map right side small thing pop up code preview
-       {
-           'echasnovski/mini.nvim',
-           version = false,
-           config = function()
-               require('mini.map').setup()
+   -- Map right side small thing pop up code preview
+   {
+       'echasnovski/mini.nvim',
+       version = false,
+       config = function()
+           require('mini.map').setup()
 
-               vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
-               vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
-               -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
-               -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
-               -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
-               -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
-               -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
-           end
-       },
+           vim.keymap.set(modes.NORMAL, "<Leader>mm", MiniMap.toggle)
+           vim.keymap.set(modes.NORMAL, '<Leader>mt', MiniMap.refresh)
+           -- vim.keymap.set('n', '<Leader>mc', MiniMap.close)
+           -- vim.keymap.set('n', '<Leader>mf', MiniMap.toggle_focus)
+           -- vim.keymap.set('n', '<Leader>mo', MiniMap.open)
+           -- vim.keymap.set('n', '<Leader>ms', MiniMap.toggle_side)
+           -- vim.keymap.set('n', '<Leader>mt', MiniMap.toggle)
+       end
+   },
 
 	-- shows follow-up hotkey options in status bar
 	-- {
@@ -702,6 +722,8 @@ require("lazy").setup({
 	},
 	{
 		"nvim-telescope/telescope.nvim",
+		-- Debian works on 0.1.6 since it uses vim 0.10
+		tag = "0.1.6",
 		dependencies = { "nvim-lua/plenary.nvim" },
 
 		config = function()
@@ -821,7 +843,6 @@ require("lazy").setup({
 			require("telescope").load_extension("fzf")
 		end,
 	},
-
 	-- ==/ LSP /==
 	{
 		"williamboman/mason.nvim",
