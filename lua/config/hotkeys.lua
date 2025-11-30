@@ -58,9 +58,17 @@ keymap.set(modes.NORMAL, "<leader>bp", ":BufferLineTogglePin<CR>")
 keymap.set(modes.NORMAL, "<leader>P", ":BufferLinePick<CR>")
 
 keymap.set(modes.NORMAL, "<leader>bq", ":BD<CR>")
--- pop
-keymap.set(modes.NORMAL, "<leader>p", ":BD<CR>")
-keymap.set(modes.NORMAL, "<leader>wq", ":q<CR>")
+keymap.set(modes.NORMAL, "<leader>bd", function ()
+    local buffers = vim.api.nvim_list_bufs();
+    local active_buffers = {};
+
+    for buf in pairs(buffers) do
+        if vim.api.nvim_buf_is_loaded(buf) then
+            table.insert(active_buffers, buf)
+        end
+    end
+
+end)
 
 keymap.set(modes.NORMAL, "<A-Right>", ":tabnext<CR>", { silent = true })
 keymap.set(modes.NORMAL, "<A-Left>", ":tabprev<CR>", { silent = true })
