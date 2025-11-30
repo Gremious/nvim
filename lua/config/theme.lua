@@ -15,9 +15,7 @@ local function random_theme()
 		"embark",
 		"rose-pine-main",
 		"unokai",
-		"slate",
 
-		"base16-atelier-forest",
 		"base16-apathy",
 		"base16-atlas",
 		"base16-atelier-sulphurpool",
