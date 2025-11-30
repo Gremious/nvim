@@ -933,6 +933,9 @@ require("lazy").setup({
                                                         parameterHints = { enable = false },
                                                         maxLength = 999,
                                                 },
+                                                cargo = {
+                                                    features = "all",
+                                                },
                                         },
                                 },
                         })
