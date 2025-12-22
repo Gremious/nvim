@@ -301,7 +301,6 @@ require("lazy").setup({
 			-- g.sonokai_better_performance = 1
 		end,
 	},
-	"tiagovla/tokyodark.nvim",
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
