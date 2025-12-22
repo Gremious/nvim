@@ -700,7 +700,6 @@ require("lazy").setup({
 				{ { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }, "hard_case" },
 				{ "greater", "equal", "less" },
 				{ "column", "row" },
-				{ "that", "which" },
 				{ "trace", "debug", "info", "warn", "error" },
 				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
 				{ "Google", "YouTube", "Twitch", "Facebook", "TikTok" },
@@ -708,6 +707,8 @@ require("lazy").setup({
 				{ "top", "bottom" },
 				{ "left", "right" },
 				{ "hide", "show" },
+				{ "host", "port", "domain", "protocol" },
+				{ "latest", "staging" },
 			})
 		end,
 	},
