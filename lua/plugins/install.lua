@@ -742,6 +742,7 @@ require("lazy").setup({
 						"--line-number",
 						"--column",
 						"--smart-case",
+                                                "--hidden",
 						-- Extra: don't respect .gitignore, we only use .ignore instead
 						-- "--no-ignore-vcs"
 					},
@@ -808,7 +809,7 @@ require("lazy").setup({
 						local cmd = "fd";
 						local maybe_debian = vim.uv.fs_stat("/etc/debian_version");
 						if maybe_debian then cmd = "fdfind"; end
-						return { cmd, "--type", "f", "--color", "never", "--no-ignore-vcs" };
+						return { cmd, "--type", "f", "--color", "never", "--hidden", "--no-ignore-vcs" };
 					end,
 				})
 			end)
