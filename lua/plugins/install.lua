@@ -348,12 +348,12 @@ require("lazy").setup({
 						},
 					},
 				},
-				-- view = {
-					-- -- Table means "dynamic"
-					-- width = {},
-					-- number = true,
-					-- relativenumber = true,
-				-- },
+                                view = {
+                                        -- Table means "dynamic"
+                                        width = {},
+                                        -- number = true,
+                                        -- relativenumber = true,
+                                },
 				-- diagnostics = {
 					-- enable = true,
 					-- show_on_dirs = true,
@@ -502,15 +502,15 @@ require("lazy").setup({
 		dependencies = { "nvim-telescope/telescope.nvim" },
 		lazy = false,
 		config = function()
-			require("textcase").setup({
-				prefix = "<leader>tc"
-			})
-			require("telescope").load_extension("textcase")
+                    require("textcase").setup({
+                            prefix = "<leader>tc"
+                    })
+                    require("telescope").load_extension("textcase")
 		end,
 		keys = {
-			"<leader>tc",
-			--Prefix for the default builting keymaps
-			{ "<leader>tc.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
+                    "<leader>tc",
+                    --Prefix for the default builting keymaps
+                    { "<leader>tc.", "<cmd>TextCaseOpenTelescope<CR>", mode = { "n", "v" }, desc = "Telescope" },
 		},
 		-- lazy = false,
 	},
