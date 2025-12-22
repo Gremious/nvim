@@ -6,11 +6,12 @@ opt.termguicolors = true -- 24-bit colors
 
 local function random_theme()
 	local themes = {
+		"randomhue",
+
 		"minimal",
 		"oh-lucy-evening",
 		"miramare",
 		"sonokai",
-		"tokyodark",
 		"catppuccin",
 		"embark",
 		"rose-pine-main",

@@ -301,7 +301,6 @@ require("lazy").setup({
 			-- g.sonokai_better_performance = 1
 		end,
 	},
-	"tiagovla/tokyodark.nvim",
 	{
 		"catppuccin/nvim",
 		name = "catppuccin",
@@ -599,6 +598,7 @@ require("lazy").setup({
 		-- Toggle comments
 		"scrooloose/nerdcommenter",
 		config = function()
+			vim.g.NERDDefaultAlign = 'left'
 			vim.g.NERDCreateDefaultMappings = true
 			vim.g.NERDSpaceDelims = true
 			vim.g.NERDTrimTrailingWhitespace = true
@@ -675,7 +675,7 @@ require("lazy").setup({
 				{ "yes", "no" },
 				{ "on", "off" },
 				{ "+", "-" },
-				{ ">", "<" },
+				{ ">", "=", "<" },
 				{ '"', "'" },
 				{ "==", "!=" },
 				-- { "0", "1" },
@@ -709,6 +709,8 @@ require("lazy").setup({
 				{ "hide", "show" },
 				{ "host", "port", "domain", "protocol" },
 				{ "latest", "staging" },
+				{ "vertical", "horizontal" },
+				{ "width", "height" },
 			})
 		end,
 	},
