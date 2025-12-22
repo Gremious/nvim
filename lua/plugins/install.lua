@@ -675,7 +675,7 @@ require("lazy").setup({
 				{ "yes", "no" },
 				{ "on", "off" },
 				{ "+", "-" },
-				{ ">", "<" },
+				{ ">", "=", "<" },
 				{ '"', "'" },
 				{ "==", "!=" },
 				-- { "0", "1" },
@@ -708,6 +708,8 @@ require("lazy").setup({
 				{ "top", "bottom" },
 				{ "left", "right" },
 				{ "hide", "show" },
+				{ "vertical", "horizontal" },
+				{ "width", "height" },
 			})
 		end,
 	},
