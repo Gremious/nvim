@@ -598,6 +598,7 @@ require("lazy").setup({
 		-- Toggle comments
 		"scrooloose/nerdcommenter",
 		config = function()
+			vim.g.NERDDefaultAlign = 'left'
 			vim.g.NERDCreateDefaultMappings = true
 			vim.g.NERDSpaceDelims = true
 			vim.g.NERDTrimTrailingWhitespace = true
