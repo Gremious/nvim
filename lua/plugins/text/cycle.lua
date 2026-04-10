@@ -1,0 +1,52 @@
+return {
+	{
+		-- C-a/x cycle through bools/etc.
+		"bootleq/vim-cycle",
+		config = function()
+			vim.g.cycle_no_mappings = true
+			vim.g.cycle_phased_search = true
+			vim.fn["cycle#add_groups"]({
+				{ "true", "false" },
+				{ "yes", "no" },
+				{ "on", "off" },
+				{ "+", "-" },
+				{ ">", "=", "<" },
+				{ '"', "'" },
+				{ "==", "!=" },
+				-- { "0", "1" },
+				{ "and", "or" },
+				{ "in", "out" },
+				{ "up", "down" },
+				{ "left", "right" },
+				{ "min", "max" },
+				{ "get", "set" },
+				{ "add", "remove" },
+				{ "to", "from" },
+				{ "read", "write" },
+				{ "only", "except" },
+				{ "without", "with" },
+				{ "exclude", "include" },
+				{ "asc", "desc" },
+				{ ":)", ":(" },
+				{ "c:", ":c" },
+				{ "fn", "pub fn", "pub(super) fn", "pub(crate) fn", "async fn", "pub async fn", "pub(crate) async fn" },
+				{ "let ", "let mut " },
+				{ { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" }, "hard_case" },
+				{ { "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" }, "hard_case" },
+				{ "greater", "equal", "less" },
+				{ "column", "row" },
+				{ "trace", "debug", "info", "warn", "error" },
+				{ "&str", "String", "impl Into<std::borrow::Cow<'a, str>>" },
+				{ "Google", "YouTube", "Twitch", "Facebook", "TikTok" },
+				{ "small", "medium", "large" },
+				{ "top", "bottom" },
+				{ "left", "right" },
+				{ "hide", "show" },
+				{ "host", "port", "domain", "protocol" },
+				{ "latest", "staging" },
+				{ "vertical", "horizontal" },
+				{ "width", "height" },
+			})
+		end,
+	},
+}
