@@ -7,4 +7,10 @@ return {
 
 	-- most recently used files
 	"yegappan/mru",
+	{
+		"windwp/nvim-projectconfig",
+		config = function()
+			require('nvim-projectconfig').setup({})
+		end
+	},
 }

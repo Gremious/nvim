@@ -82,7 +82,7 @@ return {
 						search = "",
 						only_sort_text = true,
 						-- filename only
-						path_display = "tail",
+						path_display = { "tail" },
 						-- consider:
 						-- slower, but show as little as necessary for paths to be unique
 						-- path_display = "smart",
