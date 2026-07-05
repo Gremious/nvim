@@ -7,6 +7,9 @@ return {
 
 	-- most recently used files
 	"yegappan/mru",
+
+	-- Don't quite like projectconfig as it's too heavily depend on where you start the session from
+	-- but it's good enough for now
 	{
 		"windwp/nvim-projectconfig",
 		config = function()
