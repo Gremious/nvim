@@ -1,8 +1,6 @@
 --[[
 	[ -- Lua augroups now auto-clear by default if group is already defined.
-	[ -- Don't need `autocmd!` anymore
-	[ -- Also, just the 1 group is enough I recon.
-	[ -- Unless you really want to compartmentalize for some reason.
+	[ -- Also, just the 1 group is enough.
 --]]
 
 -- TODO: Disable git-gutter on long files.
@@ -10,10 +8,7 @@ local empty = vim.fn.empty
 local fnamemodify = vim.fn.fnamemodify
 local getbufvar = vim.fn.getbufvar
 local mkdir = vim.fn.mkdir
-local nvim_create_augroup = vim.api.nvim_create_augroup
-local nvim_exec = vim.api.nvim_exec
-
-local default_augroup = nvim_create_augroup("default_augroup ", {})
+-- local default_augroup = vim.api.nvim_create_augroup("default_augroup", {})
 
 --- Like the regular one, but defaults the group.
 --- Also complains if you don't have a description.
@@ -24,11 +19,11 @@ local function nvim_create_autocmd(event, opts)
 		callback = opts.callback,
 	}
 
-	if opts.group ~= nil then
-		opts_constructor.group = opts.group
-	else
-		opts_constructor.group = default_augroup
-	end
+	-- if opts.group ~= nil then
+	--     opts_constructor.group = opts.group
+	-- else
+	--     opts_constructor.group = default_augroup
+	-- end
 
 	assert(opts.desc ~= nil and opts.desc ~= "", "Please provide an autocommand description!")
 
@@ -40,10 +35,6 @@ end
 -- (and I like my functions returning a boolean)
 local function isdirectory(path)
 	return vim.fn.isdirectory(path) == 1
-end
-
-local function filereadable(path)
-	return vim.fn.filereadable(path) == 1
 end
 
 nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
@@ -72,24 +63,6 @@ nvim_create_autocmd({ "BufWritePre" }, {
 			if isdirectory(dir) then
 				-- "p" is an option for mkdir to make intermediate directories
 				mkdir(dir, "p")
-			end
-		end
-	end,
-})
-
-nvim_create_autocmd({ "VimEnter" }, {
-	pattern = "*",
-	desc = "Allow for _project.vim file, which will override vim setting per project.",
-
-	callback = function(args)
-		local file = args.match
-
-		if file ~= "" and isdirectory(file) then
-			local dir = file
-			nvim_exec(string.format('exe "cd %s"', dir), {})
-
-			if filereadable("_project.vim") then
-				vim.cmd("source _project.vim")
 			end
 		end
 	end,

@@ -41,25 +41,6 @@ vim_global.rainbow_active = 1
 -- Full 24-bit colors
 vim_options.termguicolors = true
 
--- Should be per project
-vim_options.expandtab = false
-vim_options.tabstop = 4
-vim_options.shiftwidth = 4
-vim_options.softtabstop = 4
-
--- if vim.fn.hostname() == "gremy-work-linux" then
--- 	vim_options.shiftwidth= 4
--- 	vim_options.smarttab = true
--- 	vim_options.expandtab = true
--- 	vim_options.tabstop = 8
--- 	vim_options.softtabstop = 0
--- else
--- 	vim_options.expandtab = false
--- 	vim_options.tabstop = 4
--- 	vim_options.shiftwidth = 4
--- 	vim_options.softtabstop = 4
--- end
-
 --characters to use when displaying whitespace
 vim_options.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴"
 -- Longer command history
@@ -120,6 +101,14 @@ vim_options.ignorecase = true
 -- Use :trust to manage trusted files. See also vim.secure.read().
 vim_options.exrc = true;
 
+vim_options.expandtab = false
+vim_options.tabstop = 4
+vim_options.shiftwidth = 4
+vim_options.softtabstop = 4
+-- Disable automatic built-in settings for filetypes
+-- such as e.g. some languages forcing the use of spaces over tabs
+vim.cmd("filetype plugin off")
+
 require("plugin_manager")
 
 require("hotkeys")
@@ -139,3 +128,4 @@ vim.cmd [[
 	hi link @module.rust @lsp
 	hi link @variable.member.rust Identifier
 ]]
+
