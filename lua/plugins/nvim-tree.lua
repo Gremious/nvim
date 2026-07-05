@@ -66,6 +66,15 @@ return {
 			},
 		})
 		end,
+		-- // TODO: Focus on selected node or something
+		-- whatever C-] does
+		--
+		-- keys = function ()
+		--     local nvim_tree = require("nvim-tree.api")
+		--     return {
+		--         { "C-.", function() nvim_tree.tree.change_root() end }
+		--     }
+		-- end,
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 	}
 }
