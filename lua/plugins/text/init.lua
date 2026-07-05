@@ -3,15 +3,14 @@ return {
 		-- Toggle comments
 		"scrooloose/nerdcommenter",
 		config = function()
-		vim.g.NERDDefaultAlign = 'left'
-		vim.g.NERDCreateDefaultMappings = true
-		vim.g.NERDSpaceDelims = true
-		vim.g.NERDTrimTrailingWhitespace = true
-		vim.g.NERDCustomDelimiters = {
-			ZenScript = {
-				left = "//",
+			vim.g.NERDDefaultAlign = 'left'
+			vim.g.NERDCreateDefaultMappings = true
+			vim.g.NERDSpaceDelims = true
+			vim.g.NERDTrimTrailingWhitespace = true
+			vim.g.NERDCustomDelimiters = {
+				ZenScript = { left = "//", },
+				yuck = { left = ";;", },
 			}
-		}
 		end,
 	},
 	"godlygeek/tabular", -- Tab/Spaces aligner
@@ -52,13 +51,11 @@ return {
 	},
 	{
 		"johmsalas/text-case.nvim",
-		dependencies = { "nvim-telescope/telescope.nvim" },
 		lazy = false,
+		dependencies = { "nvim-telescope/telescope.nvim" },
 		config = function()
-		require("textcase").setup({
-			prefix = "<leader>tc"
-		})
-		require("telescope").load_extension("textcase")
+			require("textcase").setup({})
+			require("telescope").load_extension("textcase")
 		end,
 		keys = {
 			"<leader>tc",
@@ -76,4 +73,14 @@ return {
 		lazy = false,
 		main = "retrail",
 	},
+	{
+		'MeanderingProgrammer/render-markdown.nvim',
+		dependencies = {
+			'nvim-treesitter/nvim-treesitter',
+			'nvim-tree/nvim-web-devicons',
+		}, 
+		---@module 'render-markdown'
+		---@type render.md.UserConfig
+		opts = {},
+	}
 }

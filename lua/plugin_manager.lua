@@ -19,11 +19,11 @@ vim.opt.rtp:prepend(lazypath)
 require("lazy").setup({
 	spec = {
 		{ import = "plugins" },
+		{ import = "plugins.functionality" },
+		{ import = "plugins.lsp" },
 		{ import = "plugins.text" },
 		{ import = "plugins.text.highlighting" },
-		{ import = "plugins.functionality" },
 		{ import = "plugins.ui" },
-		{ import = "plugins.lsp" },
 	},
 	-- Many lazy settings go here:
 	-- https://lazy.folke.io/configuration
