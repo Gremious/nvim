@@ -76,6 +76,7 @@ return {
 	config = function()
 		-- Disable inlays by default, toggle with <leader>t
 		vim.lsp.inlay_hint.enable(false)
+		vim.g.sass_recommended_style = false;
 
 		customize_floating_window();
 		pretty_diagnostics();
@@ -89,6 +90,9 @@ return {
 
 		local lua = require("plugins.lsp.langs.lua");
 		vim.lsp.config("lua_ls", lua.config(on_attach))
+
+		local python = require("plugins.lsp.langs.python");
+		vim.lsp.config("pylsp", python.config(on_attach))
 
 
 		vim.lsp.config("ts_ls", { on_attach = on_attach })
