@@ -19,7 +19,9 @@ local function random_theme()
         "base16-paraiso",
         "base16-gruvbox-dark-pale",
         "base16-gruvbox-dark-hard",
-        "base16-outrun-dark"
+        "base16-outrun-dark",
+
+		-- "matugen"
     };
 
     local len = 0
@@ -27,7 +29,12 @@ local function random_theme()
 
     local pick = (vim.fn.rand() % len) + 1;
 
-    vim.cmd("colorscheme " .. themes[pick])
+	if pick == "matugen" then
+		require('matugen').setup()
+	else
+		vim.cmd("colorscheme " .. themes[pick])
+	end
+
 end
 
 random_theme()
