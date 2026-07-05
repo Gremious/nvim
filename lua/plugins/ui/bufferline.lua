@@ -48,7 +48,7 @@ return {
 				{ "<left>", function() bufferline.cycle(-1) end },
 				{ "<right>", function() bufferline.cycle(1) end },
 				{ "<c-left>", function() bufferline.move(-1) end },
-				{ "<c-right>", function() bufferline.cycle(1) end },
+				{ "<c-right>", function() bufferline.move(1) end },
 				{ "<leader>bp", ":BufferLineTogglePin<CR>" },
 				{ "<leader>P", function() bufferline.pick() end },
 				{ "<leader>bq", ":BD<CR>" },
