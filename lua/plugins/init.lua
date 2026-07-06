@@ -12,4 +12,12 @@ return {
 	 -- git in gutter
 	"airblade/vim-gitgutter",
 	"nvim-tree/nvim-web-devicons",
+	-- Dones't support neovide yet but works in kitty/wezterm
+	{
+		"3rd/image.nvim",
+		build = false,
+		opts = {
+			processor = "magick_cli",
+		}
+	},
 }
