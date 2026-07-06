@@ -9,8 +9,7 @@ return {
 	branch = 'main',
 	build = ':TSUpdate',
 	config = function ()
-		require("nvim-treesitter").install({
-			ensure_installed = {
+		require("nvim-treesitter").setup({
 				"lua",
 				"vim",
 				"vimdoc",
@@ -34,7 +33,6 @@ return {
 				"xml",
 
 				"bash",
-			}
 		})
 	end
   },

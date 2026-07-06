@@ -1,4 +1,9 @@
 local function random_theme()
+	if  vim.uv.os_gethostname() == "gremy-work-linux" then
+		vim.cmd("colorscheme base16-gruvbox-dark-hard")
+		return;
+	end
+
     local themes = {
         "randomhue",
 
@@ -34,6 +39,7 @@ local function random_theme()
 	else
 		vim.cmd("colorscheme " .. themes[pick])
 	end
+
 
 end
 

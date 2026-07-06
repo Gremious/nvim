@@ -1,4 +1,4 @@
-local function configuration(on_attach)
+local function config(on_attach)
 	return {
 		on_attach = on_attach,
 		settings = {
@@ -12,4 +12,4 @@ local function configuration(on_attach)
 	}
 end
 
-return { config = configuration }
+return { config = config }

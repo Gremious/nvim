@@ -1,4 +1,4 @@
-local function configuration(on_attach)
+local function config(on_attach)
 	return {
 		on_attach = on_attach,
 		cmd_env = { CARGO_TARGET_DIR = "target/rust-analyzer-check" },
@@ -49,4 +49,4 @@ local function configuration(on_attach)
 	}
 end
 
-return { config = configuration }
+return { config = config }
