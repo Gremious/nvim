@@ -91,6 +91,9 @@ return {
 		local lua = require("plugins.lsp.langs.lua");
 		vim.lsp.config("lua_ls", lua.config(on_attach))
 
+		local lua = require("plugins.lsp.langs.python");
+		vim.lsp.config("pylsp", lua.config(on_attach))
+
 		vim.lsp.config("ts_ls", { on_attach = on_attach })
 
 		vim.lsp.config("gdscript", {
