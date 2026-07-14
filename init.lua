@@ -1,4 +1,3 @@
-local vim_options = vim.opt
 local vim_global = vim.g
 local vim_api = vim.api
 
@@ -9,25 +8,25 @@ if vim.fn.has("win32") == 1 then
 
 	-- Default to unix, but auto-detect if file is in dos already.
 	-- If you don't add "dos" - it will error every time you open vim help
-	vim_options.fileformats = "unix,dos"
+	vim.opt.fileformats = "unix,dos"
 
 	-- opt.backupdir = vim.env.CONFIG .. "\\backup"
-	vim_options.backupdir = "C:\\Users\\Gremious\\.cache\\nvim\\backup"
+	vim.opt.backupdir = "C:\\Users\\Gremious\\.cache\\nvim\\backup"
 
 	-- font names are weird, you can set guifont=* to list them but only on win/mac
 	-- opt.guifont = "JetBrainsMono_Nerd_Font_Mono:h14"
 	-- opt.guifont = "Twilio Sans Mono,Segoe_UI_Emoji:h14"
-	vim_options.guifont = "FiraCode Nerd Font Mono,Segoe_UI_Emoji:h14"
+	vim.opt.guifont = "FiraCode Nerd Font Mono,Segoe_UI_Emoji:h14"
 else
-	vim_options.backup = true
+	vim.opt.backup = true
 	-- The FHS 3 compliant place on linux, explicitly for editors too
 	-- https://refspecs.linuxfoundation.org/FHS_3.0/fhs/ch05s08.html#varliblteditorgtEditorBackupFilesAn
 	-- Might wanna own those dirs or something though.
-	vim_options.backupdir = "/var/lib/nvim/backup"
-	vim_options.directory = "/var/lib/nvim/swap"
-	vim_options.undodir = "/var/lib/nvim/undo"
+	vim.opt.backupdir = "/var/lib/nvim/backup"
+	vim.opt.directory = "/var/lib/nvim/swap"
+	vim.opt.undodir = "/var/lib/nvim/undo"
 
-	vim_options.guifont = "FiraCode Nerd Font Mono,Noto Color Emoji:h14"
+	vim.opt.guifont = "FiraCode Nerd Font Mono,Noto Color Emoji:h14"
 	-- opt.guifont = "Adwaita Mono,Noto Color Emoji:h12"
 end
 
@@ -39,67 +38,67 @@ vim_global.mapleader = " "
 
 vim_global.rainbow_active = 1
 -- Full 24-bit colors
-vim_options.termguicolors = true
+vim.opt.termguicolors = true
 
 --characters to use when displaying whitespace
-vim_options.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴"
+vim.opt.listchars = "space:·,tab:>=,trail:·,extends:»,precedes:«,eol:↴"
 -- Longer command history
-vim_options.history = 1000
+vim.opt.history = 1000
 -- More undo levels
-vim_options.undolevels = 1000
+vim.opt.undolevels = 1000
 -- Persistent undo between sessions
-vim_options.undofile = true
+vim.opt.undofile = true
 -- Don't redraw in macros
-vim_options.lazyredraw = true
+vim.opt.lazyredraw = true
 -- Don't syntax past 500 char in a single-line (think minified code)
-vim_options.synmaxcol = 500
+vim.opt.synmaxcol = 500
 -- Minimum number of lines to keep above and below cursor
-vim_options.scrolloff = 15
+vim.opt.scrolloff = 15
 -- How many ms to wait after typing stops to save file/run plugins updates/etc. Default is 4000.
-vim_options.updatetime = 100
+vim.opt.updatetime = 100
 -- Show line numbers
-vim_options.number = true
+vim.opt.number = true
 -- Line numbers are relative to cursor
-vim_options.relativenumber = true
+vim.opt.relativenumber = true
 -- highlight current line
-vim_options.cursorline = true
+vim.opt.cursorline = true
 -- matching brackets while typing
-vim_options.showmatch = true
+vim.opt.showmatch = true
 -- add angle brackets to % matching
-vim_options.matchpairs:append({ "<:>" })
+vim.opt.matchpairs:append({ "<:>" })
 -- Wrapped lines will wrap at breaks not mid-word
-vim_options.linebreak = true
+vim.opt.linebreak = true
 --new vertical split will be below
-vim_options.splitbelow = true
+vim.opt.splitbelow = true
 --new horizontal split will be to the right
-vim_options.splitright = true
+vim.opt.splitright = true
 -- diffs are also vertical
 vim.opt.diffopt:append({ "vertical" })
 --wrap comments, never autowrap long lines
 -- see :h fo-table
-vim_options.formatoptions = "crqlj"
+vim.opt.formatoptions = "crqlj"
 -- more space for displaying messages
-vim_options.cmdheight = 2
+vim.opt.cmdheight = 2
 -- always show signcolumn (column near number line)
-vim_options.signcolumn = "yes"
+vim.opt.signcolumn = "yes"
 -- don't auto-highlight last search on new session
 vim.cmd("noh")
 -- Disable mouse, enabled by default in vim 0.8.
-vim_options.mouse = ""
-vim_options.clipboard:append({ "unnamed,unnamedplus" })
-vim_options.nrformats:remove({ "octal" })
+vim.opt.mouse = ""
+vim.opt.clipboard:append({ "unnamed,unnamedplus" })
+vim.opt.nrformats:remove({ "octal" })
 -- Allow left and right arrow to move the cursor left/right to the next line
 -- When at the end of a line
-vim_options.whichwrap = "<>"
+vim.opt.whichwrap = "<>"
 -- only care about case in search if there are upper-case letters, needs ignorecase
-vim_options.smartcase = true
+vim.opt.smartcase = true
 -- ^ remove case check in search
-vim_options.ignorecase = true
+vim.opt.ignorecase = true
 -- Enables project-local configuration. Nvim will execute any .nvim.lua,
 -- .nvimrc, or .exrc file found in the current-directory and all parent
 -- directories (ordered upwards), if the files are in the trust list.
 -- Use :trust to manage trusted files. See also vim.secure.read().
-vim_options.exrc = true;
+vim.opt.exrc = true;
 
 vim.opt.expandtab = false
 vim.opt.tabstop = 4
