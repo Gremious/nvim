@@ -101,13 +101,16 @@ vim_options.ignorecase = true
 -- Use :trust to manage trusted files. See also vim.secure.read().
 vim_options.exrc = true;
 
-vim_options.expandtab = false
-vim_options.tabstop = 4
-vim_options.shiftwidth = 4
-vim_options.softtabstop = 4
--- Disable automatic built-in settings for filetypes
--- such as e.g. some languages forcing the use of spaces over tabs
-vim.cmd("filetype plugin off")
+vim.opt.expandtab = false
+vim.opt.tabstop = 4
+vim.opt.shiftwidth = 4
+vim.opt.softtabstop = 4
+
+-- If your indentation is scuffed consider:
+-- 1. vim_global.rust_recommended_style = false (put it in lsp init)
+-- 2. after/ftplugin/{set filetype?}.lua
+vim.cmd("filetype indent on")
+vim.cmd("filetype plugin on")
 
 require("plugin_manager")
 
