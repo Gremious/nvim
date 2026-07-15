@@ -5,6 +5,7 @@ local vim_global = vim.g
 vim.env.CARGO_TARGET_DIR = "target/rust-analyzer-check"
 
 vim_global.rust_recommended_style = false
+vim_global.ruby_recommended_style = false
 
 return {
 	{
