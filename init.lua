@@ -101,7 +101,10 @@ vim_options.ignorecase = true
 -- Use :trust to manage trusted files. See also vim.secure.read().
 vim_options.exrc = true;
 
-vim_options.expandtab = false
+local at_work = vim.uv.os_gethostname() == "gremy-work-linux";
+-- at work they use spaces
+vim_options.expandtab = at_work
+
 vim_options.tabstop = 4
 vim_options.shiftwidth = 4
 vim_options.softtabstop = 4
